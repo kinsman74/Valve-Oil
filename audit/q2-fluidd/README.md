@@ -44,3 +44,9 @@ The same-spool scan timed out with 100 failed polls and zero valid reads. The re
 The owner wrote and applied TinkerBarn tags to both spools. A manual reread of Anycubic PETG Blue in 1B accepted two valid responses after four empty responses and 22 failed polls. It saved QFY14, PETG, #1353AB. This verified the starting assignment and the Anycubic tag.
 
 During the subsequent monitored swap from Anycubic Blue to the newly tagged Soleyin PETG Basic Black, 1B went from inserted to empty to inserted. The automatic read finished about 31 seconds after insertion with 100 failed polls and zero valid reads. The saved and live ID both stayed QFY14. This reproduces the stale assignment after a replacement with a supported tag format. The new Soleyin tag still needs a successful read to establish that it is readable from that slot. The capture alone cannot distinguish tag placement, write quality or the reader path.
+
+### Owner clarification on prior assignments
+
+The owner clarified that the original identities on these spools were selected manually. The spools did not have TinkerBarn tags during the original same-spool and factory-only swap trials. A saved or displayed filament ID in those trials is evidence of a slot assignment, not a previously successful tag read. The original timeouts cannot be used to assess reliability with a known-good tag.
+
+The later Anycubic reread after tag writing remains a verified RFID result: the recorder saw two valid responses and the live and saved identity change from QFZ07 to QFY14. For the later Soleyin swap, the recorder establishes a timeout and retention of QFY14. No successful read of the replacement Soleyin tag was captured, so the old manual QFZ07 assignment cannot establish that the tag worked or that the automatic read missed a known-good tag.
