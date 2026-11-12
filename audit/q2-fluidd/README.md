@@ -10,7 +10,7 @@ With Node.js 24 and a local Fluidd checkout at the pinned commit, run:
 node audit/q2-fluidd/replay.cjs /path/to/valve-oil-fluidd
 ```
 
-The replay runs the upstream TypeScript slot reader, status merge and slot-edit handler. It applies the candidate only to a temporary copy of the utility and captures would-send G-code in memory. It checks the input revision and uses no printer endpoints. This is a focused source replay with Vue state stubs. A full Fluidd build, complete Q2 Moonraker subscription and actual slot edit remain hardware acceptance work.
+The replay runs the upstream TypeScript slot reader, status merge and slot-edit handler. It applies the candidate only to a temporary copy of the utility and captures would-send G-code in memory. It checks the input revision and uses no printer endpoints. This is a focused source replay with Vue state stubs. See the live acceptance below for the full build and owner test.
 
 ## Findings
 
@@ -22,3 +22,13 @@ The replay runs the upstream TypeScript slot reader, status merge and slot-edit 
 ## Fixture provenance
 
 The flat fields are selected from the October 30 Q2 follow-up status capture. The final Pearl Black record uses its captured QFY10 identity. The earlier eSUN identity and scan start/end deltas reconstruct the logged transition, since the intermediate socket packets were not captured. The Soleyin slot overlays the known QFZ07 ID, type-first label and black color onto the saved shape. Its QFZ08 edit target comes from the revised native Q2 catalog. The native-array precedence and numeric fallback cases are synthetic. No private logs, account identifiers or network addresses are included.
+
+## Live Q2 acceptance
+
+The owner changed slot 1B from black to red in the Valve Oil Fluidd preview, restored black, and selected Reprint on the Q2 touchscreen. The touchscreen mapped the saved job to the correct filament. This records the owner-confirmed edit and reprint mapping for Soleyin PETG Basic Black. Print completion was outside this check.
+
+## Next acceptance check for spool replacement
+
+Capture two separate operator actions with the printer idle. First retract/eject filament and reinsert it with the same spool still in place. Then physically remove a spool and insert a different known tagged spool in the same slot. Run a fresh capture for each action and note when the spool is lifted and seated. Wait for the first scan to finish before pressing any reset or reread controls.
+
+Run `python3 -B audit/q2-fluidd/capture-slot.py http://PRINTER --slot 1 --seconds 90` for 1B. The recorder uses GET requests and emits changes in controller presence fields, inlet sensor, scan flags, saved identity and reader outcome. At the live idle baseline, 1B had saved and live QFZ07, with controller box_inserted=1, filament_inserted=0 and stepper runout_button=0. One idle sample cannot establish what each field does during physical removal. A replacement guard needs the two contrasting traces before it can safely clear a slot or schedule another scan.
