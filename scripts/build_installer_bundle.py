@@ -71,6 +71,8 @@ ZIP_TIMESTAMP = (1980, 1, 1, 0, 0, 0)
 
 
 def main(argv: list[str] | None = None) -> int:
+    if (REPO_ROOT / "audit/READ_ONLY").is_file():
+        raise SystemExit("This Q2 audit checkout cannot install or build deployment bundles.")
     parser = argparse.ArgumentParser()
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--channel", choices=["release", "dev"], required=True)

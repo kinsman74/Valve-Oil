@@ -1,6 +1,12 @@
 #!/bin/sh
 set -eu
 
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+if [ -f "$SCRIPT_DIR/../../audit/READ_ONLY" ]; then
+  echo "This Q2 audit checkout cannot download or run an installer." >&2
+  exit 1
+fi
+
 ARCHIVE_URL=${TLTG_INSTALLER_ARCHIVE_URL:-https://github.com/thelegendtubaguy/valve-oil/releases/latest/download/tltg-optimized-macros.tar.gz}
 CHECKSUM_URL=${TLTG_INSTALLER_CHECKSUM_URL:-${ARCHIVE_URL}.sha256}
 ARCHIVE_NAME=${ARCHIVE_URL##*/}

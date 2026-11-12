@@ -106,6 +106,8 @@ def validate_vendored_imports(vendor_root: Path) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     bundle_root = bundle_root_from_file(__file__)
+    if (bundle_root / "audit/READ_ONLY").is_file():
+        raise SystemExit("This Q2 audit checkout cannot install or build deployment bundles.")
     try:
         bundle_root = run_as_printer_user(bundle_root)
     except (BootstrapError, OSError) as exc:

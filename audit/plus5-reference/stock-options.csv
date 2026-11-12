@@ -1,0 +1,821 @@
+file,section,option,Plus5 stock,Q2 capture,comparison
+box.cfg,box_config box0,check_gain_time_verify_heater,,600,Q2 only at path
+box.cfg,box_config box0,control_heater_generic,,pid,Q2 only at path
+box.cfg,box_config box0,cs_pin_box_rfid_0,,mcu_box1:PC6,Q2 only at path
+box.cfg,box_config box0,cs_pin_box_rfid_1,,mcu_box1:PC7,Q2 only at path
+box.cfg,box_config box0,dir_pin_0,,mcu_box1:PC13,Q2 only at path
+box.cfg,box_config box0,dir_pin_1,,mcu_box1:PB8,Q2 only at path
+box.cfg,box_config box0,dir_pin_2,,mcu_box1:PC11,Q2 only at path
+box.cfg,box_config box0,dir_pin_3,,mcu_box1:PB2,Q2 only at path
+box.cfg,box_config box0,enable_pin_0,,!mcu_box1:PC15,Q2 only at path
+box.cfg,box_config box0,enable_pin_1,,!mcu_box1:PC0,Q2 only at path
+box.cfg,box_config box0,enable_pin_2,,!mcu_box1:PD2,Q2 only at path
+box.cfg,box_config box0,enable_pin_3,,!mcu_box1:PC10,Q2 only at path
+box.cfg,box_config box0,heater_box_heater_fan_0,,heater_box1,Q2 only at path
+box.cfg,box_config box0,heater_box_heater_fan_1,,heater_box1,Q2 only at path
+box.cfg,box_config box0,heater_controller_fan,,heater_box1,Q2 only at path
+box.cfg,box_config box0,heater_pin_heater_generic,,mcu_box1:PA3,Q2 only at path
+box.cfg,box_config box0,heater_temp_box_heater_fan_0,,35,Q2 only at path
+box.cfg,box_config box0,heater_temp_box_heater_fan_1,,35,Q2 only at path
+box.cfg,box_config box0,i2c_address_heater_generic,,56,Q2 only at path
+box.cfg,box_config box0,i2c_bus_heater_generic,,i2c3,Q2 only at path
+box.cfg,box_config box0,i2c_mcu_heater_generic,,mcu_box1,Q2 only at path
+box.cfg,box_config box0,idle_timeout_box_heater_fan_0,,60,Q2 only at path
+box.cfg,box_config box0,idle_timeout_box_heater_fan_1,,60,Q2 only at path
+box.cfg,box_config box0,is_box_heater_verify_heater,,True,Q2 only at path
+box.cfg,box_config box0,max_error_verify_heater,,400,Q2 only at path
+box.cfg,box_config box0,max_temp_heater_generic,,100,Q2 only at path
+box.cfg,box_config box0,max_temp_temperature_sensor_0,,130,Q2 only at path
+box.cfg,box_config box0,max_temp_temperature_sensor_1,,130,Q2 only at path
+box.cfg,box_config box0,microsteps,,16,Q2 only at path
+box.cfg,box_config box0,min_temp_heater_generic,,-100,Q2 only at path
+box.cfg,box_config box0,min_temp_temperature_sensor_0,,-100,Q2 only at path
+box.cfg,box_config box0,min_temp_temperature_sensor_1,,-100,Q2 only at path
+box.cfg,box_config box0,pid_Kd_heater_generic,,749.125,Q2 only at path
+box.cfg,box_config box0,pid_Ki_heater_generic,,1.342,Q2 only at path
+box.cfg,box_config box0,pid_Kp_heater_generic,,63.418,Q2 only at path
+box.cfg,box_config box0,pin_box_heater_fan_0,,mcu_box1:PA4,Q2 only at path
+box.cfg,box_config box0,pin_box_heater_fan_1,,mcu_box1:PA5,Q2 only at path
+box.cfg,box_config box0,pin_controller_fan,,mcu_box1:PA6,Q2 only at path
+box.cfg,box_config box0,red_pin_0,,mcu_box1:PA2,Q2 only at path
+box.cfg,box_config box0,red_pin_1,,mcu_box1:PB5,Q2 only at path
+box.cfg,box_config box0,red_pin_2,,mcu_box1:PA15,Q2 only at path
+box.cfg,box_config box0,red_pin_3,,mcu_box1:PC5,Q2 only at path
+box.cfg,box_config box0,rotation_distance,,13.6,Q2 only at path
+box.cfg,box_config box0,runout_pin_0,,mcu_box1:PA0,Q2 only at path
+box.cfg,box_config box0,runout_pin_1,,mcu_box1:PB3,Q2 only at path
+box.cfg,box_config box0,runout_pin_2,,mcu_box1:PA13,Q2 only at path
+box.cfg,box_config box0,runout_pin_3,,mcu_box1:PA7,Q2 only at path
+box.cfg,box_config box0,sensor_pin_temperature_sensor_0,,mcu_box1:PC1,Q2 only at path
+box.cfg,box_config box0,sensor_pin_temperature_sensor_1,,mcu_box1:PC2,Q2 only at path
+box.cfg,box_config box0,sensor_type_heater_generic,,AHT20_F,Q2 only at path
+box.cfg,box_config box0,sensor_type_temperature_sensor_0,,NTC 100K MGB18-104F39050L32,Q2 only at path
+box.cfg,box_config box0,sensor_type_temperature_sensor_1,,NTC 100K MGB18-104F39050L32,Q2 only at path
+box.cfg,box_config box0,step_pin_0,,mcu_box1:PC14,Q2 only at path
+box.cfg,box_config box0,step_pin_1,,mcu_box1:PB9,Q2 only at path
+box.cfg,box_config box0,step_pin_2,,mcu_box1:PC12,Q2 only at path
+box.cfg,box_config box0,step_pin_3,,mcu_box1:PC8,Q2 only at path
+box.cfg,box_config box0,step_pulse_duration,,0.000000100,Q2 only at path
+box.cfg,box_config box0,stepper_box_heater_fan_0,,,Q2 only at path
+box.cfg,box_config box0,stepper_box_heater_fan_1,,,Q2 only at path
+box.cfg,box_config box0,stepper_controller_fan,,"slot0, slot1, slot2, slot3",Q2 only at path
+box.cfg,box_config box0,target_max_temp_heater_generic,,90,Q2 only at path
+box.cfg,box_config box0,white_pin_0,,mcu_box1:PA1,Q2 only at path
+box.cfg,box_config box0,white_pin_1,,mcu_box1:PB4,Q2 only at path
+box.cfg,box_config box0,white_pin_2,,mcu_box1:PA14,Q2 only at path
+box.cfg,box_config box0,white_pin_3,,mcu_box1:PC4,Q2 only at path
+box.cfg,box_extras,b_button_pin,,<expression or path>,Q2 only at path
+box.cfg,box_extras,b_endstop_pin,,mcu_box1:PA9,Q2 only at path
+box.cfg,box_extras,buffer_pin,,<expression or path>,Q2 only at path
+box.cfg,box_extras,e_endstop_pin,,mcu_box1:PA10,Q2 only at path
+box.cfg,mcu mcu_box1,restart_method,,command,Q2 only at path
+box.cfg,mcu mcu_box1,serial,,<redacted>,Q2 only at path
+klipper-macros-qd/KAMP_Settings.cfg,gcode_macro BED_MESH_CALIBRATE,gcode,,,Q2 only at path
+klipper-macros-qd/KAMP_Settings.cfg,gcode_macro BED_MESH_CALIBRATE,rename_existing,,_BED_MESH_CALIBRATE,Q2 only at path
+klipper-macros-qd/KAMP_Settings.cfg,gcode_macro _KAMP_Settings,description,,This macro contains all adjustable settings for KAMP,Q2 only at path
+klipper-macros-qd/KAMP_Settings.cfg,gcode_macro _KAMP_Settings,gcode,,,Q2 only at path
+klipper-macros-qd/KAMP_Settings.cfg,gcode_macro _KAMP_Settings,variable_attach_macro,,<expression or path>,Q2 only at path
+klipper-macros-qd/KAMP_Settings.cfg,gcode_macro _KAMP_Settings,variable_detach_macro,,<expression or path>,Q2 only at path
+klipper-macros-qd/KAMP_Settings.cfg,gcode_macro _KAMP_Settings,variable_flow_rate,,12,Q2 only at path
+klipper-macros-qd/KAMP_Settings.cfg,gcode_macro _KAMP_Settings,variable_fuzz_amount,,0,Q2 only at path
+klipper-macros-qd/KAMP_Settings.cfg,gcode_macro _KAMP_Settings,variable_mesh_margin,,10,Q2 only at path
+klipper-macros-qd/KAMP_Settings.cfg,gcode_macro _KAMP_Settings,variable_probe_dock_enable,,False,Q2 only at path
+klipper-macros-qd/KAMP_Settings.cfg,gcode_macro _KAMP_Settings,variable_purge_amount,,30,Q2 only at path
+klipper-macros-qd/KAMP_Settings.cfg,gcode_macro _KAMP_Settings,variable_purge_height,,0.8,Q2 only at path
+klipper-macros-qd/KAMP_Settings.cfg,gcode_macro _KAMP_Settings,variable_purge_margin,,10,Q2 only at path
+klipper-macros-qd/KAMP_Settings.cfg,gcode_macro _KAMP_Settings,variable_smart_park_height,,10,Q2 only at path
+klipper-macros-qd/KAMP_Settings.cfg,gcode_macro _KAMP_Settings,variable_tip_distance,,0,Q2 only at path
+klipper-macros-qd/KAMP_Settings.cfg,gcode_macro _KAMP_Settings,variable_verbose_enable,,True,Q2 only at path
+klipper-macros-qd/bed_mesh.cfg,gcode_macro BED_MESH_CALIBRATE,description,Adaptive mesh calibration with intelligent probe density optimization.,,Plus5 only at path
+klipper-macros-qd/bed_mesh.cfg,gcode_macro BED_MESH_CALIBRATE,gcode,,,Plus5 only at path
+klipper-macros-qd/bed_mesh.cfg,gcode_macro BED_MESH_CALIBRATE,rename_existing,_BED_MESH_CALIBRATE,,Plus5 only at path
+klipper-macros-qd/bed_mesh.cfg,gcode_macro G31,gcode,,,Plus5 only at path
+klipper-macros-qd/bed_mesh.cfg,gcode_macro G32,gcode,,,Plus5 only at path
+klipper-macros-qd/bed_mesh.cfg,gcode_macro _KAMP_Settings,description,KAMP configuration settings for adaptive meshing,,Plus5 only at path
+klipper-macros-qd/bed_mesh.cfg,gcode_macro _KAMP_Settings,gcode,,,Plus5 only at path
+klipper-macros-qd/bed_mesh.cfg,gcode_macro _KAMP_Settings,variable_attach_macro,<expression or path>,,Plus5 only at path
+klipper-macros-qd/bed_mesh.cfg,gcode_macro _KAMP_Settings,variable_detach_macro,<expression or path>,,Plus5 only at path
+klipper-macros-qd/bed_mesh.cfg,gcode_macro _KAMP_Settings,variable_fuzz_amount,0,,Plus5 only at path
+klipper-macros-qd/bed_mesh.cfg,gcode_macro _KAMP_Settings,variable_mesh_margin,5,,Plus5 only at path
+klipper-macros-qd/bed_mesh.cfg,gcode_macro _KAMP_Settings,variable_probe_dock_enable,False,,Plus5 only at path
+klipper-macros-qd/bed_mesh.cfg,gcode_macro _KAMP_Settings,variable_verbose_enable,True,,Plus5 only at path
+klipper-macros-qd/bed_mesh.cfg,gcode_macro bed_mesh_check,description,Warns if bed_mesh config may generate an invalid mesh.,,Plus5 only at path
+klipper-macros-qd/bed_mesh.cfg,gcode_macro bed_mesh_check,gcode,,,Plus5 only at path
+klipper-macros-qd/bed_mesh.cfg,gcode_macro g29,gcode,,,Plus5 only at path
+klipper-macros-qd/beep.cfg,gcode_macro _km_beep_if_available,description,Wraps beeper to avoid console spam,,Plus5 only at path
+klipper-macros-qd/beep.cfg,gcode_macro _km_beep_if_available,gcode,,,Plus5 only at path
+klipper-macros-qd/beep.cfg,gcode_macro beep_off,gcode,,,Plus5 only at path
+klipper-macros-qd/beep.cfg,gcode_macro beep_on,gcode,,,Plus5 only at path
+klipper-macros-qd/beep.cfg,gcode_macro m300,description,Emits and audible beep.,,Plus5 only at path
+klipper-macros-qd/beep.cfg,gcode_macro m300,gcode,,,Plus5 only at path
+klipper-macros-qd/fans.cfg,gcode_macro M106,gcode,,,Plus5 only at path
+klipper-macros-qd/fans.cfg,gcode_macro M107,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro CUT_FILAMENT_1,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro DROP_TRASH,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro EXTRUSION_AND_FLUSH,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro M603,description,filament unlode,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro M603,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro M604,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro MOVE_ANOTHER_POINT_CHANGE_FILAMENT,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro T0,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro T1,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro T10,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro T11,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro T12,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro T13,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro T14,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro T15,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro T2,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro T3,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro T4,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro T5,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro T6,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro T7,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro T8,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro T9,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro TRY_INTO_EXTRUDER,gcode,,,Plus5 only at path
+klipper-macros-qd/filament.cfg,gcode_macro WIPE_NOZZLE_DROP,gcode,,,Plus5 only at path
+klipper-macros-qd/gcode_macro.cfg,delayed_gcode PRINTER_INIT,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,delayed_gcode PRINTER_INIT,initial_duration,,0.2,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_arcs,resolution,,1.0,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro AUTOTUNE_SHAPERS,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro AUTOTUNE_SHAPERS,variable_autotune_shapers,,<expression or path>,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro BEEP,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro CANCEL_PRINT,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro CANCEL_PRINT,rename_existing,,BASE_CANCEL_PRINT,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro CLEAR_NOZZLE,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro CLEAR_NOZZLE_PLR,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro CUT_FILAMENT_1,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro DETECT_INTERRUPTION,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro DISABLE_ALL_SENSOR,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro DROP_TRASH,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro ENABLE_ALL_SENSOR,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro EXTRUSION_AND_FLUSH,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro G29,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro G29,variable_k,,1,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro G31,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro G32,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro LED_OFF,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro LED_ON,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M0,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M106,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M107,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M109,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M109,rename_existing,,M99109,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M141,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M191,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M204,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M204,rename_existing,,M99204,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M25,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M25,rename_existing,,M9925,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M290,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M303,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M4029,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M4030,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M4031,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M4032,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M603,description,,filament unlode,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M603,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M604,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M84,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M84,rename_existing,,M84.1,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M900,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro M901,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro MOVE_ANOTHER_POINT_CHANGE_FILAMENT,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro MOVE_TO_TRASH,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro PAUSE,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro PAUSE,rename_existing,,BASE_PAUSE,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro PRINTER_PARAM,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro PRINTER_PARAM,variable_clear_x_position,,88.0,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro PRINTER_PARAM,variable_clear_y_position,,287.0,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro PRINTER_PARAM,variable_max_x_position,,270.0,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro PRINTER_PARAM,variable_max_y_position,,270.0,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro PRINTER_PARAM,variable_max_z_position,,260.0,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro PRINT_END,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro PRINT_START,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro RESUME,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro RESUME,rename_existing,,BASE_RESUME,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro RESUME,variable_echambertemp,,0,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro RESUME,variable_efan,,0,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro RESUME,variable_etemp,,0,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro RESUME,variable_zhop,,0,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro RESUME_1,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro RESUME_PRINT,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro RESUME_PRINT,variable_echambertemp,,0,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro RESUME_PRINT,variable_efan,,0,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro RESUME_PRINT,variable_etemp,,0,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro RESUME_PRINT,variable_zhop,,0,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro SHAKE_OOZE,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro SHAPER_CALIBRATE,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro SHAPER_CALIBRATE,rename_existing,,RESHAPER_CALIBRATE,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro SMART_STATUS,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro SMART_STATUS,variable_led_mode,,1,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro SMART_STATUS,variable_timelapse_enable,,1,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro SMART_STATUS,variable_ui_screen_active,,1,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro T0,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro T1,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro T10,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro T11,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro T12,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro T13,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro T14,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro T15,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro T2,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro T3,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro T4,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro T5,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro T6,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro T7,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro T8,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro T9,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro TRY_INTO_EXTRUDER,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro WIPE_NOZZLE_DROP,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro _CG28,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro _HOME_X,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro _HOME_XY,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro _HOME_Y,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro _km_beep_if_available,description,,Wraps beeper to avoid console spam,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro _km_beep_if_available,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro _lazy_home_inner,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro beep_off,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro beep_on,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro g28,description,,<expression or path>,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro g28,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro g28,rename_existing,,G28.6245197,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro lazy_home,description,,"Homes the specified axes. If lazy is true, already homed axes",Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro lazy_home,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro move_screw1,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro move_screw2,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro move_screw3,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro move_screw4,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro prepare_filament_dry,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro restore_factory_settings,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro save_zoffset,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,gcode_macro set_zoffset,gcode,,,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,homing_override,axes,,xyz,Q2 only at path
+klipper-macros-qd/gcode_macro.cfg,homing_override,gcode,,,Q2 only at path
+klipper-macros-qd/globals.cfg,delayed_gcode INIT_GLOBALS,gcode,,,Plus5 only at path
+klipper-macros-qd/globals.cfg,delayed_gcode INIT_GLOBALS,initial_duration,5,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro SMART_STATUS,gcode,,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro SMART_STATUS,variable_led_mode,1,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro SMART_STATUS,variable_timelapse_enable,1,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro SMART_STATUS,variable_ui_screen_active,1,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,Variable_print_max,<expression or path>,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,Variable_print_min,<expression or path>,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,Variable_probe_mesh_padding,5.0,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,description,"Initializes our globals, including any _km_options overrides.",,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,gcode,,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_bed_surface_max_name_length,10,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_bed_surfaces,<expression or path>,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_bedmesh_before_print,True,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_load_length,90.0,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_load_min_temp,0,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_load_priming_length,20.0,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_load_priming_speed,200,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_load_speed,1200,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_menu_show_octoprint,True,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_menu_show_sdcard,True,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_menu_temperature,<expression or path>,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_park_x,77,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_park_y,338,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_park_z,5.0,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_pressure_advance_scale,1.0,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_probe_count_scale,1.0,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_probe_min_count,3,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_start_bed_heat_delay,2000,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_start_bed_heat_overshoot,0.0,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_start_clear_adjustments_at_end,True,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_start_end_park_y,0.0,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_start_extruder_preheat_scale,0.5,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_start_extruder_probing_temp,140,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_start_home_z_at_temp,True,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_start_level_bed_at_temp,True,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_start_quad_gantry_level_at_temp,False,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_start_z_tilt_adjust_at_temp,True,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_travel_speed_xy,12000,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _km_globals,variable_travel_speed_z,480,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro _list_macros_display,gcode,,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro check_km_config,description,Checks global variables and throws an error on any invalid values.,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro check_km_config,gcode,,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro check_km_config,variable_load_errors,<expression or path>,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro check_macro_docs,description,Lists macros lacking proper documentation.,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro check_macro_docs,gcode,,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro kmvars,description,Lists global variables used by klipper-macros.,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro kmvars,gcode,,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro list_macros,description,<expression or path>,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro list_macros,gcode,,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro list_macros,variable_macros,<expression or path>,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro listvars,description,Lists per-macro variables with a name containing SEARCH. This is,,Plus5 only at path
+klipper-macros-qd/globals.cfg,gcode_macro listvars,gcode,,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro _check_heater_params,gcode,,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro _gcode_wait_wrapper,gcode,,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro _gcode_wait_wrapper_inner,gcode,,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro heater_temp_limit,gcode,,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro heater_temp_limit,variable_bed_max,120,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro heater_temp_limit,variable_bed_min,0,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro heater_temp_limit,variable_chamber_max,65,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro heater_temp_limit,variable_chamber_min,0,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro heater_temp_limit,variable_extruder_max,370,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro heater_temp_limit,variable_extruder_min,0,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro m104,gcode,,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro m104,rename_existing,M104.6245197,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro m109,gcode,,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro m109,rename_existing,M109.6245197,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro m109.0,description,设置喷头等待温度升高到指定温度,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro m109.0,gcode,,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro m109.1,description,设置喷头等待温度降低到指定温度之后,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro m109.1,gcode,,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro m140,gcode,,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro m140,rename_existing,M140.6245197,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro m141,description,Sets chamber temperature.,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro m141,gcode,,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro m190,gcode,,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro m190,rename_existing,M190.6245197,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro m191,description,<expression or path>,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro m191,gcode,,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro reset_heater_scaling,description,<expression or path>,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro reset_heater_scaling,gcode,,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro set_heater_scaling,description,Sets scaling parameters for heater. If a new target temperature is,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro set_heater_scaling,gcode,,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro set_heater_scaling,variable_scaled_heaters,<expression or path>,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro set_heater_temperature_scaled,gcode,,,Plus5 only at path
+klipper-macros-qd/heaters.cfg,gcode_macro temperature_wait_scaled,gcode,,,Plus5 only at path
+klipper-macros-qd/idle.cfg,gcode_macro _km_idle_timeout,gcode,,,Plus5 only at path
+klipper-macros-qd/kinematics.cfg,gcode_macro M84,gcode,,,Plus5 only at path
+klipper-macros-qd/kinematics.cfg,gcode_macro M84,rename_existing,M84.1,,Plus5 only at path
+klipper-macros-qd/kinematics.cfg,gcode_macro _HOME_STATE,gcode,,,Plus5 only at path
+klipper-macros-qd/kinematics.cfg,gcode_macro _HOME_STATE,variable_is_homed,0,,Plus5 only at path
+klipper-macros-qd/kinematics.cfg,gcode_macro _HOME_X,gcode,,,Plus5 only at path
+klipper-macros-qd/kinematics.cfg,gcode_macro _HOME_XY,gcode,,,Plus5 only at path
+klipper-macros-qd/kinematics.cfg,gcode_macro _HOME_Y,gcode,,,Plus5 only at path
+klipper-macros-qd/kinematics.cfg,gcode_macro _check_kinematic_limits,gcode,,,Plus5 only at path
+klipper-macros-qd/kinematics.cfg,gcode_macro _lazy_home_inner,gcode,,,Plus5 only at path
+klipper-macros-qd/kinematics.cfg,gcode_macro g28,description,<expression or path>,,Plus5 only at path
+klipper-macros-qd/kinematics.cfg,gcode_macro g28,gcode,,,Plus5 only at path
+klipper-macros-qd/kinematics.cfg,gcode_macro g28,rename_existing,G28.6245197,,Plus5 only at path
+klipper-macros-qd/kinematics.cfg,gcode_macro lazy_home,description,"Homes the specified axes. If lazy is true, already homed axes",,Plus5 only at path
+klipper-macros-qd/kinematics.cfg,gcode_macro lazy_home,gcode,,,Plus5 only at path
+klipper-macros-qd/kinematics.cfg,homing_override,gcode,,,Plus5 only at path
+klipper-macros-qd/park.cfg,gcode_macro CLEAR_NOZZLE_PLR,gcode,,,Plus5 only at path
+klipper-macros-qd/park.cfg,gcode_macro _park_inner,gcode,,,Plus5 only at path
+klipper-macros-qd/park.cfg,gcode_macro g27,description,Parks the toolhead.,,Plus5 only at path
+klipper-macros-qd/park.cfg,gcode_macro g27,gcode,,,Plus5 only at path
+klipper-macros-qd/park.cfg,gcode_macro park,description,Park the toolhead,,Plus5 only at path
+klipper-macros-qd/park.cfg,gcode_macro park,gcode,,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro CANCEL_PRINT,description,Cancels the current print.,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro CANCEL_PRINT,gcode,,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro CANCEL_PRINT,rename_existing,_KM_CANCEL_PRINT_BASE,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro RESUME,gcode,,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro RESUME,rename_existing,_KM_RESUME_BASE,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro RESUME_PRINT,description,Resumes the currently paused print.,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro RESUME_PRINT,gcode,,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro RESUME_PRINT,variable_saved_e,0.0,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro RESUME_PRINT,variable_saved_efan,0,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro RESUME_PRINT,variable_saved_extruder_temp,0,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro RESUME_PRINT,variable_saved_x,0.0,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro RESUME_PRINT,variable_saved_y,0.0,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro RESUME_PRINT,variable_saved_z,0.0,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro SAFE_Z_MOVE,gcode,,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro clear_pause,description,Clears the current pause state.,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro clear_pause,gcode,,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro clear_pause,rename_existing,_KM_CLEAR_PAUSE,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro m24,gcode,,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro m24,rename_existing,M24.6245197,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro m25,gcode,,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro m25,rename_existing,M25.6245197,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro m600,description,Pauses the current print.,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro m600,gcode,,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro m601,description,Pauses the current print.,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro m601,gcode,,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro m602,description,Resumes the currently paused print.,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro m602,gcode,,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro pause,description,Pauses the current print.,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro pause,gcode,,,Plus5 only at path
+klipper-macros-qd/pause_resume_cancel.cfg,gcode_macro pause,rename_existing,_KM_PAUSE_BASE,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro CLEAR_NOZZLE,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro DISABLE_ALL_SENSOR,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro ENABLE_ALL_SENSOR,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro G29.0,description,清理网床数据,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro G29.0,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro LED_OFF,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro LED_ON,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro M0,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro M1001,description,自动共振器,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro M1001,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro M1001,variable_autotune_shapers,<expression or path>,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro M1002,description,管理Zoffset,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro M1002,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro M1004,description,根据设置开启空调,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro M1004,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro M1006,description,设置Z坐标,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro M1006,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro M290,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro M4029,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro M4030,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro M4031,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro M4032,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro M901,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro MOVE_TO_TRASH,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro move_screw1,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro move_screw2,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro move_screw3,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro move_screw4,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro prepare_filament_dry,gcode,,,Plus5 only at path
+klipper-macros-qd/qd_macro.cfg,gcode_macro restore_factory_settings,gcode,,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _km_apply_print_offset,gcode,,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _km_apply_print_offset,variable_offset,<expression or path>,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _km_check_and_set_print_bounds,description,Validates all print bounds and caches their values.,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _km_check_and_set_print_bounds,gcode,,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _km_check_is_printing,description,Throws an error if print is not currently in progress.,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _km_check_is_printing,gcode,,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _km_check_is_printing,variable_debug_state,False,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _km_park_if_needed,description,Parks the extruder if the current temperature of the supplied,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _km_park_if_needed,gcode,,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _print_end_inner,gcode,,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _print_end_inner,variable_cancelled,False,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _print_start_box_prepar,description,Preparation of box filament,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _print_start_box_prepar,gcode,,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _print_start_phase_check,gcode,,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _print_start_phase_extruder,description,Inserted by slicer at start of print. Preheats the extruder.,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _print_start_phase_extruder,gcode,,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _print_start_phase_init,description,Inserted by slicer at start of print. Initializes PRINT_START,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _print_start_phase_init,gcode,,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _print_start_phase_preheat,description,Inserted by slicer at start of print. Handles the bed and chamber,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _print_start_phase_preheat,gcode,,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro _print_start_phase_probing,gcode,,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro print_end,description,Inserted by slicer at end of print.,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro print_end,gcode,,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro print_start,description,<expression or path>,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro print_start,gcode,,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro print_start_set,description,Inserted by slicer to set values used by PRINT_START.,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro print_start_set,gcode,,,Plus5 only at path
+klipper-macros-qd/start_end.cfg,gcode_macro print_start_set,variable_print,<expression or path>,,Plus5 only at path
+klipper-macros-qd/state.cfg,gcode_macro _abort_on_gcode_state,gcode,,,Plus5 only at path
+klipper-macros-qd/state.cfg,gcode_macro _km_save_state,description,Tracks gcode state.,,Plus5 only at path
+klipper-macros-qd/state.cfg,gcode_macro _km_save_state,gcode,,,Plus5 only at path
+klipper-macros-qd/state.cfg,gcode_macro _km_save_state,variable_is_ephemeral,0,,Plus5 only at path
+klipper-macros-qd/state.cfg,gcode_macro _km_save_state,variable_state_set,<expression or path>,,Plus5 only at path
+klipper-macros-qd/state.cfg,gcode_macro restore_gcode_state,description,Wraps RESTORE_GCODE_STATE to track persistence state.,,Plus5 only at path
+klipper-macros-qd/state.cfg,gcode_macro restore_gcode_state,gcode,,,Plus5 only at path
+klipper-macros-qd/state.cfg,gcode_macro restore_gcode_state,rename_existing,_KM_RESTORE_GCODE_STATE,,Plus5 only at path
+klipper-macros-qd/state.cfg,gcode_macro save_gcode_state,description,Wraps SAVE_GCODE_STATE to track persistence state.,,Plus5 only at path
+klipper-macros-qd/state.cfg,gcode_macro save_gcode_state,gcode,,,Plus5 only at path
+klipper-macros-qd/state.cfg,gcode_macro save_gcode_state,rename_existing,_KM_SAVE_GCODE_STATE,,Plus5 only at path
+klipper-macros-qd/status_events.cfg,gcode_macro _km_print_status,gcode,,,Plus5 only at path
+klipper-macros-qd/status_events.cfg,gcode_macro _km_print_status,variable_command_list,<expression or path>,,Plus5 only at path
+klipper-macros-qd/status_events.cfg,gcode_macro _km_print_status,variable_last_status,<expression or path>,,Plus5 only at path
+klipper-macros-qd/status_events.cfg,gcode_macro _km_print_status,variable_status_list,<expression or path>,,Plus5 only at path
+klipper-macros-qd/status_events.cfg,gcode_macro _km_print_status,variable_status_stack,<expression or path>,,Plus5 only at path
+klipper-macros-qd/status_events.cfg,gcode_macro gcode_on_print_status,description,Adds a gcode command for a status event.,,Plus5 only at path
+klipper-macros-qd/status_events.cfg,gcode_macro gcode_on_print_status,gcode,,,Plus5 only at path
+klipper-macros-qd/velocity.cfg,gcode_macro _reset_velocity_limits,description,Sets maximum accelleration.,,Plus5 only at path
+klipper-macros-qd/velocity.cfg,gcode_macro _reset_velocity_limits,gcode,,,Plus5 only at path
+klipper-macros-qd/velocity.cfg,gcode_macro m201,description,Sets maximum accelleration.,,Plus5 only at path
+klipper-macros-qd/velocity.cfg,gcode_macro m201,gcode,,,Plus5 only at path
+klipper-macros-qd/velocity.cfg,gcode_macro m201,variable_max_accel,1.7976931348623157e+308,,Plus5 only at path
+klipper-macros-qd/velocity.cfg,gcode_macro m203,description,Sets maximum velocity.,,Plus5 only at path
+klipper-macros-qd/velocity.cfg,gcode_macro m203,gcode,,,Plus5 only at path
+klipper-macros-qd/velocity.cfg,gcode_macro m205,description,Sets square corner velocity.,,Plus5 only at path
+klipper-macros-qd/velocity.cfg,gcode_macro m205,gcode,,,Plus5 only at path
+klipper-macros-qd/velocity.cfg,gcode_macro m900,description,Sets pressure advance.,,Plus5 only at path
+klipper-macros-qd/velocity.cfg,gcode_macro m900,gcode,,,Plus5 only at path
+printer.cfg,bed_mesh,algorithm,bicubic,lagrange,different
+printer.cfg,bed_mesh,bicubic_tension,0.2,,Plus5 only at path
+printer.cfg,bed_mesh,horizontal_move_z,5,5,same
+printer.cfg,bed_mesh,mesh_max,"305,305","260,260",different
+printer.cfg,bed_mesh,mesh_min,"15,15","10,10",different
+printer.cfg,bed_mesh,mesh_pps,"2, 2","2, 2",same
+printer.cfg,bed_mesh,probe_count,"7,7","6,6",different
+printer.cfg,bed_mesh,speed,150,100,different
+printer.cfg,bed_screws,screw1,"32.5,32.5","30,30",different
+printer.cfg,bed_screws,screw1_name,Front left,Front left,same
+printer.cfg,bed_screws,screw2,"287.5,32.5","240,30",different
+printer.cfg,bed_screws,screw2_name,Front right,Front right,same
+printer.cfg,bed_screws,screw3,"287.5,287.5","240,240",different
+printer.cfg,bed_screws,screw3_name,Last right,Last right,same
+printer.cfg,bed_screws,screw4,"32.5,287.5","30,240",different
+printer.cfg,box485,address_end,127,127,same
+printer.cfg,box485,address_start,1,1,same
+printer.cfg,box485,baud,115200,115200,same
+printer.cfg,box485,extrude_length,30,30,same
+printer.cfg,box485,extrude_timeout,0.0,0.0,same
+printer.cfg,box485,hall_value,2000,2000,same
+printer.cfg,box485,serial_port,<redacted>,<redacted>,same
+printer.cfg,box485,serial_timeout,<redacted>,<redacted>,same
+printer.cfg,controller_fan board_fan,cycle_time,0.01,0.01,same
+printer.cfg,controller_fan board_fan,fan_speed,1.0,1.0,same
+printer.cfg,controller_fan board_fan,max_power,1.0,1.0,same
+printer.cfg,controller_fan board_fan,pin,PC9,PA9,different
+printer.cfg,controller_fan board_fan,shutdown_speed,1.0,1.0,same
+printer.cfg,controller_fan board_fan,stepper,"stepper_z,stepper_z1","stepper_z,stepper_z1",same
+printer.cfg,controller_fan chamber_fan,fan_speed,1.0,1.0,same
+printer.cfg,controller_fan chamber_fan,heater,chamber,chamber,same
+printer.cfg,controller_fan chamber_fan,kick_start_time,0.5,0.5,same
+printer.cfg,controller_fan chamber_fan,max_power,1.0,1.0,same
+printer.cfg,controller_fan chamber_fan,off_below,0,0,same
+printer.cfg,controller_fan chamber_fan,pin,PB14,PB14,same
+printer.cfg,controller_fan chamber_fan,shutdown_speed,1.0,1.0,same
+printer.cfg,controller_fan chamber_fan,stepper,,,same
+printer.cfg,controller_fan chamber_fan,tachometer_pin,PC6,PC6,same
+printer.cfg,controller_fan chamber_fan,tachometer_poll_interval,0.0015,0.0015,same
+printer.cfg,controller_fan chamber_fan,tachometer_ppr,2,2,same
+printer.cfg,duplicate_pin_override,pins,,,same
+printer.cfg,extruder,control,pid,pid,same
+printer.cfg,extruder,dir_pin,!THR:PB8,!THR:PB8,same
+printer.cfg,extruder,enable_pin,!THR:PC15,!THR:PC15,same
+printer.cfg,extruder,filament_diameter,1.75,1.75,same
+printer.cfg,extruder,full_steps_per_rotation,200,200,same
+printer.cfg,extruder,gear_ratio,1517:170,1517:170,same
+printer.cfg,extruder,heater_pin,THR:PB15,THR:PB15,same
+printer.cfg,extruder,instantaneous_corner_velocity,10.000,10.000,same
+printer.cfg,extruder,max_extrude_cross_section,500,500,same
+printer.cfg,extruder,max_extrude_only_accel,5000,5000,same
+printer.cfg,extruder,max_extrude_only_distance,1000.0,1000.0,same
+printer.cfg,extruder,max_extrude_only_velocity,5000,5000,same
+printer.cfg,extruder,max_power,1,1,same
+printer.cfg,extruder,max_temp,375,375,same
+printer.cfg,extruder,microsteps,16,16,same
+printer.cfg,extruder,min_extrude_temp,135,135,same
+printer.cfg,extruder,min_temp,0,0,same
+printer.cfg,extruder,nozzle_diameter,0.400,0.400,same
+printer.cfg,extruder,pid_Kd,49.985,59.141,different
+printer.cfg,extruder,pid_Ki,6.491,4.76,different
+printer.cfg,extruder,pid_Kp,36.025,33.555,different
+printer.cfg,extruder,pressure_advance,0.032,0.032,same
+printer.cfg,extruder,pressure_advance_smooth_time,0.03,0.03,same
+printer.cfg,extruder,rotation_distance,53.1,53.7,different
+printer.cfg,extruder,sensor_pin,THR:PB12,THR:PB12,same
+printer.cfg,extruder,sensor_type,MAX6675,MAX6675,same
+printer.cfg,extruder,smooth_time,0.1,0.000001,different
+printer.cfg,extruder,spi_bus,spi2,spi2,same
+printer.cfg,extruder,spi_speed,2000000,2000000,same
+printer.cfg,extruder,step_pin,THR:PB9,THR:PB9,same
+printer.cfg,fan_generic auxiliary_cooling_fan,cycle_time,0.0100,0.0100,same
+printer.cfg,fan_generic auxiliary_cooling_fan,hardware_pwm,false,false,same
+printer.cfg,fan_generic auxiliary_cooling_fan,kick_start_time,0.100,0.100,same
+printer.cfg,fan_generic auxiliary_cooling_fan,max_power,1.0,,Plus5 only at path
+printer.cfg,fan_generic auxiliary_cooling_fan,off_below,0.0,0.0,same
+printer.cfg,fan_generic auxiliary_cooling_fan,pin,PB15,PB15,same
+printer.cfg,fan_generic auxiliary_cooling_fan,shutdown_speed,0.0,0.0,same
+printer.cfg,fan_generic auxiliary_cooling_fan,tachometer_pin,PC4,PC4,same
+printer.cfg,fan_generic auxiliary_cooling_fan,tachometer_poll_interval,0.0015,0.0015,same
+printer.cfg,fan_generic auxiliary_cooling_fan,tachometer_ppr,2,2,same
+printer.cfg,fan_generic chamber_circulation_fan,cycle_time,0.0100,0.0100,same
+printer.cfg,fan_generic chamber_circulation_fan,hardware_pwm,false,false,same
+printer.cfg,fan_generic chamber_circulation_fan,kick_start_time,0.100,0.100,same
+printer.cfg,fan_generic chamber_circulation_fan,off_below,0.0,0.0,same
+printer.cfg,fan_generic chamber_circulation_fan,pin,PA9,PA10,different
+printer.cfg,fan_generic chamber_circulation_fan,shutdown_speed,1.0,1.0,same
+printer.cfg,fan_generic cooling_fan,cycle_time,0.010,0.010,same
+printer.cfg,fan_generic cooling_fan,hardware_pwm,False,False,same
+printer.cfg,fan_generic cooling_fan,kick_start_time,0.100,0.100,same
+printer.cfg,fan_generic cooling_fan,max_power,1.0,1.0,same
+printer.cfg,fan_generic cooling_fan,off_below,0.0,0.0,same
+printer.cfg,fan_generic cooling_fan,pin,THR:PA8,THR:PA8,same
+printer.cfg,fan_generic cooling_fan,shutdown_speed,0,0,same
+printer.cfg,fan_generic cooling_fan,tachometer_pin,THR:PA9,THR:PA9,same
+printer.cfg,fan_generic cooling_fan,tachometer_poll_interval,0.0015,0.0015,same
+printer.cfg,fan_generic cooling_fan,tachometer_ppr,2,2,same
+printer.cfg,filament_switch_sensor filament_switch_sensor,event_delay,3.0,3.0,same
+printer.cfg,filament_switch_sensor filament_switch_sensor,insert_gcode,,,same
+printer.cfg,filament_switch_sensor filament_switch_sensor,pause_delay,0.5,0.5,same
+printer.cfg,filament_switch_sensor filament_switch_sensor,pause_on_runout,True,True,same
+printer.cfg,filament_switch_sensor filament_switch_sensor,runout_gcode,,,same
+printer.cfg,filament_switch_sensor filament_switch_sensor,switch_pin,!THR:PA1,!THR:PA1,same
+printer.cfg,force_move,enable_force_move,True,True,same
+printer.cfg,gcode_arcs,resolution,1.0,1.0,same
+printer.cfg,gcode_macro _km_options,gcode,,,same
+printer.cfg,gcode_macro status_test,gcode,,,same
+printer.cfg,gcode_macro status_test,variable_extruder,0,0,same
+printer.cfg,heater_bed,control,pid,pid,same
+printer.cfg,heater_bed,heater_pin,PB10,PC7,different
+printer.cfg,heater_bed,max_power,1.0,1.0,same
+printer.cfg,heater_bed,max_temp,125,125,same
+printer.cfg,heater_bed,min_temp,-100,-60,different
+printer.cfg,heater_bed,pid_Kd,749.125,1041.758,different
+printer.cfg,heater_bed,pid_Ki,1.342,1.218,different
+printer.cfg,heater_bed,pid_Kp,63.418,71.231,different
+printer.cfg,heater_bed,pwm_cycle_time,0.1,0.1,same
+printer.cfg,heater_bed,sensor_pin,PA1,PA4,different
+printer.cfg,heater_bed,sensor_type,NTC 100K MGB18-104F39050L32,NTC 100K MGB18-104F39050L32,same
+printer.cfg,heater_fan hotend_fan,fan_speed,1.0,1.0,same
+printer.cfg,heater_fan hotend_fan,heater,extruder,extruder,same
+printer.cfg,heater_fan hotend_fan,heater_temp,50.0,50.0,same
+printer.cfg,heater_fan hotend_fan,kick_start_time,0.5,0.5,same
+printer.cfg,heater_fan hotend_fan,max_power,1.0,1.0,same
+printer.cfg,heater_fan hotend_fan,off_below,0,0,same
+printer.cfg,heater_fan hotend_fan,pin,THR:PA11,THR:PA11,same
+printer.cfg,heater_fan hotend_fan,shutdown_speed,1.0,1.0,same
+printer.cfg,heater_fan hotend_fan,tachometer_pin,THR:PA12,THR:PA12,same
+printer.cfg,heater_fan hotend_fan,tachometer_poll_interval,0.0005,0.0005,same
+printer.cfg,heater_fan hotend_fan,tachometer_ppr,2,2,same
+printer.cfg,heater_generic chamber,control,pid,pid,same
+printer.cfg,heater_generic chamber,heater_pin,PC8,PC8,same
+printer.cfg,heater_generic chamber,max_power,1,1,same
+printer.cfg,heater_generic chamber,max_temp,68,70,different
+printer.cfg,heater_generic chamber,min_temp,-100,-100,same
+printer.cfg,heater_generic chamber,pid_Kd,749.125,749.125,same
+printer.cfg,heater_generic chamber,pid_Ki,1.342,1.342,same
+printer.cfg,heater_generic chamber,pid_Kp,63.418,63.418,same
+printer.cfg,heater_generic chamber,sensor_pin,PA4,PA1,different
+printer.cfg,heater_generic chamber,sensor_type,NTC 100K MGB18-104F39050L32,NTC 100K MGB18-104F39050L32,same
+printer.cfg,heater_generic chamber,z_max_limit,,230,Q2 only at path
+printer.cfg,idle_timeout,gcode,,,same
+printer.cfg,idle_timeout,timeout,43200,43200,same
+printer.cfg,lis2dw,axes_map,"y, z, -x","y, z, -x",same
+printer.cfg,lis2dw,cs_pin,THR:PA10,THR:PA10,same
+printer.cfg,lis2dw,spi_software_miso_pin,THR:PA6,THR:PA6,same
+printer.cfg,lis2dw,spi_software_mosi_pin,THR:PA7,THR:PA7,same
+printer.cfg,lis2dw,spi_software_sclk_pin,THR:PA5,THR:PA5,same
+printer.cfg,mcu THR,baud,500000,500000,same
+printer.cfg,mcu THR,restart_method,command,command,same
+printer.cfg,mcu THR,serial,<redacted>,<redacted>,same
+printer.cfg,motor_constants qidi_x_y,holding_torque,,0.73,Q2 only at path
+printer.cfg,motor_constants qidi_x_y,inductance,,0.004,Q2 only at path
+printer.cfg,motor_constants qidi_x_y,max_current,,2.0,Q2 only at path
+printer.cfg,motor_constants qidi_x_y,resistance,,3.7,Q2 only at path
+printer.cfg,motor_constants qidi_x_y,steps_per_revolution,,200,Q2 only at path
+printer.cfg,neopixel RGB,chain_count,25,,Plus5 only at path
+printer.cfg,neopixel RGB,color_order,GRB,,Plus5 only at path
+printer.cfg,neopixel RGB,initial_BLUE,0.0,,Plus5 only at path
+printer.cfg,neopixel RGB,initial_GREEN,0.0,,Plus5 only at path
+printer.cfg,neopixel RGB,initial_RED,0.0,,Plus5 only at path
+printer.cfg,neopixel RGB,initial_WHITE,0.0,,Plus5 only at path
+printer.cfg,neopixel RGB,pin,PA10,,Plus5 only at path
+printer.cfg,output_pin beeper,pin,PC2,PC2,same
+printer.cfg,output_pin beeper,pwm,false,false,same
+printer.cfg,output_pin beeper,shutdown_value,0,0,same
+printer.cfg,output_pin beeper,value,0,0,same
+printer.cfg,output_pin caselight,pin,PC7,PC9,different
+printer.cfg,output_pin caselight,pwm,false,false,same
+printer.cfg,output_pin caselight,shutdown_value,0,0,same
+printer.cfg,output_pin caselight,value,1,1,same
+printer.cfg,output_pin polar_cooler,pin,PA14,PB10,different
+printer.cfg,output_pin polar_cooler,pwm,false,false,same
+printer.cfg,output_pin polar_cooler,shutdown_value,0,0,same
+printer.cfg,output_pin polar_cooler,value,0,0,same
+printer.cfg,printer,kinematics,corexy,corexy,same
+printer.cfg,printer,max_accel,20000,20000,same
+printer.cfg,printer,max_velocity,600,600,same
+printer.cfg,printer,max_z_accel,500,500,same
+printer.cfg,printer,max_z_velocity,20,20,same
+printer.cfg,printer,square_corner_velocity,8,8,same
+printer.cfg,probe_air,delta_v,0.08,0.08,same
+printer.cfg,probe_air,dout_pin,THR: PB4,THR: PB4,same
+printer.cfg,probe_air,lift_speed,5,5,same
+printer.cfg,probe_air,sample_retract_dist,3,3,same
+printer.cfg,probe_air,samples,2,2,same
+printer.cfg,probe_air,samples_result,average,average,same
+printer.cfg,probe_air,samples_tolerance,0.02,0.02,same
+printer.cfg,probe_air,samples_tolerance_retries,10,10,same
+printer.cfg,probe_air,sclk_pin,THR:PB3,THR:PB3,same
+printer.cfg,probe_air,sensor_type,c_sensor,c_sensor,same
+printer.cfg,probe_air,speed,5,5,same
+printer.cfg,probe_air,voltage,4.95,4.95,same
+printer.cfg,probe_air,z_offset,-0.075,-0.07,different
+printer.cfg,resonance_tester,accel_chip,lis2dw,lis2dw,same
+printer.cfg,resonance_tester,accel_per_hz,150,150,same
+printer.cfg,resonance_tester,max_smoothing,0.25,0.25,same
+printer.cfg,resonance_tester,probe_points,,,same
+printer.cfg,respond,default_type,echo,echo,same
+printer.cfg,save_variables,filename,<expression or path>,<expression or path>,same
+printer.cfg,stepper_x,dir_pin,!PC13,!PB3,different
+printer.cfg,stepper_x,enable_pin,!PC15,!PB5,different
+printer.cfg,stepper_x,endstop_pin,tmc2240_stepper_x:virtual_endstop,tmc2240_stepper_x:virtual_endstop,same
+printer.cfg,stepper_x,full_steps_per_rotation,200,200,same
+printer.cfg,stepper_x,homing_positive_dir,True,true,different
+printer.cfg,stepper_x,homing_retract_dist,0,0,same
+printer.cfg,stepper_x,homing_speed,50,50,same
+printer.cfg,stepper_x,microsteps,32,16,different
+printer.cfg,stepper_x,position_endstop,325,271,different
+printer.cfg,stepper_x,position_max,326,275,different
+printer.cfg,stepper_x,position_min,-7,-1,different
+printer.cfg,stepper_x,rotation_distance,39,38.82,different
+printer.cfg,stepper_x,step_pin,PC14,PB4,different
+printer.cfg,stepper_y,dir_pin,PB3,!PC13,different
+printer.cfg,stepper_y,enable_pin,!PB5,!PC15,different
+printer.cfg,stepper_y,endstop_pin,tmc2240_stepper_y:virtual_endstop,tmc2240_stepper_y:virtual_endstop,same
+printer.cfg,stepper_y,full_steps_per_rotation,200,200,same
+printer.cfg,stepper_y,homing_positive_dir,false,False,different
+printer.cfg,stepper_y,homing_retract_dist,0,0,same
+printer.cfg,stepper_y,homing_speed,50,50,same
+printer.cfg,stepper_y,microsteps,32,16,different
+printer.cfg,stepper_y,position_endstop,-3,-1,different
+printer.cfg,stepper_y,position_max,340,295,different
+printer.cfg,stepper_y,position_min,-5,-1,different
+printer.cfg,stepper_y,rotation_distance,39,38.82,different
+printer.cfg,stepper_y,step_pin,PB4,PC14,different
+printer.cfg,stepper_z,dir_pin,!PA15,PA15,different
+printer.cfg,stepper_z,enable_pin,!PC11,!PC11,same
+printer.cfg,stepper_z,endstop_pin,probe:z_virtual_endstop,probe:z_virtual_endstop,same
+printer.cfg,stepper_z,endstop_pin_reverse,tmc2209_stepper_z:virtual_endstop,tmc2209_stepper_z:virtual_endstop,same
+printer.cfg,stepper_z,full_steps_per_rotation,200,200,same
+printer.cfg,stepper_z,homing_positive_dir,false,false,same
+printer.cfg,stepper_z,homing_positive_dir_reverse,true,true,same
+printer.cfg,stepper_z,homing_retract_dist,10.0,10.0,same
+printer.cfg,stepper_z,homing_speed,8,10,different
+printer.cfg,stepper_z,microsteps,128,128,same
+printer.cfg,stepper_z,position_endstop_reverse,300,260,different
+printer.cfg,stepper_z,position_max,310,265,different
+printer.cfg,stepper_z,position_min,-5,-2,different
+printer.cfg,stepper_z,rotation_distance,4,4,same
+printer.cfg,stepper_z,second_homing_speed,5,5,same
+printer.cfg,stepper_z,step_pin,PC10,PC10,same
+printer.cfg,stepper_z1,dir_pin,!PB6,PB6,different
+printer.cfg,stepper_z1,enable_pin,!PB0,!PB0,same
+printer.cfg,stepper_z1,endstop_pin_reverse,tmc2209_stepper_z1:virtual_endstop,tmc2209_stepper_z1:virtual_endstop,same
+printer.cfg,stepper_z1,full_steps_per_rotation,200,200,same
+printer.cfg,stepper_z1,microsteps,128,128,same
+printer.cfg,stepper_z1,rotation_distance,4,4,same
+printer.cfg,stepper_z1,step_pin,PB1,PB1,same
+printer.cfg,temperature_sensor Chamber_Thermal_Protection_Sensor,max_temp,170,150,different
+printer.cfg,temperature_sensor Chamber_Thermal_Protection_Sensor,min_temp,-100,-100,same
+printer.cfg,temperature_sensor Chamber_Thermal_Protection_Sensor,sensor_pin,PA2,PA2,same
+printer.cfg,temperature_sensor Chamber_Thermal_Protection_Sensor,sensor_type,NTC 100K MGB18-104F39050L32,NTC 100K MGB18-104F39050L32,same
+printer.cfg,tmc2209 extruder,interpolate,True,True,same
+printer.cfg,tmc2209 extruder,run_current,0.857,0.857,same
+printer.cfg,tmc2209 extruder,stealthchop_threshold,0,0,same
+printer.cfg,tmc2209 extruder,uart_pin,THR:PC13,THR:PC13,same
+printer.cfg,tmc2209 stepper_z,diag_pin,<expression or path>,<expression or path>,same
+printer.cfg,tmc2209 stepper_z,driver_SGTHRS,120,140,different
+printer.cfg,tmc2209 stepper_z,interpolate,True,True,same
+printer.cfg,tmc2209 stepper_z,run_current,1.07,1.07,same
+printer.cfg,tmc2209 stepper_z,stealthchop_threshold,9999999999,9999999999,same
+printer.cfg,tmc2209 stepper_z,uart_pin,PC5,PC5,same
+printer.cfg,tmc2209 stepper_z1,diag_pin,<expression or path>,<expression or path>,same
+printer.cfg,tmc2209 stepper_z1,driver_SGTHRS,120,140,different
+printer.cfg,tmc2209 stepper_z1,interpolate,True,True,same
+printer.cfg,tmc2209 stepper_z1,run_current,1.07,1.07,same
+printer.cfg,tmc2209 stepper_z1,stealthchop_threshold,9999999999,9999999999,same
+printer.cfg,tmc2209 stepper_z1,uart_pin,PB7,PB7,same
+printer.cfg,tmc2240 stepper_x,cs_pin,PD2,PC12,different
+printer.cfg,tmc2240 stepper_x,diag0_pin,!PC0,!PB8,different
+printer.cfg,tmc2240 stepper_x,driver_SGT,1,1,same
+printer.cfg,tmc2240 stepper_x,interpolate,true,true,same
+printer.cfg,tmc2240 stepper_x,run_current,1.07,1.07,same
+printer.cfg,tmc2240 stepper_x,spi_software_miso_pin,PA6,PA6,same
+printer.cfg,tmc2240 stepper_x,spi_software_mosi_pin,PA7,PA7,same
+printer.cfg,tmc2240 stepper_x,spi_software_sclk_pin,PA5,PA5,same
+printer.cfg,tmc2240 stepper_x,spi_speed,200000,200000,same
+printer.cfg,tmc2240 stepper_x,stealthchop_threshold,0,0,same
+printer.cfg,tmc2240 stepper_y,cs_pin,PC12,PD2,different
+printer.cfg,tmc2240 stepper_y,diag0_pin,!PB8,!PC0,different
+printer.cfg,tmc2240 stepper_y,driver_SGT,1,1,same
+printer.cfg,tmc2240 stepper_y,interpolate,true,true,same
+printer.cfg,tmc2240 stepper_y,run_current,1.07,1.07,same
+printer.cfg,tmc2240 stepper_y,spi_software_miso_pin,PA6,PA6,same
+printer.cfg,tmc2240 stepper_y,spi_software_mosi_pin,PA7,PA7,same
+printer.cfg,tmc2240 stepper_y,spi_software_sclk_pin,PA5,PA5,same
+printer.cfg,tmc2240 stepper_y,spi_speed,200000,200000,same
+printer.cfg,tmc2240 stepper_y,stealthchop_threshold,0,0,same
+printer.cfg,verify_heater chamber,check_gain_time,480,480,same
+printer.cfg,verify_heater chamber,heating_gain,1,1,same
+printer.cfg,verify_heater chamber,hysteresis,5,5,same
+printer.cfg,verify_heater chamber,max_error,300,300,same
+printer.cfg,verify_heater extruder,check_gain_time,20,20,same
+printer.cfg,verify_heater extruder,heating_gain,2,2,same
+printer.cfg,verify_heater extruder,hysteresis,2,2,same
+printer.cfg,verify_heater extruder,max_error,120,120,same
+printer.cfg,verify_heater heater_bed,check_gain_time,120,120,same
+printer.cfg,verify_heater heater_bed,heating_gain,1,1,same
+printer.cfg,verify_heater heater_bed,hysteresis,2,2,same
+printer.cfg,verify_heater heater_bed,max_error,400,400,same
+printer.cfg,virtual_sdcard,on_error_gcode,CANCEL_PRINT,CANCEL_PRINT,same
+printer.cfg,virtual_sdcard,path,<redacted>,<redacted>,same
+printer.cfg,z_tilt,horizontal_move_z,5,5,same
+printer.cfg,z_tilt,points,,,same
+printer.cfg,z_tilt,retries,4,2,different
+printer.cfg,z_tilt,retry_tolerance,0.05,0.05,same
+printer.cfg,z_tilt,speed,150,150,same
+printer.cfg,z_tilt,z_positions,,,same
+timelapse.cfg,delayed_gcode _HYPERLAPSE_LOOP,gcode,,,same
+timelapse.cfg,delayed_gcode _WAIT_TIMELAPSE_RENDER,gcode,,,same
+timelapse.cfg,delayed_gcode _WAIT_TIMELAPSE_TAKE_FRAME,gcode,,,same
+timelapse.cfg,gcode_macro GET_TIMELAPSE_SETUP,description,Print the Timelapse setup,Print the Timelapse setup,same
+timelapse.cfg,gcode_macro GET_TIMELAPSE_SETUP,gcode,,,same
+timelapse.cfg,gcode_macro HYPERLAPSE,description,<expression or path>,<expression or path>,same
+timelapse.cfg,gcode_macro HYPERLAPSE,gcode,,,same
+timelapse.cfg,gcode_macro HYPERLAPSE,variable_cycle,0,0,same
+timelapse.cfg,gcode_macro HYPERLAPSE,variable_run,False,False,same
+timelapse.cfg,gcode_macro TEST_STREAM_DELAY,description,Helper macro to find stream and park delay,Helper macro to find stream and park delay,same
+timelapse.cfg,gcode_macro TEST_STREAM_DELAY,gcode,,,same
+timelapse.cfg,gcode_macro TIMELAPSE_RENDER,description,Render Timelapse video and wait for the result,Render Timelapse video and wait for the result,same
+timelapse.cfg,gcode_macro TIMELAPSE_RENDER,gcode,,,same
+timelapse.cfg,gcode_macro TIMELAPSE_RENDER,variable_render,False,False,same
+timelapse.cfg,gcode_macro TIMELAPSE_RENDER,variable_run_identifier,0,0,same
+timelapse.cfg,gcode_macro TIMELAPSE_TAKE_FRAME,description,Take Timelapse shoot,Take Timelapse shoot,same
+timelapse.cfg,gcode_macro TIMELAPSE_TAKE_FRAME,gcode,,,same
+timelapse.cfg,gcode_macro TIMELAPSE_TAKE_FRAME,variable_check_time,0.5,0.5,same
+timelapse.cfg,gcode_macro TIMELAPSE_TAKE_FRAME,variable_enable,False,False,same
+timelapse.cfg,gcode_macro TIMELAPSE_TAKE_FRAME,variable_extruder,<expression or path>,<expression or path>,same
+timelapse.cfg,gcode_macro TIMELAPSE_TAKE_FRAME,variable_is_paused,False,False,same
+timelapse.cfg,gcode_macro TIMELAPSE_TAKE_FRAME,variable_macro,<expression or path>,<expression or path>,same
+timelapse.cfg,gcode_macro TIMELAPSE_TAKE_FRAME,variable_park,<expression or path>,<expression or path>,same
+timelapse.cfg,gcode_macro TIMELAPSE_TAKE_FRAME,variable_restore,<expression or path>,<expression or path>,same
+timelapse.cfg,gcode_macro TIMELAPSE_TAKE_FRAME,variable_speed,<expression or path>,<expression or path>,same
+timelapse.cfg,gcode_macro TIMELAPSE_TAKE_FRAME,variable_takingframe,False,False,same
+timelapse.cfg,gcode_macro TIMELAPSE_TAKE_FRAME,variable_verbose,True,True,same
+timelapse.cfg,gcode_macro _SET_TIMELAPSE_SETUP,description,Set user parameters for timelapse,Set user parameters for timelapse,same
+timelapse.cfg,gcode_macro _SET_TIMELAPSE_SETUP,gcode,,,same
+timelapse.cfg,gcode_macro _TIMELAPSE_NEW_FRAME,description,action call for timelapse shoot. must be a seperate macro,action call for timelapse shoot. must be a seperate macro,same
+timelapse.cfg,gcode_macro _TIMELAPSE_NEW_FRAME,gcode,,,same

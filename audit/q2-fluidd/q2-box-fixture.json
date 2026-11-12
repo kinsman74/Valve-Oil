@@ -1,0 +1,119 @@
+{
+  "baseline": {
+    "save_variables": {
+      "variables": {
+        "box_count": 1,
+        "filament_slot1": "QFZ07",
+        "color_slot1": [
+          "060606"
+        ]
+      }
+    },
+    "multi_color_controller": {
+      "box": {
+        "box0_filament_info_0_index": 0,
+        "box0_filament_info_0_filament_id": "QFY10",
+        "box0_filament_info_0_read_rfid_state": 0,
+        "box0_filament_info_0_vendor_str": "Anycubic",
+        "box0_filament_info_0_filament_str": "High Speed PLA Pearl Black",
+        "box0_filament_info_0_filament_type": "PLA",
+        "box0_filament_info_0_color_rgb_str": [
+          "#060606"
+        ],
+        "box0_filament_info_0_min_temp": 190,
+        "box0_filament_info_0_max_temp": 260,
+        "box0_filament_info_0_box_min_temp": 0,
+        "box0_filament_info_0_box_max_temp": 0,
+        "box0_filament_info_1_index": 1,
+        "box0_filament_info_1_filament_id": "QFZ07",
+        "box0_filament_info_1_read_rfid_state": 0,
+        "box0_filament_info_1_vendor_str": "Soleyin",
+        "box0_filament_info_1_filament_str": "PETG Basic Black",
+        "box0_filament_info_1_filament_type": "PETG",
+        "box0_filament_info_1_color_rgb_str": [
+          "#060606"
+        ],
+        "box0_filament_info_1_min_temp": 190,
+        "box0_filament_info_1_max_temp": 230,
+        "box0_filament_info_1_box_min_temp": 0,
+        "box0_filament_info_1_box_max_temp": 0,
+        "box0_filament_info_2_index": 2,
+        "box0_filament_info_2_filament_id": "QFY38",
+        "box0_filament_info_2_read_rfid_state": 0,
+        "box0_filament_info_2_vendor_str": "CC3D",
+        "box0_filament_info_2_filament_str": "PLA Pro Ocean Blue",
+        "box0_filament_info_2_filament_type": "PLA",
+        "box0_filament_info_2_color_rgb_str": [
+          "#1353AB"
+        ],
+        "box0_filament_info_2_min_temp": 195,
+        "box0_filament_info_2_max_temp": 220,
+        "box0_filament_info_2_box_min_temp": 0,
+        "box0_filament_info_2_box_max_temp": 0,
+        "box0_filament_info_3_index": 3,
+        "box0_filament_info_3_filament_id": "QFZ13",
+        "box0_filament_info_3_read_rfid_state": 0,
+        "box0_filament_info_3_vendor_str": "Soleyin",
+        "box0_filament_info_3_filament_str": "Ultra PLA Ocean Blue",
+        "box0_filament_info_3_filament_type": "PLA",
+        "box0_filament_info_3_color_rgb_str": [
+          "#5EA9FD"
+        ],
+        "box0_filament_info_3_min_temp": 190,
+        "box0_filament_info_3_max_temp": 230,
+        "box0_filament_info_3_box_min_temp": 0,
+        "box0_filament_info_3_box_max_temp": 0
+      }
+    }
+  },
+  "catalog": {
+    "Soleyin PETG Basic White": {
+      "filament_id": "QFZ08",
+      "type": "PETG",
+      "filament_vendor": "Soleyin"
+    },
+    "Soleyin PETG Basic Black": {
+      "filament_id": "QFZ07",
+      "type": "PETG",
+      "filament_vendor": "Soleyin"
+    }
+  },
+  "before_replacement": {
+    "box": {
+      "box0_filament_info_0_filament_id": "QFY82",
+      "box0_filament_info_0_filament_str": "PLA Basic Cold White",
+      "box0_filament_info_0_filament_type": "PLA",
+      "box0_filament_info_0_vendor_str": "eSUN",
+      "box0_filament_info_0_color_rgb_str": [
+        "#FAFAFA"
+      ]
+    }
+  },
+  "scan_start": {
+    "box": {
+      "box0_filament_info_0_read_rfid_state": 1
+    }
+  },
+  "scan_timeout": {
+    "box": {
+      "box0_filament_info_0_read_rfid_state": 0
+    }
+  },
+  "rescan_accepted": {
+    "box": {
+      "box0_filament_info_0_index": 0,
+      "box0_filament_info_0_filament_id": "QFY10",
+      "box0_filament_info_0_read_rfid_state": 0,
+      "box0_filament_info_0_vendor_str": "Anycubic",
+      "box0_filament_info_0_filament_str": "High Speed PLA Pearl Black",
+      "box0_filament_info_0_filament_type": "PLA",
+      "box0_filament_info_0_color_rgb_str": [
+        "#060606"
+      ],
+      "box0_filament_info_0_min_temp": 190,
+      "box0_filament_info_0_max_temp": 260,
+      "box0_filament_info_0_box_min_temp": 0,
+      "box0_filament_info_0_box_max_temp": 0
+    }
+  }
+}

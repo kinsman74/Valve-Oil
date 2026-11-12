@@ -63,6 +63,8 @@ def main(
     bundle_root: Path | None = None,
     environ: dict[str, str] | None = None,
 ) -> int:
+    if (Path(__file__).resolve().parents[2] / "audit/READ_ONLY").is_file():
+        raise SystemExit("This Q2 audit checkout cannot install or build deployment bundles.")
     if argv in (["--version"], ["-v"]):
         root = bundle_root or Path(__file__).resolve().parents[2]
         print(installer_version(root), file=stream or sys.stdout)

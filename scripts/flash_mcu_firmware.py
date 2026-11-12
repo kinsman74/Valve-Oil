@@ -19,5 +19,9 @@ MAINBOARD = Board("mainboard", "stm32f407xx", PATCH_MANIFEST, ("28e9", "018a"), 
 
 
 if __name__ == "__main__":
+    from pathlib import Path
+
+    if (Path(__file__).resolve().parents[1] / "audit/READ_ONLY").is_file():
+        raise SystemExit("Firmware flashing is disabled in this Q2 audit checkout.")
     logging.basicConfig(level=logging.ERROR)
     raise SystemExit(main(board=MAINBOARD))
