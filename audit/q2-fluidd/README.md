@@ -32,3 +32,9 @@ The owner changed slot 1B from black to red in the Valve Oil Fluidd preview, res
 Capture two separate operator actions with the printer idle. First retract/eject filament and reinsert it with the same spool still in place. Then physically remove a spool and insert a different known tagged spool in the same slot. Run a fresh capture for each action and note when the spool is lifted and seated. Wait for the first scan to finish before pressing any reset or reread controls.
 
 Run `python3 -B audit/q2-fluidd/capture-slot.py http://PRINTER --slot 1 --seconds 90` for 1B. The recorder uses GET requests and emits changes in controller presence fields, inlet sensor, scan flags, saved identity and reader outcome. At the live idle baseline, 1B had saved and live QFZ07, with controller box_inserted=1, filament_inserted=0 and stepper runout_button=0. One idle sample cannot establish what each field does during physical removal. A replacement guard needs the two contrasting traces before it can safely clear a slot or schedule another scan.
+
+### Slot 1B comparison result
+
+Both trials produced the same inlet transitions: controller `box_inserted` went 1 → 0 → 1, stepper `runout_button` went 0 → 1 → 0, and `filament_inserted` stayed 0. The saved and live Soleyin ID stayed QFZ07 throughout. These fields cannot distinguish the same-spool test from the swap in this capture.
+
+The same-spool scan timed out with 100 failed polls and zero valid reads. The first scan after the swap timed out with 89 failed polls, 11 empty responses and zero valid reads. Both generated a reader outcome even though the sampled public read flags stayed zero. The old identity after the swap is therefore a failed acceptance, not evidence of a missing scan. A further offline candidate can show an unverified assignment on a fresh failed scan while retaining the last saved ID. A reliable physical replacement trigger remains unverified.
