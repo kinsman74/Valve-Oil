@@ -66,3 +66,9 @@ The current guard exposes summary counts without a scan sequence or an explicit 
 The toolkit's staged read guard v2 assigns each scan a unique ID across guard instances. It records an accepted filament ID when the stock reader emits the captured success message for that same slot. The replay now uses the scan ID for freshness and clears the warning after a confirmed same-ID reread. Reconstructed historical samples carry synthetic IDs. Separate replay assertions cover identical timeout summaries with different IDs and same-ID acceptance.
 
 The acceptance observer is covered by mock-reader tests. Live Q2 still runs v1. Verify v2 against the isolated compiled reader before activation and use its live status when integrating the warning into Fluidd.
+
+### Guard v2 and warning preview deployment
+
+The isolated stock reader passed all eight cases, including matching accepted IDs to the stock save calls and distinct scan IDs. The Q2 then loaded guard v2 after a Klipper service restart. A live 1B scan reported accepted ID QFZ07. The separate warning preview passed 46 upstream Box tests and its served HTML matched the built artifact. The warning display and clearance were exercised in offline replay. A live timeout demonstration in the new preview is pending.
+
+To reproduce the preview, apply flat-controller.patch and warning-preview.patch with git apply --unidiff-zero to the pinned Fluidd checkout, then copy qidi-rfid-verification.ts into src/util and build. The preview adds the warning to the Box card, using guard v2 scan events. Its PWA plugin is disabled.

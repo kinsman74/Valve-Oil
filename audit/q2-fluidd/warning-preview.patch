@@ -1,0 +1,58 @@
+diff --git a/src/components/widgets/qidiBox/QidiBoxCard.vue b/src/components/widgets/qidiBox/QidiBoxCard.vue
+index 8e1afc8..dc13c0b 100644
+--- a/src/components/widgets/qidiBox/QidiBoxCard.vue
++++ b/src/components/widgets/qidiBox/QidiBoxCard.vue
+@@ -55,0 +56,10 @@
++      <v-alert
++        v-if="unverifiedSlots.length"
++        text
++        dense
++        type="warning"
++        class="mt-3 mb-0"
++      >
++        RFID unverified in {{ unverifiedSlots.join(', ') }}. The displayed filament is the previous saved assignment.
++      </v-alert>
++
+@@ -341,0 +352 @@ import { QIDI_BOX_STEP_UNKNOWN, type QidiBoxError, type QidiBoxStepText } from '
++import { updateVerification, type RfidSample, type RfidScan, type RfidVerification } from '@/util/qidi-rfid-verification'
+@@ -376,0 +388,34 @@ export default class QidiBoxCard extends Mixins(StateMixin, QidiBoxMixin) {
++  rfidVerification: RfidVerification[] = []
++
++  get rfidSamples (): RfidSample[] {
++    if (!this.klippyReady) return []
++    const printer = this.$typedState.printer.printer as typeof this.$typedState.printer.printer & {
++      inventory_rfid_read_guard?: { version: string; last_scans?: Record<string, RfidScan> };
++    }
++    const guard = printer.inventory_rfid_read_guard
++    const box = printer.multi_color_controller?.box as Record<string, unknown> | undefined
++    const variables = printer.save_variables?.variables
++    if (guard?.version !== 'q2-read-guard-v2' || !box || !variables) return []
++
++    return Array.from({ length: this.boxCount * 4 }, (_, index) => {
++      const unit = Math.floor(index / 4)
++      return {
++        printer: 'ready',
++        box_online: box[`box${unit}_is_online`],
++        box_inserted: box[`box${unit}_box_inserted_${index % 4}`],
++        saved_id: variables[`filament_slot${index}`],
++        last_scan: guard.last_scans?.[`slot${index}`]
++      }
++    })
++  }
++
++  get unverifiedSlots (): string[] {
++    return this.rfidVerification.flatMap((slot, index) =>
++      slot.unverified ? [qidiBoxSlotLabel(index)] : [])
++  }
++
++  @Watch('rfidSamples', { immediate: true })
++  onRfidSamplesChanged (samples: RfidSample[]) {
++    this.rfidVerification = samples.map((sample, index) =>
++      updateVerification(this.rfidVerification[index], sample))
++  }
+diff --git a/vite.config.ts b/vite.config.ts
+index e3a9d56..e5456b4 100644
+--- a/vite.config.ts
++++ b/vite.config.ts
+@@ -13,0 +14 @@ export default defineConfig({
++      disable: true,
