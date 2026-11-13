@@ -54,3 +54,9 @@ The later Anycubic reread after tag writing remains a verified RFID result: the 
 ### Automatic Soleyin Black read after tagging
 
 A later insertion started with 1B empty and the previous Anycubic Blue ID QFY14 still saved. The owner inserted the newly tagged Soleyin PETG Basic Black. About two seconds after the inlet detected insertion, the recorder observed two valid reads, six failed polls, zero empty responses, and a completed scan. The live and saved IDs both changed to QFZ07 with type PETG. This confirms the supported tag can be read automatically in 1B and replace the prior assignment. The earlier timeout with the same reported product remains a separate unsuccessful attempt.
+
+### Offline RFID warning prototype
+
+The warning prototype flags an occupied slot after an observed inlet cycle and a newly observed timeout or conflict while retaining the saved identity. Replay passed on the recorded timeout and successful Soleyin insertion, with additional checks for an empty inlet, a changed identity and a historical result on dashboard open. Run `node test-rfid-verification.cjs TIMEOUT_TRACE SUCCESS_TRACE` from this directory.
+
+The current guard exposes summary counts without a scan sequence or an explicit acceptance result. Two scans with identical summaries look the same, and stock-reader-completed alone cannot establish that a slot assignment was accepted. Before UI integration, expose a per-scan sequence and acceptance evidence so repeated failures can be detected and a confirmed reread of the same ID can clear a warning. This prototype makes no printer changes.
