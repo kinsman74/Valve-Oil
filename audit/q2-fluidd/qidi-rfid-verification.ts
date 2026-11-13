@@ -26,13 +26,19 @@ export function updateVerification (previous: RfidVerification | undefined, samp
   const inserted = sample.box_inserted === 1
   const fresh = Boolean(previous && scanId && scanId !== previous.scanId)
 
-  if (!previous || sample.printer !== 'ready' || sample.box_online !== 1 || !inserted) {
+  const failed = /^(timeout(?:-|$)|conflicting-tags$)/.test(scan?.outcome ?? '')
+
+  if (sample.printer !== 'ready' || sample.box_online !== 1 || !inserted) {
     return { identity, inserted, scanId, awaitingScan: false, unverified: false }
+  }
+
+  if (!previous) {
+    const unverified = Boolean(scanId && failed && typeof identity === 'string' && identity)
+    return { identity, inserted, scanId, awaitingScan: false, unverified }
   }
 
   const changed = identity !== previous.identity
   const awaitingScan = !changed && (!previous.inserted || previous.awaitingScan)
-  const failed = /^(timeout(?:-|$)|conflicting-tags$)/.test(scan?.outcome ?? '')
   const accepted = fresh && scan.accepted_id != null && scan.accepted_id === identity
   const unverified = !changed && !accepted &&
     (previous.unverified || (awaitingScan && fresh && failed))

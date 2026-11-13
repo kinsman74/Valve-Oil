@@ -10,7 +10,7 @@ index 8e1afc8..dc13c0b 100644
 +        type="warning"
 +        class="mt-3 mb-0"
 +      >
-+        RFID unverified in {{ unverifiedSlots.join(', ') }}. The displayed filament is the previous saved assignment.
++        RFID unverified in {{ unverifiedSlots.join(', ') }}. The last RFID read failed. The displayed filament is the saved assignment.
 +      </v-alert>
 +
 @@ -341,0 +352 @@ import { QIDI_BOX_STEP_UNKNOWN, type QidiBoxError, type QidiBoxStepText } from '

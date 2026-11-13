@@ -1,6 +1,6 @@
 const assert = require('node:assert/strict')
 const fs = require('node:fs')
-const { updateVerification } = require('./rfid-verification.cjs')
+const { updateVerification } = require('./qidi-rfid-verification.ts')
 const files = process.argv.slice(2)
 assert.equal(files.length, 2, 'Pass the supported-swap and Soleyin insertion traces')
 function replay(file) {
@@ -49,3 +49,8 @@ state = updateVerification(state, occupied)
 assert.equal(state.unverified, false)
 state = updateVerification(state, { ...occupied, last_scan: { ...oldTimeout, scan_id: 'same:2' } })
 assert.equal(state.unverified, true, 'Identical counts with a new scan ID must trigger the warning')
+
+assert.equal(updateVerification(undefined, occupied).unverified, true, 'Flag an occupied slot after refreshing')
+assert.equal(updateVerification(undefined, { ...occupied, saved_id: '' }).unverified, false)
+assert.equal(updateVerification(undefined, { ...occupied, box_inserted: 0 }).unverified, false)
+assert.equal(updateVerification(undefined, { ...occupied, box_online: 0 }).unverified, false)
