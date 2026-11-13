@@ -60,3 +60,9 @@ A later insertion started with 1B empty and the previous Anycubic Blue ID QFY14 
 The warning prototype flags an occupied slot after an observed inlet cycle and a newly observed timeout or conflict while retaining the saved identity. Replay passed on the recorded timeout and successful Soleyin insertion, with additional checks for an empty inlet, a changed identity and a historical result on dashboard open. Run `node test-rfid-verification.cjs TIMEOUT_TRACE SUCCESS_TRACE` from this directory.
 
 The current guard exposes summary counts without a scan sequence or an explicit acceptance result. Two scans with identical summaries look the same, and stock-reader-completed alone cannot establish that a slot assignment was accepted. Before UI integration, expose a per-scan sequence and acceptance evidence so repeated failures can be detected and a confirmed reread of the same ID can clear a warning. This prototype makes no printer changes.
+
+### Scan reporting candidate
+
+The toolkit's staged read guard v2 assigns each scan a unique ID across guard instances. It records an accepted filament ID when the stock reader emits the captured success message for that same slot. The replay now uses the scan ID for freshness and clears the warning after a confirmed same-ID reread. Reconstructed historical samples carry synthetic IDs. Separate replay assertions cover identical timeout summaries with different IDs and same-ID acceptance.
+
+The acceptance observer is covered by mock-reader tests. Live Q2 still runs v1. Verify v2 against the isolated compiled reader before activation and use its live status when integrating the warning into Fluidd.

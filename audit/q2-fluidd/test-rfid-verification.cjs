@@ -6,7 +6,20 @@ assert.equal(files.length, 2, 'Pass the supported-swap and Soleyin insertion tra
 function replay(file) {
   const samples = fs.readFileSync(file, 'utf8').trim().split('\n').map(JSON.parse)
   let state
-  return samples.map(sample => (state = updateVerification(state, sample)))
+  let previousScan
+  let sequence = 0
+  return samples.map(sample => {
+    const scan = sample.last_scan
+    const summary = JSON.stringify(scan)
+    if (summary !== previousScan) sequence++
+    previousScan = summary
+    if (scan) {
+      // Historical captures predate v2. Annotate their observed completions for replay.
+      scan.scan_id = 'capture:' + sequence
+      scan.accepted_id = scan.outcome === 'stock-reader-completed' ? sample.saved_id : null
+    }
+    return (state = updateVerification(state, sample))
+  })
 }
 const timeout = replay(files[0])
 assert.equal(timeout[0].unverified, false)
@@ -19,8 +32,8 @@ assert.ok(success.every(state => !state.unverified))
 assert.equal(success.at(-1).identity, 'QFZ07')
 const last = failed
 const recovered = updateVerification(last, {
-  printer: 'ready', box_online: 1, box_inserted: 1, saved_id: 'QFZ07',
-  last_scan: { outcome: 'stock-reader-completed', valid: 2 }
+  printer: 'ready', box_online: 1, box_inserted: 1, saved_id: 'QFY14',
+  last_scan: { scan_id: 'new:1', accepted_id: 'QFY14', outcome: 'stock-reader-completed', valid: 2 }
 })
 assert.equal(recovered.unverified, false)
 assert.equal(updateVerification(undefined, {
@@ -28,3 +41,11 @@ assert.equal(updateVerification(undefined, {
   last_scan: { outcome: 'timeout' }
 }).unverified, false, 'Opening the dashboard must not treat historical results as fresh')
 console.log('Passed: captured timeout, captured success, recovery and historical result')
+
+const oldTimeout = { scan_id: 'same:1', outcome: 'timeout', failed: 100, accepted_id: null }
+const occupied = { printer: 'ready', box_online: 1, box_inserted: 1, saved_id: 'QFY14', last_scan: oldTimeout }
+let state = updateVerification(undefined, { ...occupied, box_inserted: 0 })
+state = updateVerification(state, occupied)
+assert.equal(state.unverified, false)
+state = updateVerification(state, { ...occupied, last_scan: { ...oldTimeout, scan_id: 'same:2' } })
+assert.equal(state.unverified, true, 'Identical counts with a new scan ID must trigger the warning')
