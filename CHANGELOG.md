@@ -4,7 +4,7 @@
 - Valve Oil UI, at `http://<your printer's ip>/valve-oil/`, now does everything Fluidd does on these printers, so it no longer sends you to Fluidd for the console, configuration files, or bed mesh. New screens:
   - **Control:** jogging and homing, extruding, Z offset with **Save**, pressure advance, speed and flow, heaters with PID calibration and presets, fans, lights, and output pins, macros with their parameters, and speed limits.
   - **Console:** command completion, history, and Fluidd's filters, also while Klipper is stopped.
-  - **Tune:** the bed mesh in 3D and as a heat map, with profiles and the probe points that needed a retry; the bed soak test; and calibration: Z tilt, bed screws, endstops, probe accuracy, and input shaper.
+  - **Tune:** the bed mesh in 3D and as a heat map, with profiles and the probe points that needed a retry, its corners named as you face the printer, and in 3D a small printer turned with the bed to show which side is the front; the bed soak test; and calibration: Z tilt, bed screws, endstops, probe accuracy, and input shaper.
   - **History:** past prints and statistics, Moonraker's job queue, and timelapse.
   - **System:** the printer's computer and boards, live load charts, services including QIDI's touchscreen app, reboot and shutdown, logs, the touchscreen stream, and diagnostics.
   - **Settings:** cameras, temperature presets, jog and extrude defaults, file and preview options, and the add-ons.

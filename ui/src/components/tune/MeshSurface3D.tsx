@@ -1,5 +1,5 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
-import { gridX, gridY, meshColor, nearestCell, type BedBounds, type MeshGrid, type MeshMarker } from './mesh'
+import { bedCorners, gridX, gridY, meshColor, nearestCell, type BedBounds, type MeshGrid, type MeshMarker } from './mesh'
 
 type Props = {
   grid: MeshGrid
@@ -115,6 +115,17 @@ export const MeshSurface3D = forwardRef<MeshSurfaceHandle, Props>(function MeshS
     ctx.globalAlpha = 1
     path([project(minX, minY, zBoxMin), project(maxX, minY, zBoxMin), project(maxX, maxY, zBoxMin), project(minX, maxY, zBoxMin)])
     ctx.stroke()
+    // The front edge, where the printer's door is.
+    const fl = project(minX, minY, zBoxMin)
+    const fr = project(maxX, minY, zBoxMin)
+    ctx.strokeStyle = warn
+    ctx.lineWidth = 2
+    ctx.beginPath()
+    ctx.moveTo(fl.sx, fl.sy)
+    ctx.lineTo(fr.sx, fr.sy)
+    ctx.stroke()
+    ctx.strokeStyle = line
+    ctx.lineWidth = 1
     // The vertical edge farthest from the viewer carries the Z axis.
     const corners: [number, number][] = [
       [minX, minY],
@@ -123,6 +134,44 @@ export const MeshSurface3D = forwardRef<MeshSurfaceHandle, Props>(function MeshS
       [minX, maxY],
     ]
     const back = corners.reduce((best, c) => (project(c[0], c[1], zBoxMin).depth < project(best[0], best[1], zBoxMin).depth ? c : best))
+    // The mesh's corners by name, out past each corner. Laid out first so the axis labels can make way for them.
+    const surface = css.getPropertyValue('--surface').trim() || '#161c25'
+    const ink2 = css.getPropertyValue('--ink-2').trim() || '#aaa'
+    const accentInk = css.getPropertyValue('--accent-ink').trim() || warn
+    const mid = project((grid.min[0] + grid.max[0]) / 2, (grid.min[1] + grid.max[1]) / 2, (zBoxMin + zBoxMax) / 2)
+    const meshBed = { minX: grid.min[0], maxX: grid.max[0], minY: grid.min[1], maxY: grid.max[1] }
+    ctx.font = `600 ${font}`
+    const tags = bedCorners(meshBed).map((k) => {
+      const { row, col } = nearestCell(grid, k.x, k.y)
+      const p = project(k.x, k.y, grid.z[row][col])
+      const len = Math.hypot(p.sx - mid.sx, p.sy - mid.sy) || 1
+      const ux = (p.sx - mid.sx) / len
+      const uy = (p.sy - mid.sy) / len
+      const w = ctx.measureText(k.label).width + 14
+      const h = 19
+      // Far enough out along the diagonal that the tag's nearest edge clears the corner. The corner in front of the Z
+      // axis puts its tag up and to the right, clear of the axis and its labels.
+      const reach = 12 + (Math.abs(ux) * w) / 2 + (Math.abs(uy) * h) / 2
+      const atAxis = (k.x === meshBed.minX) === (back[0] === minX) && (k.y === meshBed.minY) === (back[1] === minY)
+      const cx = atAxis ? p.sx + w / 2 + 10 : p.sx + ux * reach
+      const cy = atAxis ? p.sy - h / 2 - 8 : p.sy + uy * reach
+      return {
+        label: k.label,
+        front: k.y === meshBed.minY,
+        w,
+        h,
+        cx: Math.min(width - w / 2 - 2, Math.max(w / 2 + 2, cx)),
+        cy: Math.min(height - h / 2 - 2, Math.max(h / 2 + 2, cy)),
+      }
+    })
+    // Text at (x, y) in the current alignment, unless it would sit under a corner's tag.
+    const label = (text: string, x: number, y: number) => {
+      const w = ctx.measureText(text).width
+      const left = ctx.textAlign === 'right' ? x - w : ctx.textAlign === 'center' ? x - w / 2 : x
+      const top = ctx.textBaseline === 'top' ? y : y - 7
+      if (tags.some((t) => left < t.cx + t.w / 2 + 2 && left + w > t.cx - t.w / 2 - 2 && top < t.cy + t.h / 2 + 2 && top + 13 > t.cy - t.h / 2 - 2)) return
+      ctx.fillText(text, x, y)
+    }
     const zb = project(back[0], back[1], zBoxMin)
     const zt = project(back[0], back[1], zBoxMax)
     ctx.beginPath()
@@ -139,7 +188,7 @@ export const MeshSurface3D = forwardRef<MeshSurfaceHandle, Props>(function MeshS
       ctx.moveTo(p.sx - 3, p.sy)
       ctx.lineTo(p.sx + 3, p.sy)
       ctx.stroke()
-      ctx.fillText(fmtZ(z, unit), p.sx - 6, p.sy)
+      label(fmtZ(z, unit), p.sx - 6, p.sy)
     }
     // Axis labels on the floor's front edges.
     ctx.textAlign = 'center'
@@ -148,17 +197,17 @@ export const MeshSurface3D = forwardRef<MeshSurfaceHandle, Props>(function MeshS
     const frontX = project(minX, minY, zBoxMin).depth + project(minX, maxY, zBoxMin).depth > project(maxX, minY, zBoxMin).depth + project(maxX, maxY, zBoxMin).depth ? minX : maxX
     for (let x = Math.ceil(minX / step) * step; x <= maxX; x += step) {
       const p = project(x, frontY, zBoxMin)
-      ctx.fillText(String(Math.round(x)), p.sx, p.sy + 5)
+      label(String(Math.round(x)), p.sx, p.sy + 5)
     }
     for (let y = Math.ceil(minY / step) * step; y <= maxY; y += step) {
       const p = project(frontX, y, zBoxMin)
-      ctx.fillText(String(Math.round(y)), p.sx + (frontX === minX ? -12 : 12), p.sy + 3)
+      label(String(Math.round(y)), p.sx + (frontX === minX ? -12 : 12), p.sy + 3)
     }
     const xl = project((minX + maxX) / 2, frontY, zBoxMin)
     const yl = project(frontX, (minY + maxY) / 2, zBoxMin)
     ctx.font = `600 ${font}`
-    ctx.fillText('X', xl.sx, xl.sy + 20)
-    ctx.fillText('Y', yl.sx + (frontX === minX ? -30 : 30), yl.sy + 12)
+    label('X', xl.sx, xl.sy + 20)
+    label('Y', yl.sx + (frontX === minX ? -30 : 30), yl.sy + 12)
 
     // Surface cells (and the flat plane's), back to front.
     type Quad = { pts: Projected[]; depth: number; fill: string; alpha: number; wire: boolean }
@@ -229,6 +278,25 @@ export const MeshSurface3D = forwardRef<MeshSurfaceHandle, Props>(function MeshS
       ctx.textBaseline = 'middle'
       ctx.fillText('!', top.sx, top.sy + 0.5)
     }
+
+    // The corners' tags over the surface, and the printer turned the same way as the bed.
+    ctx.font = `600 ${font}`
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    for (const t of tags) {
+      ctx.beginPath()
+      ctx.roundRect(t.cx - t.w / 2, t.cy - t.h / 2, t.w, t.h, t.h / 2)
+      ctx.globalAlpha = 0.9
+      ctx.fillStyle = surface
+      ctx.fill()
+      ctx.globalAlpha = 1
+      ctx.strokeStyle = t.front ? warn : line
+      ctx.lineWidth = 1
+      ctx.stroke()
+      ctx.fillStyle = t.front ? accentInk : ink2
+      ctx.fillText(t.label, t.cx, t.cy + 0.5)
+    }
+    drawPrinter(ctx, view, bed, width < 560 ? 36 : 46, dpr, { surface, line, warn, accentInk, ink: ink2 })
 
     if (hover) {
       ctx.fillStyle = '#fff'
@@ -333,7 +401,7 @@ export const MeshSurface3D = forwardRef<MeshSurfaceHandle, Props>(function MeshS
             const dy = e.clientY - d.y
             d.x = e.clientX
             d.y = e.clientY
-            setView((v) => ({ ...v, az: v.az - dx * 0.45, el: Math.min(89, Math.max(5, v.el + dy * 0.35)) }))
+            setView((v) => ({ ...v, az: v.az + dx * 0.45, el: Math.min(89, Math.max(5, v.el + dy * 0.35)) }))
             return
           }
           if (e.pointerType !== 'mouse') return
@@ -365,6 +433,106 @@ export const MeshSurface3D = forwardRef<MeshSurfaceHandle, Props>(function MeshS
     </div>
   )
 })
+
+/**
+ * A small printer in the canvas's top left corner, turned as the bed is, with its door at the front, so you can see
+ * which side of the mesh faces you.
+ */
+function drawPrinter(
+  ctx: CanvasRenderingContext2D,
+  view: { az: number; el: number },
+  bed: BedBounds,
+  size: number,
+  dpr: number,
+  c: { surface: string; line: string; warn: string; accentInk: string; ink: string },
+) {
+  const a = (view.az * Math.PI) / 180
+  const e = (view.el * Math.PI) / 180
+  const span = Math.max(bed.maxX - bed.minX, bed.maxY - bed.minY) || 1
+  const hx = (bed.maxX - bed.minX) / span / 2
+  const hy = (bed.maxY - bed.minY) / span / 2
+  const hz = 0.5
+  const ox = 14 + size * 1.25
+  const oy = 12 + size * 1.25
+  type V = [number, number, number]
+  const P = ([x, y, z]: V) => {
+    const x1 = x * Math.cos(a) - y * Math.sin(a)
+    const y1 = x * Math.sin(a) + y * Math.cos(a)
+    return { sx: ox + x1 * size, sy: oy - (z * Math.cos(e) + y1 * Math.sin(e)) * size }
+  }
+  // A face shows when its outward normal points at the viewer.
+  const faces: { n: V; pts: V[]; front?: boolean }[] = [
+    { n: [0, -1, 0], pts: [[-hx, -hy, -hz], [hx, -hy, -hz], [hx, -hy, hz], [-hx, -hy, hz]], front: true },
+    { n: [0, 1, 0], pts: [[hx, hy, -hz], [-hx, hy, -hz], [-hx, hy, hz], [hx, hy, hz]] },
+    { n: [-1, 0, 0], pts: [[-hx, hy, -hz], [-hx, -hy, -hz], [-hx, -hy, hz], [-hx, hy, hz]] },
+    { n: [1, 0, 0], pts: [[hx, -hy, -hz], [hx, hy, -hz], [hx, hy, hz], [hx, -hy, hz]] },
+    { n: [0, 0, 1], pts: [[-hx, -hy, hz], [hx, -hy, hz], [hx, hy, hz], [-hx, hy, hz]] },
+  ]
+  const facing = ([x, y, z]: V) => z * Math.sin(e) - (x * Math.sin(a) + y * Math.cos(a)) * Math.cos(e) > 1e-6
+  const poly = (pts: V[]) => {
+    ctx.beginPath()
+    pts.map(P).forEach((p, i) => (i ? ctx.lineTo(p.sx, p.sy) : ctx.moveTo(p.sx, p.sy)))
+    ctx.closePath()
+  }
+  ctx.lineJoin = 'round'
+  for (const f of faces) {
+    if (!facing(f.n)) continue
+    poly(f.pts)
+    ctx.fillStyle = c.surface
+    ctx.fill()
+    if (f.front) {
+      ctx.globalAlpha = 0.22
+      ctx.fillStyle = c.warn
+      ctx.fill()
+      ctx.globalAlpha = 1
+    }
+    ctx.strokeStyle = f.front ? c.warn : c.line
+    ctx.lineWidth = f.front ? 1.5 : 1
+    ctx.stroke()
+  }
+  // Text written on a face, as if printed on it: `dir` and `up` are the text's directions seen from outside.
+  const label = (text: string, at: V, dir: V, fill: string, up: V = [0, 0, 1]) => {
+    const o = P(at)
+    const u = P([at[0] + dir[0] / size, at[1] + dir[1] / size, at[2] + dir[2] / size])
+    const v = P([at[0] + up[0] / size, at[1] + up[1] / size, at[2] + up[2] / size])
+    ctx.save()
+    ctx.setTransform(dpr * (u.sx - o.sx), dpr * (u.sy - o.sy), -dpr * (v.sx - o.sx), -dpr * (v.sy - o.sy), dpr * o.sx, dpr * o.sy)
+    ctx.fillStyle = fill
+    ctx.font = `700 ${Math.round(size * 0.2)}px Montserrat Variable, Montserrat, sans-serif`
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.fillText(text, 0, 0)
+    ctx.restore()
+  }
+  // Names only on faces turned far enough to read.
+  const readable = (n: V) => facing(n) && Math.abs(n[1] * Math.cos(a) + n[0] * Math.sin(a)) > 0.45
+  if (facing([0, -1, 0])) {
+    // The door, with FRONT across it.
+    poly([
+      [-hx * 0.78, -hy, -hz * 0.75],
+      [hx * 0.78, -hy, -hz * 0.75],
+      [hx * 0.78, -hy, hz * 0.6],
+      [-hx * 0.78, -hy, hz * 0.6],
+    ])
+    ctx.strokeStyle = c.warn
+    ctx.lineWidth = 1
+    ctx.stroke()
+    if (readable([0, -1, 0])) label('FRONT', [0, -hy, -hz * 0.08], [1, 0, 0], c.accentInk)
+  }
+  // From above, the top's front edge and FRONT written along it.
+  const top = P([-hx, -hy, hz])
+  const topR = P([hx, -hy, hz])
+  ctx.strokeStyle = c.warn
+  ctx.lineWidth = 2
+  ctx.beginPath()
+  ctx.moveTo(top.sx, top.sy)
+  ctx.lineTo(topR.sx, topR.sy)
+  ctx.stroke()
+  if (!readable([0, -1, 0]) && facing([0, 0, 1])) label('FRONT', [0, -hy * 0.62, hz], [1, 0, 0], c.accentInk, [0, 1, 0])
+  if (readable([0, 1, 0])) label('BACK', [0, hy, 0], [-1, 0, 0], c.ink)
+  if (readable([-1, 0, 0])) label('LEFT', [-hx, 0, 0], [0, -1, 0], c.ink)
+  if (readable([1, 0, 0])) label('RIGHT', [hx, 0, 0], [0, 1, 0], c.ink)
+}
 
 function niceStep(raw: number) {
   const p = 10 ** Math.floor(Math.log10(raw))

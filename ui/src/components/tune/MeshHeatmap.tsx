@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { gridX, gridY, meshColor, nearestCell, type BedBounds, type MeshGrid, type MeshMarker } from './mesh'
+import { bedCorners, gridX, gridY, meshColor, nearestCell, type BedBounds, type MeshGrid, type MeshMarker } from './mesh'
 
 /**
  * The mesh from above, back of the bed at the top, on the bed's outline. Each point's height shows on hover, and in
- * the cell when there's room. Marked points get an amber ring.
+ * the cell when there's room. Marked points get an amber ring. The corners are named above and below the bed.
  */
 export function MeshHeatmap({ grid, bed, zMin, zMax, markers, height, unit = 'mm' }: { grid: MeshGrid; bed: BedBounds; zMin: number; zMax: number; markers: MeshMarker[]; height: number; unit?: 'mm' | 'µm' }) {
   const wrap = useRef<HTMLDivElement>(null)
@@ -18,8 +18,9 @@ export function MeshHeatmap({ grid, bed, zMin, zMax, markers, height, unit = 'mm
   }, [])
 
   const padL = 34
-  const padB = 22
-  const padT = 6
+  // Room for the X ticks and the front corners' names below, and the back corners' above.
+  const padB = 42
+  const padT = 22
   const padR = 6
   const bedW = bed.maxX - bed.minX || 1
   const bedH = bed.maxY - bed.minY || 1
@@ -59,6 +60,14 @@ export function MeshHeatmap({ grid, bed, zMin, zMax, markers, height, unit = 'mm
     <div ref={wrap} className="relative w-full" style={{ height }}>
       <svg width={width} height={height} role="img" aria-label="Bed mesh heat map, back of the bed at the top" onPointerLeave={() => setHover(null)}>
         <rect x={sx(bed.minX)} y={sy(bed.maxY)} width={plotW} height={plotH} rx={6} fill="var(--inset)" stroke="var(--line-strong)" />
+        {bedCorners(bed).map((k) => {
+          const front = k.y === bed.minY
+          return (
+            <text key={k.label} x={sx(k.x)} y={front ? padT + plotH + 34 : padT - 8} textAnchor={k.x === bed.minX ? 'start' : 'end'} fontSize={11} fontWeight={600} fill={front ? 'var(--accent-ink)' : 'var(--ink-2)'}>
+              {k.label}
+            </text>
+          )
+        })}
         {ticks(bed.minX, bed.maxX).map((x) => (
           <text key={`x${x}`} x={sx(x)} y={padT + plotH + 15} textAnchor="middle" fontSize={11} fill="var(--ink-3)">
             {Math.round(x)}
@@ -87,6 +96,7 @@ export function MeshHeatmap({ grid, bed, zMin, zMax, markers, height, unit = 'mm
             )
           }),
         )}
+        <line x1={sx(bed.minX) + 6} y1={sy(bed.minY)} x2={sx(bed.maxX) - 6} y2={sy(bed.minY)} stroke="var(--accent)" strokeWidth={2} pointerEvents="none" />
         {[...marked.keys()].map((k) => {
           const [r, c] = k.split(':').map(Number)
           const x = sx(gridX(grid, c)) - cw / 2

@@ -164,7 +164,7 @@ function MeshCard() {
             </div>
           )}
           {!preview && problems.length > 0 && <ProblemPoints points={problems} measured={report.measured as number | null | undefined} />}
-          <p className="mt-3 mb-0 text-[12px] text-ink-3">{view.mode === '3d' ? 'Drag to turn the bed, scroll or pinch to zoom. Front of the bed at the bottom.' : 'Seen from above, back of the bed at the top.'}</p>
+          <p className="mt-3 mb-0 text-[12px] text-ink-3">{view.mode === '3d' ? 'Drag to turn the bed, scroll or pinch to zoom. X0 Y0 is the front left corner, as you face the printer.' : 'Seen from above, back of the bed at the top. X0 Y0 is the front left corner, as you face the printer.'}</p>
         </>
       ) : (
         <Empty>No mesh loaded. Load a profile or calibrate one.</Empty>

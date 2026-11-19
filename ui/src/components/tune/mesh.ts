@@ -135,4 +135,17 @@ export function bedBounds(axisMin: number[] | undefined, axisMax: number[] | und
 }
 export type BedBounds = ReturnType<typeof bedBounds>
 
+/**
+ * The bed's corners named as you stand at the printer's door. On every supported printer, Max 4, Plus 5, and Smart 5,
+ * X runs left to right and Y front to back, so 0,0 is at the front left.
+ */
+export function bedCorners(bed: BedBounds) {
+  return [
+    { x: bed.minX, y: bed.minY, label: 'Front left' },
+    { x: bed.maxX, y: bed.minY, label: 'Front right' },
+    { x: bed.maxX, y: bed.maxY, label: 'Back right' },
+    { x: bed.minX, y: bed.maxY, label: 'Back left' },
+  ]
+}
+
 export const fmtMm = (v: number, digits = 3) => `${v < 0 ? '−' : ''}${Math.abs(v).toFixed(digits)}`
