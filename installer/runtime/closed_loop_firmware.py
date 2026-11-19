@@ -43,6 +43,9 @@ AWAIT_SECONDS = 70.0  # waiting for the driver to answer after the image was sen
 VERIFY_SECONDS = 45.0  # after QIDI's success, for the driver to report the new version
 SETTLE_SECONDS = 45.0  # after Klipper starts, for the drivers to report a version (at least 4 query cycles)
 READY_SECONDS = 180.0  # for Klipper to be ready, as after a boot or a FIRMWARE_RESTART
+# For the first G-code after Klipper starts: QIDI's start-up macro holds the G-code queue for its Box check and RFID
+# read, over a minute with one Box and spools loaded.
+QUEUE_SECONDS = 600.0
 POLL_SECONDS = 1.0
 
 
@@ -462,7 +465,7 @@ def _flash(api, axis, identity, *, image, size, sha256, target, state, save, rep
             raise KlipperError("a driver update was already running in Klipper")
         if not state.get("motors_off"):
             # The driver resets into its loader with the motor outputs off; nothing may hold or move X/Y meanwhile.
-            api.gcode("M84")
+            api.gcode("M84", timeout=QUEUE_SECONDS)
             state["motors_off"] = True
         touched = state.setdefault("touched", [])
         # A transfer cut short by a power loss left `sending` behind: that driver may be partly written.

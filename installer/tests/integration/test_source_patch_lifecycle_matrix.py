@@ -8,6 +8,7 @@ import json
 import os
 import pwd
 import shutil
+import socket
 import subprocess
 import tarfile
 import time
@@ -799,6 +800,58 @@ class SourcePatchLifecycleMatrixTests(unittest.TestCase):
         with self.assertRaises(SavedVariablePersistenceError):
             self._run_install_with_urlopen(paths, failing_urlopen)
         self.assertEqual(saved_variables_path.read_bytes(), before)
+
+    def test_saved_variable_queued_behind_klipper_startup_is_waited_for(self):
+        # QIDI's start-up Box check holds Klipper's G-code queue: Moonraker takes SAVE_VARIABLE but doesn't reply,
+        # and Klipper runs it once the check ends, or, when it never ends, not within the wait.
+        for busy_seconds, completes in ((150, True), (None, False)):
+            with self.subTest(busy_seconds=busy_seconds):
+                printer_root, paths, _ = self._fixture("01.01.06.03")
+                saved_variables_path = printer_root / "config/saved_variables.cfg"
+                before = saved_variables_path.read_bytes()
+                base_urlopen = self._fixture_urlopen(printer_root)
+                now = [0.0]
+                queued, scripts = [], []
+
+                def busy():
+                    return busy_seconds is None or now[0] < busy_seconds
+
+                def urlopen(request, timeout=0):
+                    url = getattr(request, "full_url", str(request))
+                    if "/printer/gcode/script" in url:
+                        scripts.append(json.loads(request.data.decode("utf-8"))["script"])
+                        if busy():
+                            queued.append(request)
+                            now[0] += timeout
+                            raise socket.timeout("timed out")
+                    elif not busy():
+                        while queued:
+                            base_urlopen(queued.pop(0), timeout=timeout)
+                    return base_urlopen(request, timeout=timeout)
+
+                def sleep(seconds):
+                    now[0] += seconds
+
+                clock = types.SimpleNamespace(monotonic=lambda: now[0], sleep=sleep)
+                with mock.patch.object(box_enablement, "time", clock):
+                    if completes:
+                        self._run_install_with_urlopen(paths, urlopen)
+                        self.assertFalse(queued)
+                        self.assertEqual(
+                            klipper_cfg.resolve_unique_option(
+                                saved_variables_path.read_text(encoding="utf-8"),
+                                "Variables",
+                                "vo_keep_loaded_between_prints",
+                            ).value,
+                            "1",
+                        )
+                    else:
+                        with self.assertRaises(SavedVariablePersistenceError):
+                            self._run_install_with_urlopen(paths, urlopen)
+                        self.assertEqual(saved_variables_path.read_bytes(), before)
+                        self.assertEqual(len(scripts), 1)
+                # A queued command is never sent again.
+                self.assertEqual(len(scripts), len(set(scripts)))
 
     def test_install_repairs_klipper_halted_on_a_config_error(self):
         # Klipper halts on a config error, so it has no print state or saved variables until it restarts.

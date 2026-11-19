@@ -132,6 +132,7 @@ A firmware update, an install, and an automatic update SHALL bring the THR and e
 #### Scenario: Closed-loop motor drivers
 - **WHEN** a Max 4 firmware update's target package carries another closed-loop driver version than the installed firmware's, and both drivers report the installed firmware's driver version (or already the target), the expected hardware, and idle
 - **THEN** before QIDI's package is installed, with the touchscreen and Moonraker stopped and the motors off, the run sends each driver not on the target QIDI's image, checked against its pinned size and SHA-256, through QIDI's `UPGRADE_MOTOR`, X then Y
+- **AND** the command turning the motors off waits up to 10 minutes for Klipper's start-up commands, such as QIDI's Box check, to release the G-code queue
 - **AND** a driver counts as updated only once it reports the target version and idle
 
 #### Scenario: Closed-loop drivers not as expected

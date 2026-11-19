@@ -196,6 +196,7 @@ The installer SHALL keep an available QIDI Box usable without claiming ownership
 - **THEN** missing active mappings are created and existing non-empty mappings are preserved
 - **AND** busy, unavailable, or not-ready Klipper state causes no reconciliation writes
 - **AND** every write uses Klipper's live `SAVE_VARIABLE` command through Moonraker, verifies its live value and, when a source-patch restart occurs, verifies it again after the replacement process; it never restores a whole saved-variable file during rollback
+- **AND** a write Moonraker accepted but Klipper has not answered within 10 seconds, as while QIDI's start-up Box check holds the G-code queue, is not sent again: the operator is told the installer is waiting, and the install fails only when the live value has not appeared after 10 minutes
 - **AND** saved-variable changes are excluded from installer ownership and uninstall
 
 ### Requirement: Default optimized preferences preserve operator values

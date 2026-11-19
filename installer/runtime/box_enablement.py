@@ -3,6 +3,8 @@ from __future__ import annotations
 import json
 import re
 import shlex
+import socket
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -24,6 +26,13 @@ MAX_SAVED_VARIABLE_VALUE_LENGTH = 96
 RUNTIME_STATE_FILE = "config/tltg_optimized_runtime_state.json"
 SAVED_VARIABLE_VERIFY_MARKER = ".tltg_optimized_saved_variables_verify_pending"
 UrlOpenFn = Callable[..., object]
+# QIDI's start-up macro (INIT_GLOBALS) runs its Box check and RFID read 5 s after Klipper is ready and holds Klipper's
+# G-code queue until they finish, over a minute with one Box and spools loaded (issue 331). A SAVE_VARIABLE sent
+# meanwhile stays queued in Moonraker and runs afterwards, so a reply that is slow to come is waited for in the saved
+# variables.
+SAVE_VARIABLE_REPLY_SECONDS = 10
+QUEUED_SAVE_SECONDS = 600
+QUEUED_SAVE_POLL_SECONDS = 2
 
 
 class SavedVariablePersistenceError(InstallerError):
@@ -112,6 +121,7 @@ def maybe_initialize_filament_retention(
         paths,
         {"vo_keep_loaded_between_prints": "1"},
         missing_only=frozenset({"vo_keep_loaded_between_prints"}),
+        reporter=reporter,
         urlopen=urlopen,
     )
     if written is not None:
@@ -197,6 +207,7 @@ def maybe_initialize_box_motion(
         paths,
         defaults,
         missing_only=frozenset(defaults),
+        reporter=reporter,
         urlopen=urlopen,
     )
     if written is not None:
@@ -217,7 +228,7 @@ def _update_previous_box_motion_defaults(*, paths, printer, reporter, written, u
         if all(variables.get(name) == value for name, value in group.items())
         for name in group
     }
-    saved = save_live_variables(paths, updated, urlopen=urlopen)
+    saved = save_live_variables(paths, updated, reporter=reporter, urlopen=urlopen)
     if written is not None:
         written.update(saved)
     if not saved:
@@ -252,7 +263,7 @@ def maybe_enable_box(
         enable_box=opportunity.enable_box,
         saved_variables_path=opportunity.saved_variables_path,
     )
-    saved = save_live_variables(paths, {"enable_box": "1"}, urlopen=urlopen)
+    saved = save_live_variables(paths, {"enable_box": "1"}, reporter=reporter, urlopen=urlopen)
     if written is not None:
         written.update(saved)
     reporter.line(messages.ENABLE_QIDI_BOX_ENABLED)
@@ -280,6 +291,7 @@ def maybe_write_required_tool_slot_variables(
         paths,
         {gap.variable: _quote_saved_string(gap.expected) for gap in opportunity.gaps},
         missing_or_empty=frozenset(gap.variable for gap in opportunity.gaps),
+        reporter=reporter,
         urlopen=urlopen,
     )
     if written is not None:
@@ -345,6 +357,7 @@ def maybe_reconcile_tool_slots_after_box_count_change(
             paths,
             {gap.variable: _quote_saved_string(gap.expected) for gap in gaps},
             missing_or_empty=frozenset(gap.variable for gap in gaps),
+            reporter=reporter,
             urlopen=urlopen,
         )
         if not saved:
@@ -452,6 +465,7 @@ def save_live_variables(
     *,
     missing_only: frozenset[str] = frozenset(),
     missing_or_empty: frozenset[str] = frozenset(),
+    reporter=None,
     urlopen: UrlOpenFn = urllib.request.urlopen,
 ) -> dict[str, str]:
     if not values:
@@ -475,13 +489,15 @@ def save_live_variables(
             continue
         pending[name] = value
     for name, value in pending.items():
-        _post_save_variable(paths, name, value, urlopen=urlopen)
+        if not _post_save_variable(paths, name, value, urlopen=urlopen):
+            _wait_for_queued_save(paths, name, value, reporter=reporter, urlopen=urlopen)
     if pending:
         _verify_saved_values(paths, pending, urlopen=urlopen)
     return pending
 
 
-def _post_save_variable(paths: RuntimePaths, name: str, value: str, *, urlopen: UrlOpenFn) -> None:
+def _post_save_variable(paths: RuntimePaths, name: str, value: str, *, urlopen: UrlOpenFn) -> bool:
+    """Send SAVE_VARIABLE; False when Moonraker took it but Klipper hasn't run it yet."""
     request = urllib.request.Request(
         _moonraker_gcode_url(paths.moonraker_url),
         # Preserve the Python literal through Klipper's shell-style argument parser.
@@ -490,10 +506,31 @@ def _post_save_variable(paths: RuntimePaths, name: str, value: str, *, urlopen: 
         headers={"Content-Type": "application/json"},
     )
     try:
-        with urlopen(request, timeout=10) as response:
+        with urlopen(request, timeout=SAVE_VARIABLE_REPLY_SECONDS) as response:
             response.read()
+    except socket.timeout:
+        # Sent, with no reply yet. A connection that timed out is a URLError, below.
+        return False
     except (OSError, urllib.error.URLError, ValueError) as exc:
         raise SavedVariablePersistenceError(f"Could not save Klipper variable {name}.") from exc
+    return True
+
+
+def _wait_for_queued_save(paths: RuntimePaths, name: str, value: str, *, reporter, urlopen: UrlOpenFn) -> None:
+    """Wait for Klipper to run a queued SAVE_VARIABLE, without sending it again."""
+    if reporter is not None:
+        reporter.debug(event="saved_variable.queued", name=name)
+        reporter.line(messages.SAVED_VARIABLE_WAITING_FOR_KLIPPER)
+    deadline = time.monotonic() + QUEUED_SAVE_SECONDS
+    while True:
+        live = read_live_saved_variables(paths, urlopen=urlopen)
+        if _normalize_saved_string(live.get(name, "")) == _normalize_saved_string(value):
+            return
+        if time.monotonic() >= deadline:
+            raise SavedVariablePersistenceError(
+                f"Klipper was still busy after {QUEUED_SAVE_SECONDS // 60} minutes and did not save {name}."
+            )
+        time.sleep(QUEUED_SAVE_POLL_SECONDS)
 
 
 def _verify_saved_values(paths: RuntimePaths, values: Mapping[str, str], *, urlopen: UrlOpenFn) -> None:

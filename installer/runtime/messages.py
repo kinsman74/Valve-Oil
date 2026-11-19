@@ -97,6 +97,7 @@ LEGACY_MANUAL_INSTALL_DRY_RUN = "Legacy manually-copied optimized configs detect
 LEGACY_MANUAL_QIDICLIENT_RESTARTED = "qidi-client.service restarted after stock config reset."
 LEGACY_MANUAL_QIDICLIENT_RESTART_FAILED = "Could not restart qidi-client.service after stock config reset."
 ENABLE_QIDI_BOX_ENABLED = "QIDI Box support enabled in saved_variables.cfg."
+SAVED_VARIABLE_WAITING_FOR_KLIPPER = "Klipper is still running its start-up commands, such as QIDI's Box check and RFID read; waiting for it to save Valve Oil's settings (up to 10 minutes)."
 FILAMENT_RETENTION_DEFAULT_ENABLED = "End-of-print QIDI Box filament retention enabled in saved_variables.cfg."
 BOX_MOTION_DEFAULTS_SAVED = "QIDI Box load and unload motion defaults saved in saved_variables.cfg."
 BOX_MOTION_PREVIOUS_DEFAULTS_UPDATED = "QIDI Box load and unload settings still at earlier defaults updated to the current defaults."

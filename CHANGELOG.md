@@ -1,6 +1,8 @@
 # Changelog
 
 ## 26.11.18.2
+- Fixed a first install on a printer with a QIDI Box stopping at **Macros and Klipper fixes** with `Could not save Klipper variable`. Reading the boards' firmware restarts Klipper, and with the Box's **Detection on startup** on, the Box reading every slot keeps Klipper busy for a minute or more, so Klipper saved Valve Oil's settings only after the installer had given up after 10 seconds. The installer now says it's waiting for Klipper and waits up to 10 minutes for the settings to be saved.
+- A Max 4 firmware update that starts soon after Klipper does now waits for QIDI's Box check at start-up to finish before turning the motors off for the closed-loop motor driver update, instead of stopping after a minute.
 - Valve Oil UI, at `http://<your printer's ip>/valve-oil/`, now does everything Fluidd does on these printers, so it no longer sends you to Fluidd for the console, configuration files, or bed mesh. New screens:
   - **Control:** jogging and homing, extruding, Z offset with **Save**, pressure advance, speed and flow, heaters with PID calibration and presets, fans, lights, and output pins, macros with their parameters, and speed limits.
   - **Console:** command completion, history, and Fluidd's filters, also while Klipper is stopped.
