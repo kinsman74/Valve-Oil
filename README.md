@@ -14,7 +14,7 @@ Faster, fixed, and more capable QIDI printers: optimized Klipper macros, slicer 
   <a href="https://l.tubaguy.com/tmdiscord"><img alt="Join the Tuba Makes Discord" src="https://img.shields.io/badge/Discord-Tuba%20Makes-5865F2?style=for-the-badge&logo=discord&logoColor=white"></a>
 </p>
 
-If you want to help support content like this, consider subscribing on YouTube, joining on Patreon, or buying me a coffee on Ko-fi!
+If you want to help support content like this, consider subscribing on YouTube, joining on Patreon, or buying me a spool on Ko-fi!
 
 ## Supported printers
 
