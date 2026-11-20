@@ -1,0 +1,16 @@
+{
+  "image_sha256": "c09aa5e0a07161f197c597571d96a48ac1cfb3f19a3758576b3428547a424ba9",
+  "upstream_fault": "02.03.01.21 MCB autofeed shutdown null pointer",
+  "q2_mcb_commands": [],
+  "q2_shutdown_dispatch_start": "0x08009080",
+  "q2_shutdown_report_call": "0x0800935e",
+  "q2_report_encoder": "0x0800ee7c",
+  "scenarios": 30,
+  "result": "Stock Q2 and RFID candidate reached shutdown report with original reason; no re-entry in synthetic fixtures",
+  "evidence_limits": [
+    "Synthetic RAM and output objects",
+    "Timer/queue helper calls stubbed",
+    "No physical heater, motor, USB or watchdog test"
+  ],
+  "decision": "No shutdown firmware patch for this pinned Q2 image based on current evidence"
+}

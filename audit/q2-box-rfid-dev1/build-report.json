@@ -1,0 +1,81 @@
+{
+  "status": "experimental, static validation only, not qualified for flashing",
+  "stock_sha256": "c09aa5e0a07161f197c597571d96a48ac1cfb3f19a3758576b3428547a424ba9",
+  "output_sha256": "50e1b2d76a64d3ef7a0c8f79eb4a84be9eafd93cb0912e55d994c8245d93f903",
+  "size": 33776,
+  "version": "KLP_MCU_MKS_V2_1.1.3-q2-valve-rfid-dev1",
+  "patches": [
+    {
+      "offset": 13512,
+      "size": 468,
+      "before_sha256": "7ce4b70b94af4713918381da619c6c401192056ae7e6400858a6fe8148643a84",
+      "after_sha256": "1b68237f7f7a729149f38d64a20bdbb4633cf2818f6fda7b5373a1b47f854be9",
+      "description": "fm17550_select_cb"
+    },
+    {
+      "offset": 10528,
+      "size": 400,
+      "before_sha256": "c8cc3bf476fcb028fe69ecc3ce80e76dd8ca725493983b094c245948d9318712",
+      "after_sha256": "61dae09b3dfc408f6d76f075b65344cba10b7f36609623f8292dc0d79294ec69",
+      "description": "fm17550_transceive_cb"
+    },
+    {
+      "offset": 31576,
+      "size": 16,
+      "before_sha256": "9b696ad05dc2ba6dcc9767966cb58f919667fe27c5bea636868a93766252f0d6",
+      "after_sha256": "11a56604057d815f386996c610e5167e6c3fab3ac64b8ada97cd750c227521c7",
+      "description": "Command 17 becomes fm17550_transceive"
+    },
+    {
+      "offset": 31604,
+      "size": 4,
+      "before_sha256": "d319a4ee92a909063c7b9478843b4b0a7dc4028837ebd8c466115ce65074e906",
+      "after_sha256": "86ad03ac2011e7672e782bd6940a3ea6e2e8260f0640e9593db9723d089148d0",
+      "description": "Retire debug handler 18"
+    },
+    {
+      "offset": 31620,
+      "size": 4,
+      "before_sha256": "6fb95d258681f92d06cb202682ce7e63468c282543dff3d4b628b5657ee3569e",
+      "after_sha256": "86ad03ac2011e7672e782bd6940a3ea6e2e8260f0640e9593db9723d089148d0",
+      "description": "Retire debug handler 19"
+    },
+    {
+      "offset": 28340,
+      "size": 8,
+      "before_sha256": "d501b3efa84f6054aa94c9912ef1f8395f2fd83bc83726526be2a13a22cb0d86",
+      "after_sha256": "bf055c6b2429f09455f11a095315858e365d144178eb020f7f76bea468dbdc10",
+      "description": "RFID response oid, status and buffer"
+    },
+    {
+      "offset": 28356,
+      "size": 8,
+      "before_sha256": "956872f3edd7af7157b04b6fa7bc124907fd5fb5bb972432714328b0d83316a2",
+      "after_sha256": "f995b188306b172d22bb068707aad42c29cd6a9b7ffeded6bd3a350985925c6a",
+      "description": "RFID response oid, status and buffer"
+    },
+    {
+      "offset": 28412,
+      "size": 2892,
+      "before_sha256": "a278550f834b079802c97ac651e6ca358a66773bfac635cc1987ea9af3295860",
+      "after_sha256": "f2b8b2f24cef210e1c3e63470866f08cb6b5f782dc89af231e1125b17479d3d2",
+      "description": "Q2 RFID command dictionary, stock identify bounds preserved"
+    }
+  ],
+  "compressed_dictionary_size": 2805,
+  "clang_flags": [
+    "--target=thumbv7em-none-eabi",
+    "-mcpu=cortex-m4",
+    "-mthumb",
+    "-mfloat-abi=soft",
+    "-Os",
+    "-ffreestanding",
+    "-fno-builtin",
+    "-fno-common",
+    "-fno-stack-protector",
+    "-fno-jump-tables",
+    "-fno-unwind-tables",
+    "-fno-asynchronous-unwind-tables",
+    "-mno-movt"
+  ]
+}

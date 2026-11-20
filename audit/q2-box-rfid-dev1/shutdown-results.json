@@ -1,0 +1,290 @@
+{
+  "QD_Q2_BOX_02.03.01.13_20251127.bin:empty:10": {
+    "writes": [],
+    "stepper_cleanups": 0,
+    "reported": 10
+  },
+  "QD_Q2_BOX_02.03.01.13_20251127.bin:empty:28": {
+    "writes": [],
+    "stepper_cleanups": 0,
+    "reported": 28
+  },
+  "QD_Q2_BOX_02.03.01.13_20251127.bin:empty:32": {
+    "writes": [],
+    "stepper_cleanups": 0,
+    "reported": 32
+  },
+  "QD_Q2_BOX_02.03.01.13_20251127.bin:digital:10": {
+    "writes": [
+      [
+        "0x40020018",
+        4,
+        524288
+      ]
+    ],
+    "stepper_cleanups": 0,
+    "reported": 10
+  },
+  "QD_Q2_BOX_02.03.01.13_20251127.bin:digital:28": {
+    "writes": [
+      [
+        "0x40020018",
+        4,
+        524288
+      ]
+    ],
+    "stepper_cleanups": 0,
+    "reported": 28
+  },
+  "QD_Q2_BOX_02.03.01.13_20251127.bin:digital:32": {
+    "writes": [
+      [
+        "0x40020018",
+        4,
+        524288
+      ]
+    ],
+    "stepper_cleanups": 0,
+    "reported": 32
+  },
+  "QD_Q2_BOX_02.03.01.13_20251127.bin:stepper:10": {
+    "writes": [],
+    "stepper_cleanups": 1,
+    "reported": 10
+  },
+  "QD_Q2_BOX_02.03.01.13_20251127.bin:stepper:28": {
+    "writes": [],
+    "stepper_cleanups": 1,
+    "reported": 28
+  },
+  "QD_Q2_BOX_02.03.01.13_20251127.bin:stepper:32": {
+    "writes": [],
+    "stepper_cleanups": 1,
+    "reported": 32
+  },
+  "QD_Q2_BOX_02.03.01.13_20251127.bin:pwm:10": {
+    "writes": [
+      [
+        "0x40001000",
+        4,
+        0
+      ]
+    ],
+    "stepper_cleanups": 0,
+    "reported": 10
+  },
+  "QD_Q2_BOX_02.03.01.13_20251127.bin:pwm:28": {
+    "writes": [
+      [
+        "0x40001000",
+        4,
+        0
+      ]
+    ],
+    "stepper_cleanups": 0,
+    "reported": 28
+  },
+  "QD_Q2_BOX_02.03.01.13_20251127.bin:pwm:32": {
+    "writes": [
+      [
+        "0x40001000",
+        4,
+        0
+      ]
+    ],
+    "stepper_cleanups": 0,
+    "reported": 32
+  },
+  "QD_Q2_BOX_02.03.01.13_20251127.bin:digital,stepper,pwm:10": {
+    "writes": [
+      [
+        "0x40020018",
+        4,
+        524288
+      ],
+      [
+        "0x40001000",
+        4,
+        0
+      ]
+    ],
+    "stepper_cleanups": 1,
+    "reported": 10
+  },
+  "QD_Q2_BOX_02.03.01.13_20251127.bin:digital,stepper,pwm:28": {
+    "writes": [
+      [
+        "0x40020018",
+        4,
+        524288
+      ],
+      [
+        "0x40001000",
+        4,
+        0
+      ]
+    ],
+    "stepper_cleanups": 1,
+    "reported": 28
+  },
+  "QD_Q2_BOX_02.03.01.13_20251127.bin:digital,stepper,pwm:32": {
+    "writes": [
+      [
+        "0x40020018",
+        4,
+        524288
+      ],
+      [
+        "0x40001000",
+        4,
+        0
+      ]
+    ],
+    "stepper_cleanups": 1,
+    "reported": 32
+  },
+  "q2-box-valve-rfid-dev1.bin:empty:10": {
+    "writes": [],
+    "stepper_cleanups": 0,
+    "reported": 10
+  },
+  "q2-box-valve-rfid-dev1.bin:empty:28": {
+    "writes": [],
+    "stepper_cleanups": 0,
+    "reported": 28
+  },
+  "q2-box-valve-rfid-dev1.bin:empty:32": {
+    "writes": [],
+    "stepper_cleanups": 0,
+    "reported": 32
+  },
+  "q2-box-valve-rfid-dev1.bin:digital:10": {
+    "writes": [
+      [
+        "0x40020018",
+        4,
+        524288
+      ]
+    ],
+    "stepper_cleanups": 0,
+    "reported": 10
+  },
+  "q2-box-valve-rfid-dev1.bin:digital:28": {
+    "writes": [
+      [
+        "0x40020018",
+        4,
+        524288
+      ]
+    ],
+    "stepper_cleanups": 0,
+    "reported": 28
+  },
+  "q2-box-valve-rfid-dev1.bin:digital:32": {
+    "writes": [
+      [
+        "0x40020018",
+        4,
+        524288
+      ]
+    ],
+    "stepper_cleanups": 0,
+    "reported": 32
+  },
+  "q2-box-valve-rfid-dev1.bin:stepper:10": {
+    "writes": [],
+    "stepper_cleanups": 1,
+    "reported": 10
+  },
+  "q2-box-valve-rfid-dev1.bin:stepper:28": {
+    "writes": [],
+    "stepper_cleanups": 1,
+    "reported": 28
+  },
+  "q2-box-valve-rfid-dev1.bin:stepper:32": {
+    "writes": [],
+    "stepper_cleanups": 1,
+    "reported": 32
+  },
+  "q2-box-valve-rfid-dev1.bin:pwm:10": {
+    "writes": [
+      [
+        "0x40001000",
+        4,
+        0
+      ]
+    ],
+    "stepper_cleanups": 0,
+    "reported": 10
+  },
+  "q2-box-valve-rfid-dev1.bin:pwm:28": {
+    "writes": [
+      [
+        "0x40001000",
+        4,
+        0
+      ]
+    ],
+    "stepper_cleanups": 0,
+    "reported": 28
+  },
+  "q2-box-valve-rfid-dev1.bin:pwm:32": {
+    "writes": [
+      [
+        "0x40001000",
+        4,
+        0
+      ]
+    ],
+    "stepper_cleanups": 0,
+    "reported": 32
+  },
+  "q2-box-valve-rfid-dev1.bin:digital,stepper,pwm:10": {
+    "writes": [
+      [
+        "0x40020018",
+        4,
+        524288
+      ],
+      [
+        "0x40001000",
+        4,
+        0
+      ]
+    ],
+    "stepper_cleanups": 1,
+    "reported": 10
+  },
+  "q2-box-valve-rfid-dev1.bin:digital,stepper,pwm:28": {
+    "writes": [
+      [
+        "0x40020018",
+        4,
+        524288
+      ],
+      [
+        "0x40001000",
+        4,
+        0
+      ]
+    ],
+    "stepper_cleanups": 1,
+    "reported": 28
+  },
+  "q2-box-valve-rfid-dev1.bin:digital,stepper,pwm:32": {
+    "writes": [
+      [
+        "0x40020018",
+        4,
+        524288
+      ],
+      [
+        "0x40001000",
+        4,
+        0
+      ]
+    ],
+    "stepper_cleanups": 1,
+    "reported": 32
+  }
+}
