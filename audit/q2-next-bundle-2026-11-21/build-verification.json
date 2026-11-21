@@ -1,0 +1,13 @@
+{
+  "port_version": "2026.11.21-stable2-preview2",
+  "bundle_schema": 3,
+  "repeated_assembly_files_equal": true,
+  "files_before_validation_attachment": 415,
+  "payload_python39_syntax": "passed",
+  "candidate_sha256": "b6e39b1def0bad6c2379cad600c1284cece0c26caab77dbb659adf64d4f4172a",
+  "stock_reference_sha256": "1d34b4b0142f2a2047f08c2fae59d827bcee0adbd1563b4bd1de311dff8b2d62",
+  "upstream_commit": "aa42eaa3c48f155282f3bda43720199f7e657d99",
+  "printer_access": false,
+  "pushed": false,
+  "flashed": false
+}

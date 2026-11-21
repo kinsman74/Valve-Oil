@@ -170,16 +170,39 @@ class BundleTests(unittest.TestCase):
                 planner.plan(root, SNAPSHOT)
 
     def test_rehashed_firmware_tamper_rejected(self):
-        with tempfile.TemporaryDirectory() as td:
-            root = Path(td) / "bundle"
-            shutil.copytree(BUNDLE, root)
-            path = root / "firmware/q2-thr-valve-oil-fifo.bin"
-            data = bytearray(path.read_bytes())
-            data[100] ^= 1
-            path.write_bytes(data)
-            self.rewrite_inventory(root)
-            with self.assertRaisesRegex(ValueError, "Firmware identity mismatch"):
-                planner.plan(root, SNAPSHOT)
+        for relative in (
+            "firmware/q2-thr-valve-oil-fifo.bin",
+            planner.policy.FIRMWARE_DELIVERY["vendor_stock_reference"],
+        ):
+            with self.subTest(image=relative), tempfile.TemporaryDirectory() as td:
+                root = Path(td) / "bundle"
+                shutil.copytree(BUNDLE, root)
+                path = root / relative
+                data = bytearray(path.read_bytes())
+                data[100] ^= 1
+                path.write_bytes(data)
+                self.rewrite_inventory(root)
+                with self.assertRaisesRegex(ValueError, "Firmware identity mismatch"):
+                    planner.plan(root, SNAPSHOT)
+
+    def test_toolhead_evidence_and_flash_gate_cannot_be_rebound(self):
+        cases = (
+            ("vetting_report", "candidate_sha256", "0" * 64),
+            ("vetting_report", "flashing_authorized_or_performed", True),
+            ("readiness", "auto_flash", True),
+            ("readiness", "physical_admission_included", True),
+        )
+        for artifact, field, value in cases:
+            with self.subTest(field=field), tempfile.TemporaryDirectory() as td:
+                root = Path(td) / "bundle"
+                shutil.copytree(BUNDLE, root)
+                path = root / planner.policy.FIRMWARE_DELIVERY[artifact]
+                data = json.loads(path.read_text())
+                data[field] = value
+                path.write_text(json.dumps(data))
+                self.rewrite_inventory(root)
+                with self.assertRaisesRegex(ValueError, "Toolhead"):
+                    planner.plan(root, SNAPSHOT)
 
     def test_missing_source_pin_rejected(self):
         with tempfile.TemporaryDirectory() as td:

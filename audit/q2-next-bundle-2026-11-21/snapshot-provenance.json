@@ -1,0 +1,7 @@
+{
+  "basis": "offline reconstruction of last verified host deployment",
+  "source_checkpoint": "91e5636",
+  "overlaid_verified_targets": 328,
+  "live_printer_read": false,
+  "current_print_calibration_changes_included": false
+}

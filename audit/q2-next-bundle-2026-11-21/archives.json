@@ -1,0 +1,23 @@
+{
+  "full_private": {
+    "filename": "q2-stable2-preview2-private.tar.gz",
+    "bytes": 6063876,
+    "sha256": "046d4382c7e36b9ecd010a9b1bc773e15a9a27ab3b9174493ad94d6089597473",
+    "files": 423,
+    "repeated_archive_bytes_identical": true
+  },
+  "source_only": {
+    "filename": "q2-stable2-preview2-source.tar.gz",
+    "bytes": 349209,
+    "sha256": "4ec0278a0b4c63fc5e0c1aa5b80d6fba70f5945cffe3810bb17e3ae573d25385",
+    "files": 66,
+    "repeated_archive_bytes_identical": true
+  },
+  "extracted_planner_matches_twice_without_writes": true,
+  "host_changes_against_offline_verified_state": {
+    "create": 0,
+    "replace": 0,
+    "unchanged": 352
+  },
+  "printer_access_or_deployment": false
+}

@@ -171,6 +171,42 @@ def desired(bundle, operation, before):
     raise ValueError("Unknown operation type: " + kind)
 
 
+def verify_firmware_artifacts(bundle):
+    for name, (size, digest) in policy.FIRMWARE.items():
+        data = safe(bundle, "firmware/" + name).read_bytes()
+        if len(data) != size or sha(data) != digest:
+            raise ValueError("Firmware identity mismatch: " + name)
+    stock = safe(
+        bundle, policy.FIRMWARE_DELIVERY["vendor_stock_reference"]
+    ).read_bytes()
+    size, candidate_hash = policy.FIRMWARE["q2-thr-valve-oil-fifo.bin"]
+    if len(stock) != size or sha(stock) != policy.STOCK_THR_SHA:
+        raise ValueError("Firmware identity mismatch: toolhead stock reference")
+    report = json.loads(
+        safe(bundle, policy.FIRMWARE_DELIVERY["vetting_report"]).read_text()
+    )
+    if not isinstance(report, dict):
+        raise ValueError("Toolhead vetting report must be an object")
+    bindings = {
+        "archive_sha256": policy.QIDI_Q2_ARCHIVE_SHA256,
+        "vendor_soc": policy.SOC_VERSION,
+        "vendor_thr_member": policy.THR_STOCK_MEMBER,
+        "vendor_thr_sha256": policy.STOCK_THR_SHA,
+        "candidate_sha256": candidate_hash,
+        "vendor_thr_bytes": size,
+        "emulation_cases": 1024,
+    }
+    if any(report.get(key) != value for key, value in bindings.items()):
+        raise ValueError("Toolhead vetting report does not match bundled images")
+    if report.get("flashing_authorized_or_performed") is not False:
+        raise ValueError("Toolhead report must not authorize flashing")
+    readiness = json.loads(
+        safe(bundle, policy.FIRMWARE_DELIVERY["readiness"]).read_text()
+    )
+    if readiness != policy.THR_READINESS or readiness.get("auto_flash") is not False:
+        raise ValueError("Toolhead readiness must preserve pending physical admission")
+
+
 def verify_bundle(bundle):
     sums = json.loads(safe(bundle, "SHA256SUMS.json").read_text())
     if not isinstance(sums, dict):
@@ -193,10 +229,7 @@ def verify_bundle(bundle):
             raise ValueError("Invalid checksum: " + name)
         if sha(safe(bundle, name).read_bytes()) != digest:
             raise ValueError("Bundle checksum mismatch: " + name)
-    for name, (size, digest) in policy.FIRMWARE.items():
-        data = safe(bundle, "firmware/" + name).read_bytes()
-        if len(data) != size or sha(data) != digest:
-            raise ValueError("Firmware identity mismatch: " + name)
+    verify_firmware_artifacts(bundle)
 
 
 def plan(bundle, snapshot):
@@ -208,6 +241,7 @@ def plan(bundle, snapshot):
         or manifest.get("supported_soc") != policy.SOC_VERSION
         or manifest.get("mode") != "dry-run-only"
         or manifest.get("no_live_flash") is not True
+        or manifest.get("firmware_delivery") != policy.FIRMWARE_DELIVERY
     ):
         raise ValueError("Unsupported bundle policy or provenance")
     firmware = json.loads(
@@ -281,6 +315,7 @@ def plan(bundle, snapshot):
         "validation_scope": "file identities and rendering only; file-copy simulation is not an installer test",
         "activation_not_executed": manifest["activation_requirements"],
         "deployment_ready": False,
+        "firmware_delivery": manifest["firmware_delivery"],
         "live_flash": "requires idle physical board admission, recovery qualification and readback",
     }
 

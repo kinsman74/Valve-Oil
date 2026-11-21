@@ -2,7 +2,7 @@
 
 UPSTREAM_COMMIT = "aa42eaa3c48f155282f3bda43720199f7e657d99"
 SOC_VERSION = "01.01.03.02"
-SCHEMA = 2
+SCHEMA = 3
 NONMOTION = (
     "background_save_config",
     "save_variables_fast",
@@ -94,3 +94,37 @@ def validate_operation(operation):
     if kind == "file" and (target in EXACT_FILES or target.startswith(WEB_PREFIXES)):
         return
     raise ValueError("Out-of-scope target: " + target)
+
+
+# Preview2 carries a vetted application candidate and a vendor stock reference.
+# These are not an installed-board readback or an enabled flashing workflow.
+QIDI_Q2_ARCHIVE_SHA256 = (
+    "b42f83d0e1bbc002e62db6276c2a5739fb3343522ee071829ff8c5f56f7f2fcb"
+)
+THR_STOCK_MEMBER = "QD_Q2_THR_02.02.01.08_20260303.bin"
+FIRMWARE_DELIVERY = {
+    "mode": "candidate-only",
+    "auto_flash": False,
+    "toolhead_candidate": "firmware/q2-thr-valve-oil-fifo.bin",
+    "vendor_stock_reference": "firmware/stock/" + THR_STOCK_MEMBER,
+    "vetting_report": "firmware/q2-thr-vetting.json",
+    "readiness": "firmware/THR-READINESS.json",
+}
+THR_READINESS = {
+    "schema": 1,
+    "auto_flash": False,
+    "physical_admission_included": False,
+    "stock_reference_is_installed_board_backup": False,
+    "required_before_flash": [
+        "idle printer with no active heaters or Box tasks",
+        "installed application readback and exact admission",
+        "physical bootloader identity and validated Q2 reset/transport",
+        "verified recovery procedure and backups",
+        "Q2 touchscreen handling of patched version suffix",
+        "separate explicit firmware deployment authorization",
+    ],
+    "required_after_flash": [
+        "full application readback verification",
+        "input-shaper calibration before bed leveling or printing",
+    ],
+}

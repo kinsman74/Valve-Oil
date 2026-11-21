@@ -1,5 +1,18 @@
 # Q2 selective port changelog
 
+## 2026.11.21-stable2-preview2
+
+- Bundle the freshly QIDI-vetted toolhead candidate and matching original stock
+  reference, with verification evidence and explicit pending physical admission.
+- Advance the bundle to schema 3 and bind images/report/readiness independently
+  of the package checksum inventory. Automatic flashing remains disabled.
+- Include the reviewed host renderer and corrected recovery helper with its
+  regression coverage. Preserve existing host/UI payloads and motion exclusions.
+- Use an offline reconstruction of the last verified deployed state for planning;
+  no running-printer capture, upload, reset, calibration or flash is performed.
+- Keep firmware-containing archives local; commit source, evidence and artifact
+  hashes for the next push. Existing archived builds remain unchanged.
+
 ## 2026.11.21 recovery guard fixes
 
 - Recover original service operation without overwriting late owner edits when

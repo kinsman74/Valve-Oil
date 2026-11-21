@@ -1,11 +1,13 @@
-# Q2 selective non-motion preview: 2026.11.21-stable2-preview1
+# Q2 selective non-motion preview: 2026.11.21-stable2-preview2
 
 The build and file planner are offline tools. A separate, explicitly invoked
 [host deployment helper](HOST_DEPLOYMENT.md) now supports admitted per-device
 host activation; it is not a general installer or firmware updater. This does
 not claim full Valve Oil support.
-This revision supersedes the audit2 preview for further offline testing. The archived preview itself remains an offline artifact; see the deployment audit
-for the separately admitted host activation.
+This revision adds the independently vetted toolhead candidate, QIDI's matching
+stock reference, bound evidence/readiness records and the corrected host recovery
+helper. It prepares the next offline bundle; it does not authorize or perform a
+flash. Archived preview1 artifacts are not overwritten.
 
 ## Scope
 
@@ -24,8 +26,9 @@ inventory is not included. Camera troubleshooting is separate.
 Add-on management and OS tuning files in review-recipes are source references.
 They are not complete runnable subsystems and their dependencies are not bundled.
 Automatic update actions remain blocked. Spoolman requires an operator's server
-and spool assignments. Physical temperature reporting and blank-tag writing
-have not been validated by this build.
+and spool assignments. Box MCU temperature reporting was verified on the owner's Q2 during the earlier
+host deployment. This build performs no new physical tests; blank-tag writing
+remains unvalidated by this work.
 
 ## Stable 26.11.18.2 selection
 
@@ -46,10 +49,33 @@ The Q2 status service, authenticated routes and blocked updater POST actions
 are retained. New upstream installation recovery/boot checks are bundled only
 as reference code and documentation; they are not a tested Q2 installer. The
 activation checklist adds backup/journal, interrupted-operation and bootability
-checks, but those checks have not run on the printer. No root filesystem repair
+checks. The separate host helper has been exercised on the owner's Q2;
+upstream's general boot repair and power-cut recovery have not been ported. No root filesystem repair
 or dosfstools installation is attempted. Stable's queued-write timeout fix is
 an installer change, not a new runtime RFID retry fix. UI camera layout fixes
 do not fix the separately tracked USB camera fault.
+
+## Toolhead contents and pending admission
+
+The full private bundle includes firmware/q2-thr-valve-oil-fifo.bin and
+firmware/stock/QD_Q2_THR_02.02.01.08_20260303.bin. The stock file is an original
+vendor reference, not a readback backup of the installed board. Both images are
+35,056 bytes and are pinned independently of the package checksum inventory.
+The patched image is the exact output vetted against QIDI's freshly downloaded
+Q2 01.01.03.02 archive. firmware/q2-thr-vetting.json binds that evidence to the
+image, and firmware/THR-READINESS.json retains the physical admission requirements.
+
+No firmware target appears in the host file-operation plan. Automatic flashing
+remains disabled; no Q2 toolhead flasher is enabled by this archive. An idle,
+separately authorized step must validate the installed image, bootloader,
+Q2 reset/transport/recovery and touchscreen version handling. After a future
+flash, verify readback and run input-shaper calibration before bed leveling or
+printing. The existing Q2 Box image is carried unchanged.
+
+This is bundle schema 3. Use the planner shipped with each archive; older schema-2
+archives retain their original planner. New checks reject altered stock/candidate
+images, mismatched evidence or removal of the pending-admission gate even if a
+package checksum inventory is regenerated.
 
 ## Read-only plan
 
@@ -82,7 +108,9 @@ python3 source-tools/build_firmware.py --upstream /path/to/pinned-upstream \
   --output /path/to/new-firmware-output
 python3 source-tools/assemble.py --upstream /path/to/pinned-upstream \
   --workspace /path/to/reviewed-workspace --snapshot /path/to/private-q2-snapshot \
-  --firmware /path/to/new-firmware-output --output /path/to/new-preview
+  --firmware /path/to/new-firmware-output \
+  --thr-stock /path/to/QD_Q2_THR_02.02.01.08_20260303.bin \
+  --thr-vetting /path/to/vetting-report.json --output /path/to/new-preview
 python3 source-tools/test_bundle.py --bundle /path/to/new-preview \
   --snapshot /path/to/private-q2-snapshot -v
 python3 source-tools/check_firmware.py --upstream /path/to/pinned-upstream \

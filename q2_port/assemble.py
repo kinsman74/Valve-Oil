@@ -8,7 +8,7 @@ import sys
 import tempfile
 import policy
 from provenance import verify_group
-from plan import desired, safe
+from plan import desired, safe, verify_firmware_artifacts
 from pathlib import Path
 
 UPSTREAM = policy.UPSTREAM_COMMIT
@@ -222,6 +222,17 @@ def assemble(a):
             }
         )
     shutil.copytree(a.firmware, out / "firmware")
+    stock = a.thr_stock.read_bytes()
+    if sha(stock) != policy.STOCK_THR_SHA:
+        raise ValueError("Unrecognized toolhead stock reference")
+    stock_dir = out / "firmware/stock"
+    stock_dir.mkdir()
+    (stock_dir / policy.THR_STOCK_MEMBER).write_bytes(stock)
+    shutil.copy2(a.thr_vetting, out / policy.FIRMWARE_DELIVERY["vetting_report"])
+    (out / policy.FIRMWARE_DELIVERY["readiness"]).write_text(
+        json.dumps(policy.THR_READINESS, indent=2) + "\n"
+    )
+    verify_firmware_artifacts(out)
     for name in ("plan.py", "policy.py"):
         shutil.copy2(Path(__file__).with_name(name), out / name)
     shutil.copy2(a.upstream / "LICENSE", out / "LICENSE")
@@ -241,6 +252,23 @@ def assemble(a):
         adapter / "src",
         firmware_source / "src",
         ignore=shutil.ignore_patterns("__pycache__"),
+    )
+    thr_source = firmware_source / "thr"
+    thr_source.mkdir()
+    for source in (
+        "firmware/max4-thr-valve-oil-v1.json",
+        "scripts/build_thr_firmware.py",
+        "scripts/build_box_firmware.py",
+        "scripts/check_thr_firmware.py",
+    ):
+        shutil.copy2(a.upstream / source, thr_source / Path(source).name)
+    (thr_source / "README.md").write_text(
+        "# Toolhead source references\n\n"
+        "These are copies from the pinned upstream release for review. Use the "
+        "source-tools commands with the complete pinned upstream checkout; this "
+        "folder is not a Q2 flashing tool or a complete installer. The manifest's "
+        "Max4 archive fields must not be used to install a whole Max4 update on Q2. "
+        "The Q2 and upstream toolhead application inputs are byte-identical.\n"
     )
     # Retain remaining source references without claiming runnable Q2 integrations.
     recipes = out / "review-recipes"
@@ -276,8 +304,8 @@ def assemble(a):
     feature_status = {
         "host_and_web": "assembled",
         "box_firmware": "exact reproduced deployed dev1",
-        "thr_fifo": "exact input match, new standalone candidate; not flashed",
-        "box_mcu_temperature": "standard debug_read verified in emulation; physical sensor untested",
+        "thr_fifo": "fresh official Q2 image vetted; candidate and stock reference bundled; not flashed",
+        "box_mcu_temperature": "reporting verified on owner Q2 during prior host deployment; no new physical test by this build",
         "addons": "reference source only, not a built or runnable Q2 integration",
         "automatic_updates": "blocked by Q2 selective-port guard; no board/update takeover",
         "os_tuning": "reference source only; no qualified Q2 kernel/IRQ/storage implementation",
@@ -305,7 +333,7 @@ def assemble(a):
     manifest = {
         "schema": policy.SCHEMA,
         "name": "Q2 non-motion preview",
-        "version": "2026.11.21-stable2-preview1",
+        "version": "2026.11.21-stable2-preview2",
         "upstream_commit": UPSTREAM,
         "supported_soc": "01.01.03.02",
         "mode": "dry-run-only",
@@ -314,6 +342,7 @@ def assemble(a):
         "feature_status": feature_status,
         "excluded_modules": EXCLUDED,
         "no_live_flash": True,
+        "firmware_delivery": policy.FIRMWARE_DELIVERY,
         "retained_compatibility": [
             "TLTG module/setting/command identities",
             "unchanged manual jogging",
@@ -367,7 +396,15 @@ def assemble(a):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    for name in ("upstream", "workspace", "snapshot", "firmware", "output"):
+    for name in (
+        "upstream",
+        "workspace",
+        "snapshot",
+        "firmware",
+        "thr-stock",
+        "thr-vetting",
+        "output",
+    ):
         parser.add_argument("--" + name, type=Path, required=True)
     args = parser.parse_args()
     destination = args.output.resolve()

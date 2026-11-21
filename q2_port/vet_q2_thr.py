@@ -12,9 +12,7 @@ import zlib
 from provenance import verify_group
 import policy
 
-VENDOR_ARCHIVE_SHA256 = (
-    "b42f83d0e1bbc002e62db6276c2a5739fb3343522ee071829ff8c5f56f7f2fcb"
-)
+VENDOR_ARCHIVE_SHA256 = policy.QIDI_Q2_ARCHIVE_SHA256
 VENDOR_URL = "https://public-cdn.qidimaker.com/upgrade/3DPrinter/QD_Q2/01.01.03.02/yjwvejt6ui/QD_Q2_01.01.03.02_20261023_Release.zip"
 
 

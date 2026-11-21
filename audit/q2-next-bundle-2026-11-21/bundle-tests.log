@@ -1,0 +1,22 @@
+test_catalog_preserves_existing_entries (__main__.BundleTests.test_catalog_preserves_existing_entries) ... ok
+test_config_calibration_and_stock_motion_preserved (__main__.BundleTests.test_config_calibration_and_stock_motion_preserved) ... ok
+test_config_drift_is_not_accepted_as_idempotent (__main__.BundleTests.test_config_drift_is_not_accepted_as_idempotent) ... ok
+test_drift_rejected_before_any_write (__main__.BundleTests.test_drift_rejected_before_any_write) ... ok
+test_file_copy_simulation_repeat_and_restore (__main__.BundleTests.test_file_copy_simulation_repeat_and_restore) ... ok
+test_metadata_preserves_unknown_fields_and_rejects_wrong_printer (__main__.BundleTests.test_metadata_preserves_unknown_fields_and_rejects_wrong_printer) ... ok
+test_missing_source_pin_rejected (__main__.BundleTests.test_missing_source_pin_rejected) ... ok
+test_nginx_drift_is_not_accepted_as_idempotent (__main__.BundleTests.test_nginx_drift_is_not_accepted_as_idempotent) ... ok
+test_optimized_firmware_builder_refuses_before_inputs (__main__.BundleTests.test_optimized_firmware_builder_refuses_before_inputs) ... ok
+test_payload_tamper_rejected (__main__.BundleTests.test_payload_tamper_rejected) ... ok
+test_plan_is_read_only_and_excludes_motion (__main__.BundleTests.test_plan_is_read_only_and_excludes_motion) ... ok
+test_rehashed_firmware_tamper_rejected (__main__.BundleTests.test_rehashed_firmware_tamper_rejected) ... ok
+test_rehashed_motion_operation_rejected (__main__.BundleTests.test_rehashed_motion_operation_rejected) ... ok
+test_standalone_planner_repeats_without_creating_cache (__main__.BundleTests.test_standalone_planner_repeats_without_creating_cache) ... ok
+test_target_traversal_and_symlink_rejected (__main__.BundleTests.test_target_traversal_and_symlink_rejected) ... ok
+test_toolhead_evidence_and_flash_gate_cannot_be_rebound (__main__.BundleTests.test_toolhead_evidence_and_flash_gate_cannot_be_rebound) ... ok
+test_unsupported_firmware_rejected (__main__.BundleTests.test_unsupported_firmware_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 70.795s
+
+OK
