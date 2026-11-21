@@ -1,0 +1,9 @@
+
+ RUN  v5.0.5 /Users/rontimmons/.codex/.chatgpt-projects/g-p-6aa3a1dd23a48191a476e066d42c4439/work/q2-valve-align-26.11.18.1/fluidd
+
+
+ Test Files  3 passed (3)
+      Tests  178 passed (178)
+   Start at  21:59:22
+   Duration  596ms (worker 47%, transform 32%, environment 9%, import 6%, setup 3%, tests 3%)
+

@@ -1,0 +1,9 @@
+{
+  "thr_fifo": "all upstream status/buffer cases passed",
+  "thr_identify": "version-only dictionary difference",
+  "box_standard_debug_read": "unchanged handler and command; both STM32F4 calibration halfwords emulated",
+  "box_calibration_cases": 2,
+  "physical_temperature_sensor": "not exercised",
+  "physical_new_thr": "not flashed or qualified",
+  "mode": "offline-only"
+}

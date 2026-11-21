@@ -1,0 +1,19 @@
+{
+  "mode": "offline-build-only",
+  "upstream_commit": "fea34e996f1ab64c646dd02846d1bb47ad93c272",
+  "box": {
+    "stock_sha256": "c09aa5e0a07161f197c597571d96a48ac1cfb3f19a3758576b3428547a424ba9",
+    "output_sha256": "50e1b2d76a64d3ef7a0c8f79eb4a84be9eafd93cb0912e55d994c8245d93f903",
+    "size": 33776,
+    "scope": "Q2 adaptation of Tuba RFID transport; host guard supplies zero/malformed/conflict handling"
+  },
+  "thr": {
+    "stock_sha256": "1d34b4b0142f2a2047f08c2fae59d827bcee0adbd1563b4bd1de311dff8b2d62",
+    "output_sha256": "b6e39b1def0bad6c2379cad600c1284cece0c26caab77dbb659adf64d4f4172a",
+    "size": 35056,
+    "scope": "Exact Q2 cached image matches upstream Max4/Plus5 THR preimage; sensor FIFO fix only"
+  },
+  "mainboard": "stock, no motion/closed-loop patch",
+  "shutdown": "Q2 dispatcher retained; MCB-specific patch not applicable",
+  "deployment": "Not authorized by this dry run; new THR needs installed-image/bootloader readback and recovery qualification while idle"
+}

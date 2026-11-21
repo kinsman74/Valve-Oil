@@ -1,0 +1,13 @@
+test_catalog_preserves_existing_entries (__main__.BundleTests.test_catalog_preserves_existing_entries) ... ok
+test_config_calibration_and_stock_motion_preserved (__main__.BundleTests.test_config_calibration_and_stock_motion_preserved) ... ok
+test_drift_rejected_before_any_write (__main__.BundleTests.test_drift_rejected_before_any_write) ... ok
+test_payload_tamper_rejected (__main__.BundleTests.test_payload_tamper_rejected) ... ok
+test_plan_is_read_only_and_excludes_motion (__main__.BundleTests.test_plan_is_read_only_and_excludes_motion) ... ok
+test_simulated_install_repeat_and_rollback (__main__.BundleTests.test_simulated_install_repeat_and_rollback) ... ok
+test_target_traversal_and_symlink_rejected (__main__.BundleTests.test_target_traversal_and_symlink_rejected) ... ok
+test_unsupported_firmware_rejected (__main__.BundleTests.test_unsupported_firmware_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 8.634s
+
+OK

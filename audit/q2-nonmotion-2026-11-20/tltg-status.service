@@ -1,0 +1,19 @@
+# tltg-optimized:status-unit
+# Reports Valve Oil's pending updates and switches automatic updates for Fluidd and Valve Oil UI. Installed by Valve Oil.
+[Unit]
+Description=Valve Oil status and settings
+After=network.target
+ConditionPathExists=/usr/local/lib/tltg_status.py
+
+[Service]
+Type=simple
+User=qidi
+ExecStart=/usr/bin/python3 -I /usr/local/lib/tltg_status.py
+Restart=on-failure
+RestartSec=10
+KillMode=process
+Nice=10
+CPUAffinity=0
+
+[Install]
+WantedBy=multi-user.target

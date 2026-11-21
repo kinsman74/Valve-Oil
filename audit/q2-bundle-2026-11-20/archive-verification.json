@@ -1,0 +1,10 @@
+{
+  "archive_sha256": "eca59bea6bdb8206f226ba1f77eeb699c8b1956c2b7f41caea817de565d66006",
+  "extracted_planner_passed": true,
+  "counts": {
+    "create": 258,
+    "replace": 6,
+    "unchanged": 33
+  },
+  "no_live_actions": true
+}

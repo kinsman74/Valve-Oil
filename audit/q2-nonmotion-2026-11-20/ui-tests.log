@@ -1,0 +1,10 @@
+$ vitest run
+
+ RUN  v5.1.0 /Users/rontimmons/.codex/.chatgpt-projects/g-p-6aa3a1dd23a48191a476e066d42c4439/work/q2-nonmotion-2026-11-20/ui
+
+
+ Test Files  5 passed (5)
+      Tests  219 passed (219)
+   Start at  13:57:19
+   Duration  1.04s (import 36%, tests 31%, transform 23%, worker 10%)
+

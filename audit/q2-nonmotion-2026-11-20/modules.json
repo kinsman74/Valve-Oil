@@ -1,0 +1,12 @@
+[
+  "background_save_config",
+  "save_variables_fast",
+  "klipper_health",
+  "macro_status",
+  "printer_warnings",
+  "spoolman",
+  "probe_test",
+  "probe_report",
+  "box_heater_refresh",
+  "update_lights"
+]

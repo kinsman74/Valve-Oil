@@ -1,0 +1,25 @@
+# tltg-optimized:remote-screen-unit
+# Serves the touchscreen to the Fluidd Printer screen card. Installed by Valve Oil.
+[Unit]
+Description=Valve Oil printer screen for Fluidd
+After=network.target
+ConditionPathExists=/usr/local/lib/tltg_remote_screen.py
+
+[Service]
+Type=simple
+User=qidi
+SupplementaryGroups=video input
+ExecStart=/home/qidi/moonraker-env/bin/python3 /usr/local/lib/tltg_remote_screen.py
+Restart=on-failure
+RestartSec=10
+Nice=10
+# Off Klipper's CPUs, where QIDI's tuning script used to put it by matching moonraker-env in its command line.
+CPUAffinity=0
+CPUQuota=60%
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=read-only
+PrivateTmp=yes
+
+[Install]
+WantedBy=multi-user.target

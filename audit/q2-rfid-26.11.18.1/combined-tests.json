@@ -1,0 +1,268 @@
+{
+  "passed": 8,
+  "cases": {
+    "matching": {
+      "returns": [
+        0.3,
+        "NEVER"
+      ],
+      "saved": [
+        [
+          "filament_slot0",
+          "QFA02"
+        ],
+        [
+          "color_slot0",
+          [
+            "FAFAFA"
+          ]
+        ]
+      ],
+      "messages": [
+        "rfid_respond:filament_id=QFA02 version=1 color_array=['FAFAFA'] slot=slot0"
+      ],
+      "reports": [
+        [
+          "slot0",
+          "stock-reader-completed",
+          {
+            "empty": 0,
+            "malformed": 0,
+            "failed": 0,
+            "valid": 2,
+            "conflict": false,
+            "scan_id": "325d309c15bb4d75811693ab81b26801:1",
+            "accepted_id": "QFA02"
+          }
+        ]
+      ]
+    },
+    "valid_empty_valid": {
+      "returns": [
+        0.3,
+        0.6,
+        "NEVER"
+      ],
+      "saved": [
+        [
+          "filament_slot0",
+          "QFA02"
+        ],
+        [
+          "color_slot0",
+          [
+            "FAFAFA"
+          ]
+        ]
+      ],
+      "messages": [
+        "rfid_respond:filament_id=QFA02 version=1 color_array=['FAFAFA'] slot=slot0"
+      ],
+      "reports": [
+        [
+          "slot0",
+          "stock-reader-completed",
+          {
+            "empty": 1,
+            "malformed": 0,
+            "failed": 0,
+            "valid": 2,
+            "conflict": false,
+            "scan_id": "325d309c15bb4d75811693ab81b26801:2",
+            "accepted_id": "QFA02"
+          }
+        ]
+      ]
+    },
+    "empty_empty_timeout": {
+      "returns": [
+        0.3,
+        0.6,
+        "NEVER"
+      ],
+      "saved": [],
+      "messages": [
+        "1A did not recognize the filament"
+      ],
+      "reports": [
+        [
+          "slot0",
+          "timeout-after-empty",
+          {
+            "empty": 2,
+            "malformed": 0,
+            "failed": 0,
+            "valid": 0,
+            "conflict": false,
+            "scan_id": "325d309c15bb4d75811693ab81b26801:3",
+            "accepted_id": null
+          }
+        ]
+      ]
+    },
+    "conflict_then_repeats": {
+      "returns": [
+        0.3,
+        0.6,
+        0.8999999999999999,
+        1.2,
+        "NEVER"
+      ],
+      "saved": [],
+      "messages": [
+        "1A did not recognize the filament"
+      ],
+      "reports": [
+        [
+          "slot0",
+          "conflicting-tags",
+          {
+            "empty": 0,
+            "malformed": 0,
+            "failed": 0,
+            "valid": 4,
+            "conflict": true,
+            "scan_id": "325d309c15bb4d75811693ab81b26801:4",
+            "accepted_id": null
+          }
+        ]
+      ]
+    },
+    "malformed_then_matching": {
+      "returns": [
+        0.3,
+        0.6,
+        "NEVER"
+      ],
+      "saved": [
+        [
+          "filament_slot0",
+          "QFA02"
+        ],
+        [
+          "color_slot0",
+          [
+            "FAFAFA"
+          ]
+        ]
+      ],
+      "messages": [
+        "rfid_respond:filament_id=QFA02 version=1 color_array=['FAFAFA'] slot=slot0"
+      ],
+      "reports": [
+        [
+          "slot0",
+          "stock-reader-completed",
+          {
+            "empty": 0,
+            "malformed": 1,
+            "failed": 0,
+            "valid": 2,
+            "conflict": false,
+            "scan_id": "325d309c15bb4d75811693ab81b26801:5",
+            "accepted_id": "QFA02"
+          }
+        ]
+      ]
+    },
+    "failed_between_matching": {
+      "returns": [
+        0.3,
+        0.6,
+        "NEVER"
+      ],
+      "saved": [
+        [
+          "filament_slot0",
+          "QFA02"
+        ],
+        [
+          "color_slot0",
+          [
+            "FAFAFA"
+          ]
+        ]
+      ],
+      "messages": [
+        "rfid_respond:filament_id=QFA02 version=1 color_array=['FAFAFA'] slot=slot0"
+      ],
+      "reports": [
+        [
+          "slot0",
+          "stock-reader-completed",
+          {
+            "empty": 0,
+            "malformed": 0,
+            "failed": 1,
+            "valid": 2,
+            "conflict": false,
+            "scan_id": "325d309c15bb4d75811693ab81b26801:6",
+            "accepted_id": "QFA02"
+          }
+        ]
+      ]
+    },
+    "timeout_boundary": {
+      "returns": [
+        30.3,
+        "NEVER"
+      ],
+      "saved": [],
+      "messages": [
+        "1A did not recognize the filament"
+      ],
+      "reports": [
+        [
+          "slot0",
+          "timeout",
+          {
+            "empty": 0,
+            "malformed": 0,
+            "failed": 1,
+            "valid": 0,
+            "conflict": false,
+            "scan_id": "325d309c15bb4d75811693ab81b26801:7",
+            "accepted_id": null
+          }
+        ]
+      ]
+    },
+    "empty_before_matching": {
+      "returns": [
+        0.3,
+        0.6,
+        "NEVER"
+      ],
+      "saved": [
+        [
+          "filament_slot0",
+          "QFA02"
+        ],
+        [
+          "color_slot0",
+          [
+            "FAFAFA"
+          ]
+        ]
+      ],
+      "messages": [
+        "rfid_respond:filament_id=QFA02 version=1 color_array=['FAFAFA'] slot=slot0"
+      ],
+      "reports": [
+        [
+          "slot0",
+          "stock-reader-completed",
+          {
+            "empty": 1,
+            "malformed": 0,
+            "failed": 0,
+            "valid": 2,
+            "conflict": false,
+            "scan_id": "325d309c15bb4d75811693ab81b26801:8",
+            "accepted_id": "QFA02"
+          }
+        ]
+      ]
+    }
+  }
+}

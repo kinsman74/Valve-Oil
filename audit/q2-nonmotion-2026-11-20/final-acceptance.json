@@ -1,0 +1,1 @@
+{"state": "standby", "scans_finished": true, "same_value_save_skips_rewrite": true, "original_config_preserved_except_module_sections": true, "calibration_preserved": true, "runtime_acceleration": 5000, "camera": {"resolution": {"width": 640, "height": 480}, "online": true, "desired_fps": 15, "captured_fps": 15}, "camera_power": "on"}

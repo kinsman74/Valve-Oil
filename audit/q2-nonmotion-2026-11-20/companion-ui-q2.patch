@@ -1,0 +1,29 @@
+--- a/src/qidi/qidi-box.ts
++++ b/src/qidi/qidi-box.ts
+@@ -185,7 +185,16 @@
+   const infos = printer.box_extras?.boxes?.[Math.floor(index / 4)]?.filament_info
+ 
+   if (Array.isArray(infos)) {
+-    return infos.find(info => info?.index === index % 4) ?? infos[index % 4]
++    const info = infos.find(info => info?.index === index % 4) ?? infos[index % 4]
++    if (info) return info
++  }
++  // Q2 publishes the same slot fields in a flat controller Box object.
++  const box = printer.multi_color_controller?.box
++  const prefix = `box${Math.floor(index / 4)}_filament_info_${index % 4}_`
++  if (typeof box?.[prefix + 'filament_id'] === 'string' && box[prefix + 'filament_id'] !== '') {
++    return Object.fromEntries(Object.entries(box)
++      .filter(([key]) => key.startsWith(prefix))
++      .map(([key, value]) => [key.slice(prefix.length), value]))
+   }
+ }
+ 
+@@ -231,7 +240,7 @@
+       minTemp: toNumber(info?.min_temp),
+       maxTemp: toNumber(info?.max_temp),
+       boxMaxTemp: toNumber(info?.box_max_temp),
+-      reading: stepper?.rfid_state === 1
++      reading: (stepper?.rfid_state ?? info?.read_rfid_state) === 1
+     }
+   })
+ }

@@ -1,0 +1,29 @@
+{
+  "print_state": "standby",
+  "monitor": {
+    "detected": false,
+    "signals": [],
+    "port_conflict": false
+  },
+  "tag_job": {
+    "run": 0,
+    "running": false
+  },
+  "link_logging_enabled": 1,
+  "rotation_command": true,
+  "write_command": true,
+  "active_scan_fields": {
+    "box0_slots_0_read_rfid_state": 1,
+    "box0_filament_info_0_read_rfid_state": 1
+  },
+  "task": {
+    "flow_id": null,
+    "current_queue": [],
+    "current_step": "",
+    "is_paused": false
+  },
+  "motion": {
+    "max_velocity": 600.0,
+    "max_accel": 20000.0
+  }
+}

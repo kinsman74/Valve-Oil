@@ -1,0 +1,43 @@
+test_other_save_variables_go_to_qidi (installer.tests.integration.test_save_variables_fast.BoxSaveTest.test_other_save_variables_go_to_qidi) ... ok
+test_saves_match_qidi (installer.tests.integration.test_save_variables_fast.BoxSaveTest.test_saves_match_qidi) ... ok
+test_unchanged_save_leaves_the_file_alone (installer.tests.integration.test_save_variables_fast.BoxSaveTest.test_unchanged_save_leaves_the_file_alone) ... ok
+test_values_the_file_cant_hold_exactly_go_to_qidi (installer.tests.integration.test_save_variables_fast.BoxSaveTest.test_values_the_file_cant_hold_exactly_go_to_qidi) ... ok
+test_matches_qidi_handler (installer.tests.integration.test_save_variables_fast.SaveVariableCommandTest.test_matches_qidi_handler) ... ok
+test_module_without_copy_is_left_alone (installer.tests.integration.test_klipper_health.BoxStatusCopyTest.test_module_without_copy_is_left_alone) ... ok
+test_other_values_keep_deepcopy (installer.tests.integration.test_klipper_health.BoxStatusCopyTest.test_other_values_keep_deepcopy) ... ok
+test_status_is_the_same_independent_copy (installer.tests.integration.test_klipper_health.BoxStatusCopyTest.test_status_is_the_same_independent_copy) ... ok
+test_removes_only_timers_qidi_can_no_longer_run (installer.tests.integration.test_klipper_health.FinishedTimerCleanupTest.test_removes_only_timers_qidi_can_no_longer_run) ... ok
+test_timer_count_stays_flat_across_loads (installer.tests.integration.test_klipper_health.FinishedTimerCleanupTest.test_timer_count_stays_flat_across_loads) ... ok
+test_commands_on_time_or_without_a_clock_are_not_reported (installer.tests.integration.test_klipper_health.LateCommandTest.test_commands_on_time_or_without_a_clock_are_not_reported) ... ok
+test_late_commands_name_the_command_and_caller (installer.tests.integration.test_klipper_health.LateCommandTest.test_late_commands_name_the_command_and_caller) ... ok
+test_reports_are_rate_limited_and_count_the_rest (installer.tests.integration.test_klipper_health.LateCommandTest.test_reports_are_rate_limited_and_count_the_rest) ... ok
+test_failed_sync_shows_how_late_the_renewing_reports_came (installer.tests.integration.test_klipper_health.LoadCellProbeSyncFailureTest.test_failed_sync_shows_how_late_the_renewing_reports_came) ... ok
+test_other_probe_errors_are_not_reported (installer.tests.integration.test_klipper_health.LoadCellProbeSyncFailureTest.test_other_probe_errors_are_not_reported) ... ok
+test_passing_syncs_are_logged_once_homing_pauses (installer.tests.integration.test_klipper_health.LoadCellProbeSyncFailureTest.test_passing_syncs_are_logged_once_homing_pauses) ... ok
+test_sync_failure_names_the_board_that_timed_out_and_report_gaps (installer.tests.integration.test_klipper_health.LoadCellProbeSyncFailureTest.test_sync_failure_names_the_board_that_timed_out_and_report_gaps) ... ok
+test_sync_failure_reports_context_and_keeps_the_error (installer.tests.integration.test_klipper_health.LoadCellProbeSyncFailureTest.test_sync_failure_reports_context_and_keeps_the_error) ... WARNING:root:tltg_klipper_health: Load-cell probe endstop sync failure (QIDI reports it as "WEIGHT sensor error") on THR and mcu. In the 10 s before it, Klipper's main thread was 30% busy (peak 30%) and its timers ran up to 40 ms late, with 0 timers.
+ok
+test_box_heaters_keep_stock_cycle_time_without_a_usable_setting (installer.tests.integration.test_box_heater_refresh.BoxHeaterCycleTimeTests.test_box_heaters_keep_stock_cycle_time_without_a_usable_setting) ... WARNING:root:tltg_box_heater_refresh: vo_box_heater_pwm_cycle_time=0.005 is not between 0.01 and 0.1 s; Box heaters keep 0.1 s
+WARNING:root:tltg_box_heater_refresh: vo_box_heater_pwm_cycle_time=0.5 is not between 0.01 and 0.1 s; Box heaters keep 0.1 s
+WARNING:root:tltg_box_heater_refresh: vo_box_heater_pwm_cycle_time=0 is not between 0.01 and 0.1 s; Box heaters keep 0.1 s
+WARNING:root:tltg_box_heater_refresh: vo_box_heater_pwm_cycle_time=True is not between 0.01 and 0.1 s; Box heaters keep 0.1 s
+WARNING:root:tltg_box_heater_refresh: vo_box_heater_pwm_cycle_time='fast' is not between 0.01 and 0.1 s; Box heaters keep 0.1 s
+WARNING:root:tltg_box_heater_refresh: vo_box_heater_pwm_cycle_time=nan is not between 0.01 and 0.1 s; Box heaters keep 0.1 s
+ok
+test_cycle_time_stays_within_the_sensor_report_time (installer.tests.integration.test_box_heater_refresh.BoxHeaterCycleTimeTests.test_cycle_time_stays_within_the_sensor_report_time) ... WARNING:root:tltg_box_heater_refresh: heater_box1 cycle time 0.05 s is above its sensor's 0.02 s report time; left unchanged
+WARNING:root:tltg_box_heater_refresh: heater_box2 cycle time 0.05 s is above its sensor's 0.02 s report time; left unchanged
+ok
+test_saved_cycle_time_reaches_only_box_heaters (installer.tests.integration.test_box_heater_refresh.BoxHeaterCycleTimeTests.test_saved_cycle_time_reaches_only_box_heaters) ... ok
+test_bad_readout_stops_the_check_and_the_next_check_starts_cleanly (installer.tests.integration.test_probe_signal_test.LoadCellResponseCheckTests.test_bad_readout_stops_the_check_and_the_next_check_starts_cleanly) ... ok
+test_changed_safety_state_aborts_without_altering_the_printer (installer.tests.integration.test_probe_signal_test.LoadCellResponseCheckTests.test_changed_safety_state_aborts_without_altering_the_printer) ... ok
+test_guided_check_detects_response_in_either_direction_without_raw_console_output (installer.tests.integration.test_probe_signal_test.LoadCellResponseCheckTests.test_guided_check_detects_response_in_either_direction_without_raw_console_output) ... ok
+test_isolated_corrupt_readings_do_not_decide_the_result (installer.tests.integration.test_probe_signal_test.LoadCellResponseCheckTests.test_isolated_corrupt_readings_do_not_decide_the_result) ... ok
+test_reentrant_request_cannot_replace_the_active_measurements (installer.tests.integration.test_probe_signal_test.LoadCellResponseCheckTests.test_reentrant_request_cannot_replace_the_active_measurements) ... ok
+test_transient_readout_failure_is_retried (installer.tests.integration.test_probe_signal_test.LoadCellResponseCheckTests.test_transient_readout_failure_is_retried) ... ok
+test_unreliable_signals_never_pass (installer.tests.integration.test_probe_signal_test.LoadCellResponseCheckTests.test_unreliable_signals_never_pass) ... ok
+test_unsafe_or_unconfirmed_start_is_refused_without_querying (installer.tests.integration.test_probe_signal_test.LoadCellResponseCheckTests.test_unsafe_or_unconfirmed_start_is_refused_without_querying) ... ok
+
+----------------------------------------------------------------------
+Ran 29 tests in 0.104s
+
+OK

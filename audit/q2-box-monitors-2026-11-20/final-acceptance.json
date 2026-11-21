@@ -1,0 +1,1 @@
+{"state": "standby", "max_accel": 5000.0, "monitor": {"detected": false, "signals": [], "port_conflict": false}, "camera": {"resolution": {"width": 640, "height": 480}, "online": true, "desired_fps": 15, "captured_fps": 15}, "active_scans": 0}
