@@ -54,6 +54,43 @@ The extracted full archive independently produced the same plan twice.
 Historical November 20 logs remain available and are not represented as new
 physical testing. Private snapshots and vendor firmware are not committed here.
 
+## Debugging record and findings
+
+Implementation and original audit evidence were committed as `e42b635`.
+This follow-up records how the failures were isolated and the limits of the result.
+
+1. Reviewed builders, planner, package contents and prior validation claims against
+   the requested non-motion scope. The review was performed against local source
+   and private captured target files, without modifying either printer.
+2. Added an unrelated nginx edit to the captured target. The original planner
+   accepted it because rendering retained the edit and then reported an unchanged
+   result. The initial regression run had one failure across ten tests, exposing
+   that bypass. The corrected planner checks recorded before/after identities
+   before rendering; config and nginx drift rejection now pass.
+3. Tested scope and firmware identity independently of ordinary package checksums.
+   Regenerating the checksum inventory after inserting an out-of-scope homing
+   target or modifying THR bytes does not make either input admissible.
+4. Rebuilt from content-locked sources. Both firmware candidates reproduced their
+   previously recorded hashes. This audit changed the packaging and admission
+   tools, not the candidate firmware bytes.
+5. Ran the extracted planner as a standalone program. Its first failure exposed
+   a Python cache file created by importing the bundled policy module. Disabled
+   bytecode writes before that import, added a regression test, then checked the
+   final extracted archive twice with identical read-only plans.
+6. Corrected the documentation where successful file-copy simulations had been
+   described too broadly as install/rollback tests. Kept historical evidence and
+   marked the earlier preview superseded instead of rewriting those test logs.
+
+Final evidence is in [bundle-tests.log](bundle-tests.log),
+[firmware-emulation.log](firmware-emulation.log), [dry-run.json](dry-run.json),
+and [archives.json](archives.json). All 16 audit tests passed; firmware emulation,
+Ruff checks, whitespace checks and installer compatibility metadata checks passed.
+
+**Disposition:** suitable for further offline/idle deployment preparation. Not a
+release approval or authorization to flash. A real activation/rollback procedure
+and physical firmware admission remain required. No camera fix, motion tuning,
+new print macros or changes to the Plus5 were introduced by this audit.
+
 ## Still open
 
 No real installer, ownership/service activation validation, nginx-on-target check,
