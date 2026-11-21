@@ -1,0 +1,93 @@
+Patched instructions: 0x08008bfe: beq.w #0x8009260
+Patched instructions: 0x08008c04: movs r2, #0; 0x08008c06: strb r2, [r3, #8]
+Patched instructions: 0x080097a4: movw r3, #0xb3e
+Patched instructions: 0x080097b0: movw r3, #0xb3f
+Patched instructions: 0x080097bc: rsb.w r2, r1, #0x3f
+Verified 1024 stock/patched ARM executions: all FIFO status bytes, partial/full report buffers
+{
+  "scope": "offline application-level analysis; no device or UART access",
+  "vendor_source_page": "https://www.qidimaker.com/en/downloads/firmware/Q2",
+  "vendor_url": "https://public-cdn.qidimaker.com/upgrade/3DPrinter/QD_Q2/01.01.03.02/yjwvejt6ui/QD_Q2_01.01.03.02_20261023_Release.zip",
+  "archive_sha256": "b42f83d0e1bbc002e62db6276c2a5739fb3343522ee071829ff8c5f56f7f2fcb",
+  "archive_fingerprint_note": "Measured direct official download, not a vendor digital signature",
+  "vendor_soc": "01.01.03.02",
+  "vendor_thr_member": "QD_Q2_THR_02.02.01.08_20260303.bin",
+  "vendor_thr_crc32": "9deb3c69",
+  "vendor_thr_bytes": 35056,
+  "vendor_thr_sha256": "1d34b4b0142f2a2047f08c2fae59d827bcee0adbd1563b4bd1de311dff8b2d62",
+  "same_as_valve_oil_expected_stock_image": true,
+  "candidate_sha256": "b6e39b1def0bad6c2379cad600c1284cece0c26caab77dbb659adf64d4f4172a",
+  "same_as_existing_q2_port_candidate": true,
+  "application_vectors": [
+    "0x20007900",
+    "0x800b731"
+  ],
+  "mcu": "stm32f103xe",
+  "clock_hz": 72000000,
+  "versions": {
+    "vendor": "02.02.01.08",
+    "patched": "02.02.01.08-valve-oil.1"
+  },
+  "fifo_instruction_bytes_changed": 5,
+  "all_other_changes": "Three identify-length instruction sites and version-only compressed dictionary",
+  "disassembly": [
+    {
+      "offset": "0xbfe",
+      "before": [
+        "0x08008bfe: bne.w #0x8009260"
+      ],
+      "after": [
+        "0x08008bfe: beq.w #0x8009260"
+      ]
+    },
+    {
+      "offset": "0xc04",
+      "before": [
+        "0x08008c04: strb.w sb, [r3, #8]"
+      ],
+      "after": [
+        "0x08008c04: movs r2, #0",
+        "0x08008c06: strb r2, [r3, #8]"
+      ]
+    },
+    {
+      "offset": "0x17a4",
+      "before": [
+        "0x080097a4: movw r3, #0xb87"
+      ],
+      "after": [
+        "0x080097a4: movw r3, #0xb3e"
+      ]
+    },
+    {
+      "offset": "0x17b0",
+      "before": [
+        "0x080097b0: movw r3, #0xb88"
+      ],
+      "after": [
+        "0x080097b0: movw r3, #0xb3f"
+      ]
+    },
+    {
+      "offset": "0x17bc",
+      "before": [
+        "0x080097bc: rsb.w r2, r1, #0x88"
+      ],
+      "after": [
+        "0x080097bc: rsb.w r2, r1, #0x3f"
+      ]
+    }
+  ],
+  "emulation_cases": 1024,
+  "emulation_scope": "All 256 FIFO status values, two report-buffer states, stock and patched; SPI/timer/report calls stubbed",
+  "dictionary_equivalence": "All fields identical after normalizing version",
+  "input_rejections": {
+    "modified_input": true,
+    "already_patched_input": true
+  },
+  "q2_soc_in_upstream_thr_targets": false,
+  "physical_device_admission": "not performed",
+  "q2_uart_reset_bootloader_recovery": "not qualified by this analysis",
+  "physical_sampling_and_calibration_quality": "not measured",
+  "flashing_authorized_or_performed": false
+}

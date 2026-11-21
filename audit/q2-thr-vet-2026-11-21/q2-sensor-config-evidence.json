@@ -1,0 +1,10 @@
+{
+  "evidence": "Captured Q2 printer.cfg; no live read or sampling during this vet",
+  "resonance_accel_chip": "lis2dw",
+  "cs_pin": "THR:PA10",
+  "spi_software_sclk_pin": "THR:PA5",
+  "spi_software_mosi_pin": "THR:PA7",
+  "spi_software_miso_pin": "THR:PA6",
+  "axes_map": "y, z, -x",
+  "whole_private_configuration_committed": false
+}

@@ -1,0 +1,11 @@
+{
+  "source_page": "https://www.qidimaker.com/en/downloads/firmware/Q2",
+  "official_url": "https://public-cdn.qidimaker.com/upgrade/3DPrinter/QD_Q2/01.01.03.02/yjwvejt6ui/QD_Q2_01.01.03.02_20261023_Release.zip",
+  "archive_bytes": 245739996,
+  "archive_sha256": "b42f83d0e1bbc002e62db6276c2a5739fb3343522ee071829ff8c5f56f7f2fcb",
+  "member": "QD_Q2_THR_02.02.01.08_20260303.bin",
+  "member_bytes": 35056,
+  "member_crc32": "9deb3c69",
+  "member_sha256": "1d34b4b0142f2a2047f08c2fae59d827bcee0adbd1563b4bd1de311dff8b2d62",
+  "fresh_vendor_matches_previous_q2_input": true
+}
