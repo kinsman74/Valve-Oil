@@ -1,5 +1,14 @@
 # Q2 selective port changelog
 
+## 2026.11.21 host activation
+
+Add a separate host-only renderer and guarded activation/recovery helper, with
+eight local transaction tests. Deployed the existing stable2-preview1 payload
+on the Q2, preserving newer calibration, verifying all targets/permissions and
+backups, and confirming ready services and authenticated screen streaming. No
+firmware, reboot, homing or optimized motion changes. This does not revise the
+archived preview binaries or qualify a universal installer.
+
 ## 2026.11.21-stable2-preview1
 
 Offline refresh against stable Valve Oil 26.11.18.2 (aa42eaa3), with the

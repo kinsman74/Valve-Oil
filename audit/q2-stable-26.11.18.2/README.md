@@ -1,6 +1,9 @@
 # Stable 26.11.18.2 selective Q2 refresh
 
-Prepared November 21, 2026. **Offline only; deployment held for the current print.**
+Historical offline checkpoint, November 21, 2026. Deployment was subsequently
+authorized and completed; see [the deployment audit](../q2-deployment-2026-11-21/README.md).
+
+At the time of this build: **offline only; deployment held for the current print.**
 No printer was contacted, restarted, moved, reconfigured or flashed by this work.
 The next candidate now uses the selected stable 26.11.18.2 changes rather than
 claiming full Valve Oil parity.

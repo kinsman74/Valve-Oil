@@ -1,0 +1,17 @@
+{
+  "source_checkpoint": "0c84d0c",
+  "payload_version": "2026.11.21-stable2-preview1",
+  "state": "active",
+  "changed_files": 328,
+  "existing_replacements": 12,
+  "new_files": 316,
+  "firmware_binaries_transferred": 0,
+  "firmware_flashes": 0,
+  "os_reboots": 0,
+  "homing_commands_sent": 0,
+  "calibration": "latest comment-only appended mesh data preserved byte-for-byte",
+  "first_attempt": "pre-write drift rejection; no service stops or target writes",
+  "second_attempt": "active after 73 seconds; all expected services ready",
+  "physical_print_or_tag_write_test": "not performed",
+  "live_rollback_exercised": false
+}

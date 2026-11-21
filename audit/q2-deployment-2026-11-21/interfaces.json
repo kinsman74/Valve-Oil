@@ -1,0 +1,22 @@
+{
+  "fluidd": {
+    "http_status": 200,
+    "data": {
+      "project_name": "fluidd",
+      "project_owner": "thelegendtubaguy",
+      "version": "v1.37.7-tltg-e85f13b-q2"
+    }
+  },
+  "companion": {
+    "http_status": 200,
+    "data": {
+      "version": "26.11.18.2-q2-preview"
+    }
+  },
+  "status_release": {
+    "installed": "26.11.18.2-q2-selective",
+    "channel": null,
+    "commit": null
+  },
+  "updater_post_status": 409
+}

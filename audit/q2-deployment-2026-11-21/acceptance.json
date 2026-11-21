@@ -1,0 +1,26 @@
+{
+  "installed_files_verified": 328,
+  "hash_mismatches": [],
+  "printer_state": "ready",
+  "print_state": "standby",
+  "heater_targets": {
+    "extruder": 0.0,
+    "heater_bed": 0.0,
+    "heater_generic chamber": 0.0,
+    "heater_generic heater_box1": 0.0
+  },
+  "rfid_job_running": false,
+  "mcu_sensors": {
+    "temperature_sensor Box1_MCU": {
+      "temperature": 37.24,
+      "measured_min_temp": 37.04,
+      "measured_max_temp": 39.16
+    }
+  },
+  "box_task": {
+    "flow_id": null,
+    "current_queue": [],
+    "current_step": "",
+    "is_paused": false
+  }
+}

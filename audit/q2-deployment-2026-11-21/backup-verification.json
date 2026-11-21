@@ -1,0 +1,8 @@
+{
+  "transaction_state": "active",
+  "changed_files": 328,
+  "original_backups_verified": 12,
+  "new_targets": 316,
+  "firmware_flashes": 0,
+  "live_rollback_exercised": false
+}

@@ -1,8 +1,11 @@
 # Q2 selective non-motion preview: 2026.11.21-stable2-preview1
 
-Offline build and file planner only. This is not an installer, firmware updater,
-or a claim of full Valve Oil support. No printer is contacted by these tools.
-This revision supersedes the audit2 preview for further offline testing. Deployment remains on hold.
+The build and file planner are offline tools. A separate, explicitly invoked
+[host deployment helper](HOST_DEPLOYMENT.md) now supports admitted per-device
+host activation; it is not a general installer or firmware updater. This does
+not claim full Valve Oil support.
+This revision supersedes the audit2 preview for further offline testing. The archived preview itself remains an offline artifact; see the deployment audit
+for the separately admitted host activation.
 
 ## Scope
 
@@ -116,8 +119,10 @@ nginx admission, kernel behavior, power loss or physical recovery. Firmware
 emulation covers 1024 THR FIFO cases, identify consistency and two Box calibration
 reads. It is not physical sensor or bootloader qualification.
 
-Before any future deployment, implement and test ownership/mode policy, service
-activation ordering, nginx validation, backups and actual rollback. New THR
+Before another deployment, recheck the current snapshot, idle state, ownership/
+mode policy, service ordering, nginx, backups and recovery admission. The separate
+host helper has passed one-device activation and local recovery simulations;
+a deliberate live rollback and power-loss qualification remain unperformed. New THR
 flashing additionally requires idle physical application/bootloader readback,
 exact admission, recovery qualification, verified post-flash readback and review
 of recalibration requirements. The planner reports deployment_ready=false.
