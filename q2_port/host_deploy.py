@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import stat
 import subprocess
+import sys
 import tempfile
 import time
 import urllib.parse
@@ -49,6 +50,21 @@ def journal(package, state):
         os.getuid(),
         os.getgid(),
     )
+
+
+def report_recovery_error(message):
+    try:
+        print(message, file=sys.stderr)
+    except OSError:
+        pass  # Losing both log destinations must not prevent recovery.
+
+
+def recovery_journal(package, state):
+    """A reporting failure must never prevent file or service recovery."""
+    try:
+        journal(package, state)
+    except OSError as error:
+        report_recovery_error("Recovery journal write failed: " + str(error))
 
 
 def read_api(route):
@@ -152,6 +168,10 @@ def load(package, root):
     for operation in manifest["operations"]:
         policy.validate_operation(operation)
         name = operation["target"]
+        # The renderer omits unchanged files. This motion helper must never be
+        # a write target, even when a caller labels it an unchanged carry-forward.
+        if name == "home/qidi/klipper/klippy/extras/tltg_box_slot_jog.py":
+            raise ValueError("Slot-jog writes are outside host deployment scope")
         if name in seen:
             raise ValueError("Duplicate target")
         seen.add(name)
@@ -202,7 +222,20 @@ def restore(package, root, services, state):
     services.start(state["services"])
     services.healthy()
     state["status"] = "rolled_back"
-    journal(package, state)
+    recovery_journal(package, state)
+
+
+def recover(package, root, services, state):
+    if state.get("writes_started") is False:
+        # No installed file was touched: retain concurrent owner edits and only
+        # return the original services to operation, including a partial stop.
+        services.start(state["services"])
+        services.healthy()
+        state["status"] = "aborted_before_write"
+        recovery_journal(package, state)
+    else:
+        # Legacy journals lack writes_started; conservatively restore their files.
+        restore(package, root, services, state)
 
 
 def apply(package, root, services):
@@ -223,6 +256,7 @@ def apply(package, root, services):
         "created_directories": [],
         "services": active,
         "firmware_flashes": 0,
+        "writes_started": False,
     }
     before_dir = package / "before"
     before_dir.mkdir(mode=0o700)
@@ -257,6 +291,9 @@ def apply(package, root, services):
             if current(safe(root, entry["target"])) != entry["before_sha256"]:
                 raise ValueError("Stopped-service target drift: " + entry["target"])
         state["status"] = "applying"
+        # Persist the conservative recovery decision BEFORE any directory/file
+        # mutation. An interrupted transaction must not skip restoration.
+        state["writes_started"] = True
         journal(package, state)
         for entry in state["files"]:
             path = safe(root, entry["target"])
@@ -290,13 +327,14 @@ def apply(package, root, services):
         journal(package, state)
     except BaseException as error:
         state["error"] = str(error)
-        journal(package, state)
+        recovery_journal(package, state)
         try:
-            restore(package, root, services, state)
+            recover(package, root, services, state)
         except BaseException as rollback_error:
             state["status"] = "rollback_failed"
             state["rollback_error"] = str(rollback_error)
-            journal(package, state)
+            report_recovery_error("Recovery failed: " + str(rollback_error))
+            recovery_journal(package, state)
         raise
     print(
         json.dumps(
@@ -322,7 +360,7 @@ def rollback(package, root, services):
         raise ValueError(
             "Offline rollback requires an interrupted maintenance transaction"
         )
-    restore(package, root, services, state)
+    recover(package, root, services, state)
 
 
 def main():

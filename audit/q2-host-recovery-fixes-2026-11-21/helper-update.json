@@ -1,0 +1,11 @@
+{
+  "previous_helper_sha256": "330e64a1ad988c5efe887eeb16b9dc3d1b158146bd9f32195103af70e281c8f1",
+  "fixed_helper_sha256": "ae78d14840e7d6eae657dd2c654b983dac5803ba4ba82270c6b44b7c2f4cb928",
+  "saved_old_helper_copy": true,
+  "inventory_verified": true,
+  "installed_targets_checked": 328,
+  "installed_targets_changed_during_check": [],
+  "service_restarts": 0,
+  "firmware_changes": 0,
+  "original_reviewed_helper_sha256": "397a8440a15ec58ae841655203fc53fe1a59d93806d49b5c0b3cf9d2d640dca7"
+}

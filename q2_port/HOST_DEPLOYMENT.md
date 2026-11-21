@@ -36,7 +36,9 @@ are separate from host activation acceptance.
 
    This rechecks admission, records backups and a journal, stops nginx/QIDI client/
    Moonraker/Klipper, rechecks hashes, replaces files atomically, validates nginx,
-   starts the original services and waits for ready state. All preimages are
+   starts the original services and waits for ready state. If shutdown fails or
+   a last-moment edit is detected before writes, it restores service operation
+   without overwriting that edit. All preimages are
    stored before installed-file writes. Existing ownership/modes are preserved;
    new files inherit the nearest existing directory's owner and use mode 0644.
    Do not begin a print or operate the Box during this maintenance window.
@@ -56,13 +58,23 @@ systemd-run --no-ask-password --wait --collect --unit=q2-host-rollback \
   --package /private/package
 ```
 
-Rollback verifies every original backup and refuses targets that match neither
-recorded before nor installed states. It restores original metadata, removes
+When writes may have started, rollback verifies every original backup and
+refuses targets that match neither recorded before nor installed states. A
+durable marker is saved before the first mutation. If the journal confirms no
+writes began, recovery only returns the original services to operation and
+preserves concurrent owner edits. Older journals without the marker are treated
+conservatively as possibly written. It restores original metadata, removes
 only known new files and empty created directories, validates nginx and returns
 services to ready. It does not overwrite later calibration/owner edits blindly.
 If those edits are present, review them first. Offline recovery is admitted only
 for an interrupted maintenance transaction with Klipper stopped; the helper does
 not assume an unavailable API means a running printer is idle.
 
-Run test_host_deploy.py locally for the transaction regressions. Those tests use
+Journal and stderr I/O failures during error handling do not prevent recovery.
+When both log destinations fail, inspect files and services directly: the saved
+journal may not reflect the completed recovery. The live loader independently
+rejects all slot-jog write targets, including ones labelled carry-forward; the
+renderer omits that unchanged motion helper entirely.
+
+Run test_host_deploy.py locally for the 16 transaction regressions. Those tests use
 stand-in files/services, not a physical rollback or a power-cut qualification.

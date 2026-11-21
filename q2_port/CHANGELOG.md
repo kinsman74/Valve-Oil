@@ -1,5 +1,17 @@
 # Q2 selective port changelog
 
+## 2026.11.21 recovery guard fixes
+
+- Recover original service operation without overwriting late owner edits when
+  shutdown/drift detection fails before any installed-file mutation. Persist a
+  write marker before mutations so interrupted recovery takes the correct path.
+- Journal/error-log I/O failure no longer blocks file or service restoration.
+- Reject every slot-jog write in the live host loader, even when labelled as an
+  unchanged carry-forward. Existing journals without the new marker still work.
+- Add regressions for all three findings, partial stops, interrupted recovery and
+  legacy journal compatibility. All 16 transaction tests pass. Update only the
+  saved Q2 recovery helper and inventory; no service restart or runtime changes.
+
 ## 2026.11.21 host activation
 
 Add a separate host-only renderer and guarded activation/recovery helper, with

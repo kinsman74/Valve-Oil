@@ -1,0 +1,95 @@
+test_activation_failure_automatically_restores_original_files (__main__.HostDeploymentTests.test_activation_failure_automatically_restores_original_files) ... ok
+test_apply_and_explicit_rollback_preserve_metadata_and_remove_new_files (__main__.HostDeploymentTests.test_apply_and_explicit_rollback_preserve_metadata_and_remove_new_files) ... ok
+test_carry_forward_label_cannot_authorize_slot_jog_write (__main__.HostDeploymentTests.test_carry_forward_label_cannot_authorize_slot_jog_write) ...
+  test_carry_forward_label_cannot_authorize_slot_jog_write (__main__.HostDeploymentTests.test_carry_forward_label_cannot_authorize_slot_jog_write) (content=b'# changed motion helper\n') ... FAIL
+  test_carry_forward_label_cannot_authorize_slot_jog_write (__main__.HostDeploymentTests.test_carry_forward_label_cannot_authorize_slot_jog_write) (content=b'# original motion helper\n') ... FAIL
+test_corrupt_payload_and_motion_target_are_rejected (__main__.HostDeploymentTests.test_corrupt_payload_and_motion_target_are_rejected) ... ok
+test_drift_during_shutdown_recovers_services_without_overwriting_edit (__main__.HostDeploymentTests.test_drift_during_shutdown_recovers_services_without_overwriting_edit) ... FAIL
+test_incomplete_or_finished_transaction_is_not_silently_reapplied (__main__.HostDeploymentTests.test_incomplete_or_finished_transaction_is_not_silently_reapplied) ... ok
+test_interrupted_transaction_can_roll_back_with_klipper_offline (__main__.HostDeploymentTests.test_interrupted_transaction_can_roll_back_with_klipper_offline) ... ok
+test_journal_io_failure_never_prevents_file_or_service_recovery (__main__.HostDeploymentTests.test_journal_io_failure_never_prevents_file_or_service_recovery) ... ERROR
+test_live_admission_rejects_print_heat_box_flow_and_rfid_activity (__main__.HostDeploymentTests.test_live_admission_rejects_print_heat_box_flow_and_rfid_activity) ... ok
+test_partial_service_stop_failure_recovers_previous_services (__main__.HostDeploymentTests.test_partial_service_stop_failure_recovers_previous_services) ... FAIL
+test_rollback_refuses_later_edits_without_stopping_services (__main__.HostDeploymentTests.test_rollback_refuses_later_edits_without_stopping_services) ... ok
+test_target_drift_is_rejected_before_service_stop_or_write (__main__.HostDeploymentTests.test_target_drift_is_rejected_before_service_stop_or_write) ... ok
+
+======================================================================
+ERROR: test_journal_io_failure_never_prevents_file_or_service_recovery (__main__.HostDeploymentTests.test_journal_io_failure_never_prevents_file_or_service_recovery)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/q2_port/host_deploy.py", line 285, in apply
+    services.healthy()
+  File "<repo>/q2_port/test_host_deploy.py", line 43, in healthy
+    raise RuntimeError("Simulated activation failure")
+RuntimeError: Simulated activation failure
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<repo>/q2_port/test_host_deploy.py", line 167, in test_journal_io_failure_never_prevents_file_or_service_recovery
+    deploy.apply(self.package, self.root, services)
+  File "<repo>/q2_port/host_deploy.py", line 293, in apply
+    journal(package, state)
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/unittest/mock.py", line 1134, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/unittest/mock.py", line 1138, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/unittest/mock.py", line 1199, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/q2_port/test_host_deploy.py", line 161, in journal_io_error
+    raise OSError("Simulated journal I/O failure")
+OSError: Simulated journal I/O failure
+
+======================================================================
+FAIL: test_carry_forward_label_cannot_authorize_slot_jog_write (__main__.HostDeploymentTests.test_carry_forward_label_cannot_authorize_slot_jog_write) (content=b'# changed motion helper\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/q2_port/test_host_deploy.py", line 190, in test_carry_forward_label_cannot_authorize_slot_jog_write
+    with self.assertRaisesRegex(ValueError, "[Ss]lot-jog"):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_carry_forward_label_cannot_authorize_slot_jog_write (__main__.HostDeploymentTests.test_carry_forward_label_cannot_authorize_slot_jog_write) (content=b'# original motion helper\n')
+----------------------------------------------------------------------
+ValueError: Existing transaction: inspect or roll back before applying again
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<repo>/q2_port/test_host_deploy.py", line 190, in test_carry_forward_label_cannot_authorize_slot_jog_write
+    with self.assertRaisesRegex(ValueError, "[Ss]lot-jog"):
+AssertionError: "[Ss]lot-jog" does not match "Existing transaction: inspect or roll back before applying again"
+
+======================================================================
+FAIL: test_drift_during_shutdown_recovers_services_without_overwriting_edit (__main__.HostDeploymentTests.test_drift_during_shutdown_recovers_services_without_overwriting_edit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/q2_port/test_host_deploy.py", line 135, in test_drift_during_shutdown_recovers_services_without_overwriting_edit
+    self.assertEqual(services.running, set(deploy.SERVICES))
+AssertionError: Items in the second set but not the first:
+'qidi-client'
+'nginx'
+'moonraker'
+'klipper'
+
+======================================================================
+FAIL: test_partial_service_stop_failure_recovers_previous_services (__main__.HostDeploymentTests.test_partial_service_stop_failure_recovers_previous_services)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/q2_port/test_host_deploy.py", line 151, in test_partial_service_stop_failure_recovers_previous_services
+    self.assertEqual(services.running, set(deploy.SERVICES))
+AssertionError: Items in the second set but not the first:
+'nginx'
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.839s
+
+FAILED (failures=4, errors=1)
+{"status": "active", "changed_files": 2, "firmware_flashes": 0}
+{"status": "active", "changed_files": 1, "firmware_flashes": 0}
+{"status": "active", "changed_files": 2, "firmware_flashes": 0}
+{"status": "active", "changed_files": 2, "firmware_flashes": 0}
+{"status": "active", "changed_files": 2, "firmware_flashes": 0}

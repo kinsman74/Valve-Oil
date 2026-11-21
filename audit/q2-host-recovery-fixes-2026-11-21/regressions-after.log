@@ -1,0 +1,26 @@
+test_activation_failure_automatically_restores_original_files (__main__.HostDeploymentTests.test_activation_failure_automatically_restores_original_files) ... ok
+test_apply_and_explicit_rollback_preserve_metadata_and_remove_new_files (__main__.HostDeploymentTests.test_apply_and_explicit_rollback_preserve_metadata_and_remove_new_files) ... ok
+test_carry_forward_label_cannot_authorize_slot_jog_write (__main__.HostDeploymentTests.test_carry_forward_label_cannot_authorize_slot_jog_write) ... ok
+test_corrupt_payload_and_motion_target_are_rejected (__main__.HostDeploymentTests.test_corrupt_payload_and_motion_target_are_rejected) ... ok
+test_drift_during_shutdown_recovers_services_without_overwriting_edit (__main__.HostDeploymentTests.test_drift_during_shutdown_recovers_services_without_overwriting_edit) ... ok
+test_existing_legacy_journal_still_restores_files (__main__.HostDeploymentTests.test_existing_legacy_journal_still_restores_files) ... ok
+test_incomplete_or_finished_transaction_is_not_silently_reapplied (__main__.HostDeploymentTests.test_incomplete_or_finished_transaction_is_not_silently_reapplied) ... ok
+test_interrupted_prewrite_recovery_preserves_late_edit_without_api (__main__.HostDeploymentTests.test_interrupted_prewrite_recovery_preserves_late_edit_without_api) ... ok
+test_interrupted_transaction_can_roll_back_with_klipper_offline (__main__.HostDeploymentTests.test_interrupted_transaction_can_roll_back_with_klipper_offline) ... ok
+test_journal_io_failure_never_prevents_file_or_service_recovery (__main__.HostDeploymentTests.test_journal_io_failure_never_prevents_file_or_service_recovery) ... ok
+test_live_admission_rejects_print_heat_box_flow_and_rfid_activity (__main__.HostDeploymentTests.test_live_admission_rejects_print_heat_box_flow_and_rfid_activity) ... ok
+test_partial_service_stop_failure_recovers_previous_services (__main__.HostDeploymentTests.test_partial_service_stop_failure_recovers_previous_services) ... ok
+test_rollback_refuses_later_edits_without_stopping_services (__main__.HostDeploymentTests.test_rollback_refuses_later_edits_without_stopping_services) ... ok
+test_target_drift_is_rejected_before_service_stop_or_write (__main__.HostDeploymentTests.test_target_drift_is_rejected_before_service_stop_or_write) ... ok
+test_unavailable_journal_and_stderr_still_allow_recovery (__main__.HostDeploymentTests.test_unavailable_journal_and_stderr_still_allow_recovery) ... ok
+test_write_marker_is_durable_before_a_replacement_can_fail (__main__.HostDeploymentTests.test_write_marker_is_durable_before_a_replacement_can_fail) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 1.029s
+
+OK
+{"status": "active", "changed_files": 2, "firmware_flashes": 0}
+{"status": "active", "changed_files": 2, "firmware_flashes": 0}
+{"status": "active", "changed_files": 2, "firmware_flashes": 0}
+{"status": "active", "changed_files": 2, "firmware_flashes": 0}
+{"status": "active", "changed_files": 2, "firmware_flashes": 0}

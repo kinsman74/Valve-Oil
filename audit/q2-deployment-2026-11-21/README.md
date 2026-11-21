@@ -1,5 +1,9 @@
 # Q2 host/interface deployment, November 21, 2026
 
+Subsequent helper review fixes are documented in
+[the recovery-fix audit](../q2-host-recovery-fixes-2026-11-21/README.md).
+They update the saved recovery helper without changing the deployed payload.
+
 **Deployed and independently verified.** The selective Valve Oil 26.11.18.2
 host/interface payload from checkpoint 0c84d0c is active on the owner's Q2.
 The Plus5 was not changed. No firmware binaries were transferred, no firmware

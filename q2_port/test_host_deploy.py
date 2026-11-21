@@ -1,5 +1,7 @@
 """Local transaction tests with fake service activation; never contacts a printer."""
 
+import contextlib
+import io
 import json
 import os
 from pathlib import Path
@@ -17,26 +19,30 @@ class FakeServices:
     def __init__(self, fail_activation=False):
         self.fail_activation = fail_activation
         self.stops = 0
+        self.running = set(deploy.SERVICES)
 
     def idle(self, root):
         pass
 
     def active(self):
-        return list(deploy.SERVICES)
+        return list(self.running)
 
     def stop(self):
         self.stops += 1
+        self.running.clear()
 
     def nginx(self):
         pass
 
     def start(self, names):
-        pass
+        self.running.update(names)
 
     def healthy(self):
         if self.fail_activation:
             self.fail_activation = False
             raise RuntimeError("Simulated activation failure")
+        if self.running != set(deploy.SERVICES):
+            raise RuntimeError("Services remain stopped")
 
 
 class HostDeploymentTests(unittest.TestCase):
@@ -115,6 +121,98 @@ class HostDeploymentTests(unittest.TestCase):
         self.assertEqual((self.root / self.existing).read_bytes(), b"owner edit")
         self.assertFalse((self.root / self.new).exists())
 
+    def test_drift_during_shutdown_recovers_services_without_overwriting_edit(self):
+        services = FakeServices()
+        stop = services.stop
+
+        def concurrent_edit():
+            stop()
+            (self.root / self.existing).write_bytes(b"late owner edit")
+
+        with mock.patch.object(services, "stop", side_effect=concurrent_edit):
+            with self.assertRaisesRegex(ValueError, "Stopped-service target drift"):
+                deploy.apply(self.package, self.root, services)
+        self.assertEqual(services.running, set(deploy.SERVICES))
+        self.assertEqual((self.root / self.existing).read_bytes(), b"late owner edit")
+        self.assertFalse((self.root / self.new).exists())
+        state = json.loads((self.package / "journal.json").read_text())
+        self.assertEqual(state["status"], "aborted_before_write")
+
+    def test_partial_service_stop_failure_recovers_previous_services(self):
+        services = FakeServices()
+
+        def partial_stop():
+            services.running.remove("nginx")
+            raise RuntimeError("Simulated stop timeout")
+
+        with mock.patch.object(services, "stop", side_effect=partial_stop):
+            with self.assertRaisesRegex(RuntimeError, "stop timeout"):
+                deploy.apply(self.package, self.root, services)
+        self.assertEqual(services.running, set(deploy.SERVICES))
+        self.assert_restored()
+
+    def test_journal_io_failure_never_prevents_file_or_service_recovery(self):
+        services = FakeServices(fail_activation=True)
+        original = deploy.journal
+        warnings = io.StringIO()
+
+        def journal_io_error(package, state):
+            if "error" in state:
+                raise OSError("Simulated journal I/O failure")
+            original(package, state)
+
+        with mock.patch.object(deploy, "journal", side_effect=journal_io_error):
+            with contextlib.redirect_stderr(warnings):
+                with self.assertRaisesRegex(RuntimeError, "activation failure"):
+                    deploy.apply(self.package, self.root, services)
+        self.assert_restored()
+        self.assertEqual(services.running, set(deploy.SERVICES))
+        self.assertIn("journal", warnings.getvalue().lower())
+
+    def test_unavailable_journal_and_stderr_still_allow_recovery(self):
+        services = FakeServices(fail_activation=True)
+        original = deploy.journal
+
+        def journal_io_error(package, state):
+            if "error" in state:
+                raise OSError("Simulated journal I/O failure")
+            original(package, state)
+
+        with mock.patch.object(deploy, "journal", side_effect=journal_io_error):
+            with mock.patch.object(deploy.sys, "stderr") as stderr:
+                stderr.write.side_effect = OSError("Simulated error log failure")
+                with self.assertRaisesRegex(RuntimeError, "activation failure"):
+                    deploy.apply(self.package, self.root, services)
+        self.assert_restored()
+        self.assertEqual(services.running, set(deploy.SERVICES))
+
+    def test_carry_forward_label_cannot_authorize_slot_jog_write(self):
+        target = "home/qidi/klipper/klippy/extras/tltg_box_slot_jog.py"
+        path = self.root / target
+        path.parent.mkdir(parents=True)
+        original = b"# original motion helper\n"
+        path.write_bytes(original)
+        rendered = self.package / "rendered" / target
+        rendered.parent.mkdir(parents=True)
+        for content in (b"# changed motion helper\n", original):
+            with self.subTest(content=content):
+                rendered.write_bytes(content)
+                self.manifest["operations"] = [
+                    {
+                        "target": target,
+                        "kind": "file",
+                        "carried_forward_motion_exception": True,
+                        "before_sha256": sha(original),
+                        "after_sha256": sha(content),
+                    }
+                ]
+                self.save_manifest()
+                services = FakeServices()
+                with self.assertRaisesRegex(ValueError, "[Ss]lot-jog"):
+                    deploy.apply(self.package, self.root, services)
+                self.assertEqual(services.stops, 0)
+                self.assertEqual(path.read_bytes(), original)
+
     def test_rollback_refuses_later_edits_without_stopping_services(self):
         services = FakeServices()
         deploy.apply(self.package, self.root, services)
@@ -156,6 +254,54 @@ class HostDeploymentTests(unittest.TestCase):
         offline.idle = mock.Mock(side_effect=RuntimeError("API offline"))
         deploy.rollback(self.package, self.root, offline)
         offline.idle.assert_not_called()
+        self.assert_restored()
+
+    def test_interrupted_prewrite_recovery_preserves_late_edit_without_api(self):
+        state = {
+            "status": "prepared",
+            "writes_started": False,
+            "services": list(deploy.SERVICES),
+            "files": [],
+            "created_directories": [],
+        }
+        deploy.journal(self.package, state)
+        (self.root / self.existing).write_bytes(b"late owner edit")
+        services = FakeServices()
+        services.running.clear()
+        services.idle = mock.Mock(side_effect=RuntimeError("API offline"))
+        deploy.rollback(self.package, self.root, services)
+        self.assertEqual(services.running, set(deploy.SERVICES))
+        self.assertEqual((self.root / self.existing).read_bytes(), b"late owner edit")
+        self.assertFalse((self.root / self.new).exists())
+        services.idle.assert_not_called()
+
+    def test_write_marker_is_durable_before_a_replacement_can_fail(self):
+        original_atomic = deploy.atomic
+        recorded = []
+
+        def failed_replacement(path, data, mode, uid, gid):
+            if path == (self.root / self.existing).resolve() and not recorded:
+                state = json.loads((self.package / "journal.json").read_text())
+                recorded.append(state["writes_started"])
+                original_atomic(path, data, mode, uid, gid)
+                raise OSError("Simulated failure after replacement")
+            original_atomic(path, data, mode, uid, gid)
+
+        services = FakeServices()
+        with mock.patch.object(deploy, "atomic", side_effect=failed_replacement):
+            with self.assertRaisesRegex(OSError, "after replacement"):
+                deploy.apply(self.package, self.root, services)
+        self.assertEqual(recorded, [True])
+        self.assert_restored()
+        self.assertEqual(services.running, set(deploy.SERVICES))
+
+    def test_existing_legacy_journal_still_restores_files(self):
+        deploy.apply(self.package, self.root, FakeServices())
+        path = self.package / "journal.json"
+        state = json.loads(path.read_text())
+        del state["writes_started"]
+        path.write_text(json.dumps(state))
+        deploy.rollback(self.package, self.root, FakeServices())
         self.assert_restored()
 
     def test_live_admission_rejects_print_heat_box_flow_and_rfid_activity(self):
