@@ -1,0 +1,13 @@
+{
+  "preview": {
+    "file": "q2-nonmotion-preview-2026.11.21-audit2.tar.gz",
+    "sha256": "1ddee963d26d637563effbe432ce637ec9c29245b230e4823e3e46c8834014c7",
+    "bytes": 5036961
+  },
+  "source": {
+    "file": "q2-nonmotion-source-2026.11.21-audit2.tar.gz",
+    "sha256": "8f7b8d5fd8a8829c8aea39ab5f2e839de176a6f9bd9397cc8b4fe9835551c68a",
+    "bytes": 162070
+  },
+  "standalone_archive_plan_matches_twice": true
+}

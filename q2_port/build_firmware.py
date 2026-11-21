@@ -1,27 +1,129 @@
-"""Offline Q2 firmware build. No device access or flashing operations."""
-import argparse,hashlib,importlib.util,json,shutil,subprocess,sys,tempfile
-from pathlib import Path
+"""Build locked Q2 candidate bytes locally. No flashing or device access."""
 
-def sha(data): return hashlib.sha256(data).hexdigest()
-def build(a):
- sys.path.insert(0,str(a.upstream.resolve()/'scripts'));from build_thr_firmware import patch_thr
- m=json.loads((a.upstream/'firmware/max4-thr-valve-oil-v1.json').read_text());stock=a.thr.read_bytes();assert sha(stock)==m['thr']['stock_sha256'];thr=patch_thr(stock,m);assert sha(thr)==m['thr']['patched_sha256']
- (a.output/'q2-thr-valve-oil-fifo.bin').write_bytes(thr)
- with tempfile.TemporaryDirectory() as td:
-  t=Path(td);shutil.copy2(a.q2_port/'build.py',t/'build.py');shutil.copytree(a.q2_port/'src',t/'src');shutil.copy2(a.q2_port/'QD_Q2_BOX_02.03.01.13_20251127.bin',t/'QD_Q2_BOX_02.03.01.13_20251127.bin');subprocess.run([sys.executable,'-B',str(t/'build.py')],check=True)
-  box=(t/'q2-box-valve-rfid-dev1.bin').read_bytes();assert sha(box)=='50e1b2d76a64d3ef7a0c8f79eb4a84be9eafd93cb0912e55d994c8245d93f903';(a.output/'q2-box-valve-rfid-dev1.bin').write_bytes(box)
-  report=json.loads((t/'build-report.json').read_text());report['status']='reproduced existing Q2 dev1; hardware readback/Anycubic evidence recorded separately';
-  for patch in report['patches']:
-   patch['description']=patch['description'].replace('Retire debug handler','Retire legacy RFID diagnostic handler')
-  (a.output/'box-build-report.json').write_text(json.dumps(report,indent=2))
- (a.output/'firmware.json').write_text(json.dumps({'mode':'offline-build-only','upstream_commit':'fea34e996f1ab64c646dd02846d1bb47ad93c272','box':{'stock_sha256':report['stock_sha256'],'output_sha256':sha(box),'size':len(box),'scope':'Q2 adaptation of Tuba RFID transport; host guard supplies zero/malformed/conflict handling'},'thr':{'stock_sha256':sha(stock),'output_sha256':sha(thr),'size':len(thr),'scope':'Exact Q2 cached image matches upstream Max4/Plus5 THR preimage; sensor FIFO fix only'},'mainboard':'stock, no motion/closed-loop patch','shutdown':'Q2 dispatcher retained; MCB-specific patch not applicable','deployment':'Not authorized by this dry run; new THR needs installed-image/bootloader readback and recovery qualification while idle'},indent=2))
- print('Offline Box and THR images built and hash-verified.')
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import tempfile
+
+import policy
+from provenance import verify_group
+
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def build(args):
+    # The imported upstream builder and legacy adapter contain assertions.
+    require(
+        __debug__, "Optimized Python is unsupported; verification must not be disabled"
+    )
+    verify_group(args.upstream, "upstream")
+    verify_group(args.q2_port, "q2_adapter")
+    sys.path.insert(0, str(args.upstream.resolve() / "scripts"))
+    from build_thr_firmware import patch_thr
+
+    manifest = json.loads(
+        (args.upstream / "firmware/max4-thr-valve-oil-v1.json").read_text()
+    )
+    stock_thr = args.thr.read_bytes()
+    require(sha(stock_thr) == policy.STOCK_THR_SHA, "Unknown Q2 toolhead input")
+    thr = patch_thr(stock_thr, manifest)
+    require(
+        (len(thr), sha(thr)) == policy.FIRMWARE["q2-thr-valve-oil-fifo.bin"],
+        "Unexpected toolhead output",
+    )
+    stock_box = args.q2_port / "QD_Q2_BOX_02.03.01.13_20251127.bin"
+    require(sha(stock_box.read_bytes()) == policy.STOCK_BOX_SHA, "Unknown Q2 Box input")
+    with tempfile.TemporaryDirectory() as temporary:
+        stage = Path(temporary)
+        shutil.copy2(args.q2_port / "build.py", stage / "build.py")
+        shutil.copytree(
+            args.q2_port / "src",
+            stage / "src",
+            ignore=shutil.ignore_patterns("__pycache__"),
+        )
+        shutil.copy2(stock_box, stage / stock_box.name)
+        environment = os.environ.copy()
+        environment.pop("PYTHONOPTIMIZE", None)
+        subprocess.run(
+            [sys.executable, "-B", str(stage / "build.py")], env=environment, check=True
+        )
+        box = (stage / "q2-box-valve-rfid-dev1.bin").read_bytes()
+        require(
+            (len(box), sha(box)) == policy.FIRMWARE["q2-box-valve-rfid-dev1.bin"],
+            "Unexpected Box output",
+        )
+        report = json.loads((stage / "build-report.json").read_text())
+        report["status"] = (
+            "reproduced deployed Q2 dev1; prior hardware evidence is separate"
+        )
+        for patch in report["patches"]:
+            patch["description"] = patch["description"].replace(
+                "Retire debug handler", "Retire legacy RFID diagnostic handler"
+            )
+    (args.output / "q2-box-valve-rfid-dev1.bin").write_bytes(box)
+    (args.output / "q2-thr-valve-oil-fifo.bin").write_bytes(thr)
+    (args.output / "box-build-report.json").write_text(
+        json.dumps(report, indent=2) + "\n"
+    )
+    result = {
+        "mode": "offline-build-only",
+        "upstream_commit": policy.UPSTREAM_COMMIT,
+        "source_content_locks_verified": True,
+        "box": {
+            "stock_sha256": policy.STOCK_BOX_SHA,
+            "output_sha256": sha(box),
+            "size": len(box),
+            "scope": "Q2 RFID transport; empty/malformed/conflict protection is host-side",
+        },
+        "thr": {
+            "stock_sha256": sha(stock_thr),
+            "output_sha256": sha(thr),
+            "size": len(thr),
+            "scope": "Exact upstream image identity; sensor FIFO fix only",
+        },
+        "mainboard": "no image or motion/closed-loop patch included",
+        "shutdown": "Q2 path unchanged; MCB-specific patch not applicable",
+        "deployment": "not performed; idle installed-image/bootloader admission and recovery qualification required",
+    }
+    (args.output / "firmware.json").write_text(json.dumps(result, indent=2) + "\n")
+
 
 def main():
- p=argparse.ArgumentParser();p.add_argument('--upstream',type=Path,required=True);p.add_argument('--q2-port',type=Path,required=True);p.add_argument('--thr',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args()
- destination=a.output
- if destination.exists():raise ValueError('Output exists; choose a new destination')
- destination.parent.mkdir(parents=True,exist_ok=True)
- with tempfile.TemporaryDirectory(prefix='.q2-firmware-',dir=destination.parent) as temporary:
-  a.output=Path(temporary)/'payload';a.output.mkdir();build(a);a.output.rename(destination)
-if __name__=='__main__':main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    for name in ("upstream", "q2-port", "thr", "output"):
+        parser.add_argument("--" + name, type=Path, required=True)
+    args = parser.parse_args()
+    destination = args.output.resolve()
+    if args.output.exists() or args.output.is_symlink():
+        parser.error("Output already exists")
+    for source in (args.upstream, args.q2_port):
+        if destination.is_relative_to(source.resolve()):
+            parser.error("Output must be outside source inputs")
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        with tempfile.TemporaryDirectory(
+            prefix=".q2-firmware-", dir=destination.parent
+        ) as temporary:
+            args.output = Path(temporary) / "payload"
+            args.output.mkdir()
+            build(args)
+            args.output.rename(destination)
+    except (ValueError, OSError, subprocess.CalledProcessError) as error:
+        parser.exit(2, "Firmware build rejected: " + str(error) + "\n")
+    print("Offline Box and THR build passed; no hardware accessed.")
+
+
+if __name__ == "__main__":
+    main()

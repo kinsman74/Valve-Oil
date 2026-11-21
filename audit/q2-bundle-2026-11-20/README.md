@@ -1,5 +1,8 @@
 # Combined Q2 non-motion preview and dry run
 
+Historical evidence. Superseded by ../q2-bundle-2026-11-21/README.md.
+The install/rollback wording below means file-copy simulation only.
+
 Built November 20 from released Valve Oil 26.11.18.1 main
 fea34e996f1ab64c646dd02846d1bb47ad93c272, our deployed Q2 Box dev1 and local
 Q2 host/web compatibility changes. Scope excludes new movement, homing,

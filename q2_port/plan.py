@@ -1,76 +1,298 @@
-"""Read-only Q2 package planner. This program cannot install or flash anything."""
-import argparse,ast,hashlib,json,re
+"""Read-only file planner, not an installer or a board-admission check."""
+
+import argparse
+import ast
+import hashlib
+import json
+import re
+import sys
 from pathlib import Path
 
-def sha(data):return hashlib.sha256(data).hexdigest()
-def safe(root,name):
- p=Path(name)
- if p.is_absolute() or '..' in p.parts or not p.parts:raise ValueError('Unsafe relative path: '+name)
- root=root.resolve();dest=root/p
- for part in [dest,*dest.parents]:
-  if part==root:break
-  if part.is_symlink():raise ValueError('Symlink target refused: '+name)
- if not dest.resolve().is_relative_to(root):raise ValueError('Escaping path: '+name)
- return dest
+sys.dont_write_bytecode = True
 
-def overlay_config(data,sections):
- s=data.decode();marker='#*# <---------------------- SAVE_CONFIG'
- if marker not in s:raise ValueError('Missing calibration marker')
- found=re.findall(r'^\[([^\]\r\n]+)\]',s,re.M)
- if len(found)!=len(set(found)):raise ValueError('Duplicate config section')
- missing=[name for name in sections if name not in found]
- if not missing:return data
- newline='\r\n' if b'\r\n' in data else '\n';block=newline+'# Q2 non-motion bundle sections'+newline+''.join('['+n+']'+newline+newline for n in missing)
- result=s.replace(marker,block+marker,1).encode()
- if result.decode().split(marker,1)[1]!=s.split(marker,1)[1]:raise ValueError('Calibration changed')
- return result
+import policy  # noqa: E402 - disable cache writes before importing bundled code
 
-def desired(bundle,op,before):
- kind=op['kind']
- if kind=='file':
-  data=safe(bundle,op['payload']).read_bytes()
-  if sha(data)!=op['after_sha256']:raise ValueError('Corrupt payload: '+op['payload'])
-  return data
- if kind=='config_sections':return overlay_config(before,op['sections'])
- if kind=='nginx_routes':
-  text=before.decode();newline='\r\n' if b'\r\n' in before else '\n'
-  for name in ('screen-routes.conf','status-routes.conf','ui-routes.conf'):
-   block=safe(bundle,name).read_text();start=block.splitlines()[0].strip();end=block.splitlines()[-1].strip();pattern=r'^[ \t]*'+re.escape(start)+r'\r?\n.*?^[ \t]*'+re.escape(end)+r'\r?\n';matches=list(re.finditer(pattern,text,re.M|re.S))
-   if len(matches)>1:raise ValueError('Ambiguous managed nginx block')
-   replacement=block.replace('\n',newline)
-   if matches:text=text[:matches[0].start()]+replacement+text[matches[0].end():]
-   else:
-    anchor='    location /webcam/ {'
-    if text.count(anchor)!=1:raise ValueError('Unknown nginx route structure')
-    text=text.replace(anchor,replacement+newline+anchor,1)
-  return text.encode()
- if kind=='catalog_merge':
-  tree=ast.parse(safe(bundle,'filament_catalog.py').read_text());assignment=next(n for n in tree.body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='CATALOG' for t in n.targets));literal=assignment.value.args[0];
-  if not isinstance(literal,ast.Constant) or not isinstance(literal.value,str):raise ValueError('Catalog must contain literal JSON')
-  catalog=json.loads(literal.value);entries=json.loads(before);used={e.get('filament_id') for e in entries.values() if isinstance(e,dict)};new={n:dict(i['entry']) for n,i in catalog['filaments'].items() if op['nozzle'] in i['nozzles'] and n not in entries and i['entry']['filament_id'] not in used}
-  if not new:return before
-  return (json.dumps({**entries,**new},ensure_ascii=False,indent=2)+'\n').encode()
- raise ValueError('Unknown operation type: '+kind)
 
-def plan(bundle,snapshot):
- sums=json.loads((bundle/'SHA256SUMS.json').read_text())
- actual={p.relative_to(bundle).as_posix() for p in bundle.rglob('*') if p.is_file() and p.name!='SHA256SUMS.json'}
- if actual!=set(sums):raise ValueError('Bundle file inventory mismatch')
- for name,digest in sums.items():
-  if sha(safe(bundle,name).read_bytes())!=digest:raise ValueError('Bundle checksum mismatch: '+name)
- m=json.loads((bundle/'manifest.json').read_text());fw=json.loads(safe(snapshot,'home/qidi/update/firmware_manifest.json').read_text())
- if fw.get('SOC',{}).get('version')!=m['supported_soc']:raise ValueError('Unsupported SOC version')
- if 'Q2' not in fw.get('SOC',{}).get('file',''):raise ValueError('Wrong printer model')
- actions=[];seen=set()
- for op in m['operations']:
-  if op['target'] in seen:raise ValueError('Duplicate operation target')
-  seen.add(op['target']);p=safe(snapshot,op['target']);before=p.read_bytes() if p.exists() else b'';result=desired(bundle,op,before)
-  # Desired bytes are accepted for repeat runs; unknown divergent preimages fail closed.
-  state='unchanged' if p.exists() and before==result else 'create' if not p.exists() else 'replace'
-  if state!='unchanged' and (sha(before) if p.exists() else None)!=op.get('before_sha256'):raise ValueError('Target drift: '+op['target'])
-  actions.append({'target':op['target'],'action':state,'before_sha256':sha(before) if p.exists() else None,'after_sha256':sha(result),'feature':op['feature']})
- return {'mode':'dry-run','read_only':True,'model':'Q2','soc':m['supported_soc'],'upstream_commit':m['upstream_commit'],'actions':actions,'counts':{k:sum(a['action']==k for a in actions) for k in ('create','replace','unchanged')},'blocked_source_transforms':m['blocked_transforms'],'feature_status':m['feature_status'],'live_flash':'not attempted; requires idle physical board admission and verified rollback','complete_upstream_parity':False}
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def safe(root, name):
+    path = Path(name)
+    if path.is_absolute() or ".." in path.parts or not path.parts:
+        raise ValueError("Unsafe relative path: " + name)
+    root = root.resolve()
+    destination = root / path
+    for part in (destination, *destination.parents):
+        if part == root:
+            break
+        if part.is_symlink():
+            raise ValueError("Symlink target refused: " + name)
+    if not destination.resolve().is_relative_to(root):
+        raise ValueError("Escaping path: " + name)
+    return destination
+
+
+def overlay_config(data, sections):
+    text = data.decode()
+    marker = "#*# <---------------------- SAVE_CONFIG"
+    if marker not in text:
+        raise ValueError("Missing calibration marker")
+    found = re.findall(r"^\[([^\]\r\n]+)\]", text, re.M)
+    if len(found) != len(set(found)):
+        raise ValueError("Duplicate configuration section")
+    missing = [name for name in sections if name not in found]
+    if not missing:
+        return data
+    newline = "\r\n" if b"\r\n" in data else "\n"
+    block = newline + "# Q2 non-motion bundle sections" + newline
+    block += "".join("[" + name + "]" + newline * 2 for name in missing)
+    result = text.replace(marker, block + marker, 1).encode()
+    if result.decode().split(marker, 1)[1] != text.split(marker, 1)[1]:
+        raise ValueError("Calibration tail changed")
+    return result
+
+
+def read_catalog(bundle):
+    """Extract literal JSON without importing or executing a Python payload."""
+    tree = ast.parse(safe(bundle, "filament_catalog.py").read_text())
+    assignments = [
+        node
+        for node in tree.body
+        if isinstance(node, ast.Assign)
+        and any(isinstance(t, ast.Name) and t.id == "CATALOG" for t in node.targets)
+    ]
+    if len(assignments) != 1:
+        raise ValueError("Catalog must have one CATALOG assignment")
+    value = assignments[0].value
+    if not (
+        isinstance(value, ast.Call)
+        and isinstance(value.func, ast.Attribute)
+        and isinstance(value.func.value, ast.Name)
+        and value.func.value.id == "json"
+        and value.func.attr == "loads"
+        and len(value.args) == 1
+        and not value.keywords
+        and isinstance(value.args[0], ast.Constant)
+        and isinstance(value.args[0].value, str)
+    ):
+        raise ValueError("Catalog must contain literal JSON")
+    catalog = json.loads(value.args[0].value)
+    if not isinstance(catalog.get("filaments"), dict):
+        raise ValueError("Invalid filament catalog")
+    return catalog
+
+
+def desired(bundle, operation, before):
+    kind = operation["kind"]
+    if kind == "file":
+        data = safe(bundle, operation["payload"]).read_bytes()
+        if sha(data) != operation["after_sha256"]:
+            raise ValueError("Corrupt payload: " + operation["payload"])
+        return data
+    if kind == "config_sections":
+        return overlay_config(before, operation["sections"])
+    if kind == "metadata":
+        data = json.loads(before) if before else {}
+        if not isinstance(data, dict):
+            raise ValueError("Invalid existing Q2 status metadata")
+        # Preserve unrelated fields. A different printer/profile needs explicit review.
+        printer = data.get("printer", {})
+        if not isinstance(printer, dict) or not isinstance(
+            data.get("release", {}), dict
+        ):
+            raise ValueError("Invalid existing Q2 status metadata fields")
+        if printer.get("id") not in (None, "q2"):
+            raise ValueError("Existing status metadata belongs to another printer")
+        data.update(schema=1)
+        data["release"] = {**data.get("release", {}), "installed": "26.11.18.1-q2"}
+        data["printer"] = {**printer, "id": "q2", "name": "QIDI Q2 selective port"}
+        data.setdefault("pending", [])
+        data.setdefault("boards", [])
+        data.setdefault("run", None)
+        return (json.dumps(data, indent=2) + "\n").encode()
+    if kind == "nginx_routes":
+        text = before.decode()
+        newline = "\r\n" if b"\r\n" in before else "\n"
+        for name in ("screen-routes.conf", "status-routes.conf", "ui-routes.conf"):
+            block = safe(bundle, name).read_text()
+            lines = block.splitlines()
+            if len(lines) < 2:
+                raise ValueError("Invalid nginx route fragment")
+            start, end = lines[0].strip(), lines[-1].strip()
+            pattern = (
+                r"^[ \t]*"
+                + re.escape(start)
+                + r"\r?\n.*?^[ \t]*"
+                + re.escape(end)
+                + r"\r?\n"
+            )
+            matches = list(re.finditer(pattern, text, re.M | re.S))
+            if len(matches) > 1:
+                raise ValueError("Ambiguous managed nginx block")
+            replacement = block.replace("\n", newline)
+            if matches:
+                text = (
+                    text[: matches[0].start()] + replacement + text[matches[0].end() :]
+                )
+            else:
+                anchor = "    location /webcam/ {"
+                if text.count(anchor) != 1:
+                    raise ValueError("Unknown nginx route structure")
+                text = text.replace(anchor, replacement + newline + anchor, 1)
+        return text.encode()
+    if kind == "catalog_merge":
+        catalog = read_catalog(bundle)
+        entries = json.loads(before)
+        if not isinstance(entries, dict):
+            raise ValueError("Existing catalog must be an object")
+        used = {
+            entry.get("filament_id")
+            for entry in entries.values()
+            if isinstance(entry, dict)
+        }
+        additions = {}
+        for name, item in catalog["filaments"].items():
+            if operation["nozzle"] not in item["nozzles"] or name in entries:
+                continue
+            entry = item["entry"]
+            if entry["filament_id"] in used:
+                continue
+            additions[name] = dict(entry)
+            used.add(entry["filament_id"])
+        if not additions:
+            return before
+        return (
+            json.dumps({**entries, **additions}, ensure_ascii=False, indent=2) + "\n"
+        ).encode()
+    raise ValueError("Unknown operation type: " + kind)
+
+
+def verify_bundle(bundle):
+    sums = json.loads(safe(bundle, "SHA256SUMS.json").read_text())
+    if not isinstance(sums, dict):
+        raise ValueError("Invalid bundle checksum inventory")
+    actual = set()
+    for path in bundle.rglob("*"):
+        if path.is_symlink():
+            raise ValueError("Bundle symlink refused: " + str(path))
+        if path.is_dir():
+            continue
+        if not path.is_file():
+            raise ValueError("Non-regular bundle entry")
+        name = path.relative_to(bundle).as_posix()
+        if name != "SHA256SUMS.json":
+            actual.add(name)
+    if actual != set(sums):
+        raise ValueError("Bundle file inventory mismatch")
+    for name, digest in sums.items():
+        if not isinstance(digest, str) or not re.fullmatch(r"[0-9a-f]{64}", digest):
+            raise ValueError("Invalid checksum: " + name)
+        if sha(safe(bundle, name).read_bytes()) != digest:
+            raise ValueError("Bundle checksum mismatch: " + name)
+    for name, (size, digest) in policy.FIRMWARE.items():
+        data = safe(bundle, "firmware/" + name).read_bytes()
+        if len(data) != size or sha(data) != digest:
+            raise ValueError("Firmware identity mismatch: " + name)
+
+
+def plan(bundle, snapshot):
+    verify_bundle(bundle)
+    manifest = json.loads(safe(bundle, "manifest.json").read_text())
+    if (
+        manifest.get("schema") != policy.SCHEMA
+        or manifest.get("upstream_commit") != policy.UPSTREAM_COMMIT
+        or manifest.get("supported_soc") != policy.SOC_VERSION
+        or manifest.get("mode") != "dry-run-only"
+        or manifest.get("no_live_flash") is not True
+    ):
+        raise ValueError("Unsupported bundle policy or provenance")
+    firmware = json.loads(
+        safe(snapshot, "home/qidi/update/firmware_manifest.json").read_text()
+    )
+    soc = firmware.get("SOC", {})
+    if soc.get("version") != policy.SOC_VERSION:
+        raise ValueError("Unsupported SOC version")
+    if not re.match(r"^QD_Q2_SOC_01\.01\.03\.02(?:_|$)", soc.get("file", "")):
+        raise ValueError("Wrong printer model")
+    actions, seen = [], set()
+    for operation in manifest["operations"]:
+        policy.validate_operation(operation)
+        target = operation["target"]
+        if target in seen:
+            raise ValueError("Duplicate operation target")
+        seen.add(target)
+        path = safe(snapshot, target)
+        before = path.read_bytes() if path.exists() else b""
+        current_hash = sha(before) if path.exists() else None
+        expected_after = operation.get("after_sha256")
+        if not isinstance(expected_after, str) or not re.fullmatch(
+            r"[0-9a-f]{64}", expected_after
+        ):
+            raise ValueError("Missing expected result hash: " + target)
+        # Check identity BEFORE rendering; arbitrary config edits are never an idempotence shortcut.
+        if current_hash not in (operation.get("before_sha256"), expected_after):
+            raise ValueError("Target drift: " + target)
+        result = desired(bundle, operation, before)
+        if sha(result) != expected_after:
+            raise ValueError("Transformation result mismatch: " + target)
+        if target.endswith("/tltg_box_slot_jog.py") and current_hash != expected_after:
+            raise ValueError(
+                "New or modified slot-jog is outside this non-motion upgrade"
+            )
+        state = (
+            "unchanged"
+            if current_hash == expected_after
+            else "create"
+            if not path.exists()
+            else "replace"
+        )
+        actions.append(
+            {
+                "target": target,
+                "action": state,
+                "before_sha256": current_hash,
+                "after_sha256": expected_after,
+                "feature": operation["feature"],
+                "mode": oct(path.stat().st_mode & 0o777) if path.exists() else "0o644",
+                "ownership": "preserve existing"
+                if path.exists()
+                else "requires installer policy",
+            }
+        )
+    return {
+        "mode": "dry-run",
+        "read_only": True,
+        "model": "Q2",
+        "soc": policy.SOC_VERSION,
+        "model_evidence": "cached manifest only; not physical board admission",
+        "upstream_commit": policy.UPSTREAM_COMMIT,
+        "actions": actions,
+        "counts": {
+            key: sum(action["action"] == key for action in actions)
+            for key in ("create", "replace", "unchanged")
+        },
+        "blocked_source_transforms": manifest["blocked_transforms"],
+        "feature_status": manifest["feature_status"],
+        "complete_upstream_parity": False,
+        "validation_scope": "file identities and rendering only; file-copy simulation is not an installer test",
+        "activation_not_executed": manifest["activation_requirements"],
+        "deployment_ready": False,
+        "live_flash": "requires idle physical board admission, recovery qualification and readback",
+    }
+
 
 def main():
- p=argparse.ArgumentParser();p.add_argument('--dry-run',action='store_true',required=True);p.add_argument('--bundle',type=Path,default=Path(__file__).resolve().parent);p.add_argument('--snapshot',type=Path,required=True);a=p.parse_args();print(json.dumps(plan(a.bundle,a.snapshot),indent=2))
-if __name__=='__main__':main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--dry-run", action="store_true", required=True)
+    parser.add_argument("--bundle", type=Path, default=Path(__file__).resolve().parent)
+    parser.add_argument("--snapshot", type=Path, required=True)
+    args = parser.parse_args()
+    try:
+        print(json.dumps(plan(args.bundle, args.snapshot), indent=2))
+    except (ValueError, OSError, SyntaxError) as error:
+        parser.exit(2, "Dry-run rejected: " + str(error) + "\n")
+
+
+if __name__ == "__main__":
+    main()
