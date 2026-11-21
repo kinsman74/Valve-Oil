@@ -1,6 +1,6 @@
 """Explicit scope and firmware identity for the Q2 offline preview."""
 
-UPSTREAM_COMMIT = "fea34e996f1ab64c646dd02846d1bb47ad93c272"
+UPSTREAM_COMMIT = "aa42eaa3c48f155282f3bda43720199f7e657d99"
 SOC_VERSION = "01.01.03.02"
 SCHEMA = 2
 NONMOTION = (

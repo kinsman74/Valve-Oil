@@ -1,0 +1,7 @@
+Patched instructions: 0x08008bfe: beq.w #0x8009260
+Patched instructions: 0x08008c04: movs r2, #0; 0x08008c06: strb r2, [r3, #8]
+Patched instructions: 0x080097a4: movw r3, #0xb3e
+Patched instructions: 0x080097b0: movw r3, #0xb3f
+Patched instructions: 0x080097bc: rsb.w r2, r1, #0x3f
+Verified 1024 stock/patched ARM executions: all FIFO status bytes, partial/full report buffers
+{"thr_fifo": "all upstream status/buffer cases passed", "thr_identify": "version-only dictionary difference", "box_standard_debug_read": "unchanged handler and command; both STM32F4 calibration halfwords emulated", "box_calibration_cases": 2, "physical_temperature_sensor": "not exercised", "physical_new_thr": "not flashed or qualified", "mode": "offline-only"}

@@ -1,0 +1,26 @@
+{
+  "upstream_commit": "aa42eaa3c48f155282f3bda43720199f7e657d99",
+  "version": "2026.11.21-stable2-preview1",
+  "changed_python_payloads": [
+    "home/qidi/klipper/klippy/extras/tltg_box485_monitor.py",
+    "home/qidi/klipper/klippy/extras/tltg_box_link_monitor.py"
+  ],
+  "retained": [
+    "TLTG module/setting/command identities",
+    "unchanged manual jogging",
+    "Q2 flat slot display",
+    "blocked updater POST actions"
+  ],
+  "deferred": [
+    "VO rename migration",
+    "new automatic homing and calibration UI actions",
+    "general installer recovery execution",
+    "all motion and print macro changes"
+  ],
+  "counts": {
+    "create": 316,
+    "replace": 12,
+    "unchanged": 24
+  },
+  "deployment": "held; no printer contacted"
+}

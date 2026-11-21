@@ -40,10 +40,14 @@ def verify_group(root, group):
         if actual != {name for name in expected if name.endswith(".py")}:
             raise ValueError("Unexpected upstream Python source inventory")
     inventory_roots = []
-    if group == "workspace":
+    if group == "upstream":
+        inventory_roots = ["ui"]
+    elif group == "fluidd":
+        inventory_roots = ["src"]
+    elif group == "workspace":
         inventory_roots = [
-            "work/q2-valve-align-26.11.18.1/fluidd/dist",
-            "work/q2-nonmotion-2026-11-20/ui/dist",
+            "work/q2-stable-26.11.18.2/fluidd/dist",
+            "work/q2-stable-26.11.18.2/staged/ui/dist",
         ]
     elif group == "q2_adapter":
         inventory_roots = ["src"]

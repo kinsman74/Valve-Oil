@@ -1,5 +1,8 @@
 # Audit revision 2026.11.21-audit2
 
+Historical audited baseline. The newer selective stable refresh is documented in
+[../q2-stable-26.11.18.2/README.md](../q2-stable-26.11.18.2/README.md).
+
 Supersedes the November 20 preview for further testing. No live printer changes,
 restarts, movement or flashes were performed. This revision changes only the
 selective offline Q2 tools; the upstream general installer/package version is

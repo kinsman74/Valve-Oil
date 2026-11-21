@@ -1,0 +1,12 @@
+$ vitest run
+
+ RUN  v5.1.0 <workspace>/work/q2-stable-26.11.18.2/staged/ui
+
+
+ Test Files  30 passed (30)
+      Tests  653 passed (653)
+   Start at  02:44:57
+   Duration  5.78s (import 45%, transform 35%, tests 15%, worker 6%)
+
+    Isolate  30 workers spawned · ~1.43s startup each (spawn + environment, per file)
+             at least ~3.34s faster with isolate: false — reuses workers across files instead of one per file

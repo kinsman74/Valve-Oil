@@ -1,0 +1,8 @@
+
+ RUN  v5.0.5 <workspace>/work/q2-stable-26.11.18.2/fluidd
+
+
+ Test Files  4 passed (4)
+      Tests  68 passed (68)
+   Start at  02:51:24
+   Duration  410ms (worker 38%, transform 21%, import 17%, environment 14%, setup 8%, tests 3%)

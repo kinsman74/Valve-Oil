@@ -1,0 +1,14 @@
+{
+  "preview": {
+    "file": "q2-stable-26.11.18.2-preview.tar.gz",
+    "sha256": "8874739c96e29dd6f6408318133ca412ab1b5c9008b856078a568220ee6b61df",
+    "bytes": 5991130
+  },
+  "source": {
+    "file": "q2-stable-26.11.18.2-source.tar.gz",
+    "sha256": "fba52f00a14c2260cb03f24634a3fb566998d37b7c956c5ac3de180d68557a89",
+    "bytes": 293195
+  },
+  "extracted_plan_matches_twice_without_writes": true,
+  "payload_python39_syntax": "passed"
+}

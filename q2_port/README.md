@@ -1,13 +1,13 @@
-# Q2 selective non-motion preview: 2026.11.21-audit2
+# Q2 selective non-motion preview: 2026.11.21-stable2-preview1
 
 Offline build and file planner only. This is not an installer, firmware updater,
 or a claim of full Valve Oil support. No printer is contacted by these tools.
-This revision supersedes the November 20 preview for further testing.
+This revision supersedes the audit2 preview for further offline testing. Deployment remains on hold.
 
 ## Scope
 
-Pinned released Valve Oil 26.11.18.1 source at
-`fea34e996f1ab64c646dd02846d1bb47ad93c272`, reviewed Q2 host/web adaptations,
+Pinned released Valve Oil 26.11.18.2 source at
+`aa42eaa3c48f155282f3bda43720199f7e657d99`, reviewed Q2 host/web adaptations,
 our Q2 Box dev1 image and the upstream THR FIFO candidate. Q2 SOC admission is
 limited to 01.01.03.02, based on a private cached manifest. Physical board
 identity is not established by that file.
@@ -23,6 +23,30 @@ They are not complete runnable subsystems and their dependencies are not bundled
 Automatic update actions remain blocked. Spoolman requires an operator's server
 and spool assignments. Physical temperature reporting and blank-tag writing
 have not been validated by this build.
+
+## Stable 26.11.18.2 selection
+
+The two Box monitors take upstream's identifier masking, report-trigger and
+continuous log-size enforcement fixes. Existing TLTG module, command, setting
+and log names remain intact; the broad VO migration is deferred. Other host
+helpers and the RFID reader/read guard remain at their reviewed Q2 baseline.
+
+The companion UI uses stable 26.11.18.2, with Q2 flat slot decoding restored.
+Fluidd uses stable's pinned source e85f13b2b7bddb3b5f98dd16de808c8461339a1e.
+Both retain the existing tag-jog command name. Companion UI retains the original
+manual jog component and speeds in Home and Control. The new calibration screen
+is disabled, and Fluidd retains its previous toolhead card: new Tools-menu
+automatic homing is deliberately excluded from both interfaces. No motion,
+load/unload, slicer or optimized print macros are installed by this package.
+
+The Q2 status service, authenticated routes and blocked updater POST actions
+are retained. New upstream installation recovery/boot checks are bundled only
+as reference code and documentation; they are not a tested Q2 installer. The
+activation checklist adds backup/journal, interrupted-operation and bootability
+checks, but those checks have not run on the printer. No root filesystem repair
+or dosfstools installation is attempted. Stable's queued-write timeout fix is
+an installer change, not a new runtime RFID retry fix. UI camera layout fixes
+do not fix the separately tracked USB camera fault.
 
 ## Read-only plan
 
@@ -62,6 +86,20 @@ python3 source-tools/check_firmware.py --upstream /path/to/pinned-upstream \
   --q2-port /path/to/q2-adapter-with-stock-bin --thr-stock /path/to/stock-thr.bin \
   --firmware /path/to/new-firmware-output
 ```
+
+Source staging recipes are stage_stable.py (the supplied upstream/workspace into
+a new --output directory) and stage_fluidd.py (the pinned --source tree into a
+new --output directory). Their output paths used by this workspace are recorded
+in assemble.py and source-lock.json. The recipes preserve the baseline inputs;
+they do not regenerate trust locks automatically. After staging, use pnpm import
+and pnpm install --frozen-lockfile for companion UI, and the supplied frozen pnpm
+lock for Fluidd. Run each project's tests and build. Set
+VO_UI_VERSION=26.11.18.2-q2-preview for companion UI and
+Q2_FLUIDD_REV=e85f13b-q2 for the tarball-based Fluidd build.
+
+check_stable_monitors.py runs upstream regressions against the adapted monitor
+sources; check_stable_scope.py verifies retained modules and movement boundaries.
+See the accompanying audit for exact results and known limitations.
 
 From the Git checkout use q2_port instead of source-tools. Build dependencies
 include Thumb-capable clang and zopfli; emulation additionally needs capstone and

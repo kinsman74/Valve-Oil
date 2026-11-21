@@ -1,0 +1,380 @@
+--- a/src/components/Motion.tsx
++++ b/src/components/Motion.tsx
+@@ -1,32 +1,38 @@
+ import { useState, type ReactNode } from 'react'
+-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, ChevronRight, House, Move } from 'lucide-react'
+-import { Choices } from './ui'
+-import { jog as jogAxis, send } from './control/common'
+-import { extrudeGcode } from './control/gcode'
+-import { usePrinter } from '../state/printer'
+-import { href } from '../lib/router'
++import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, House, Move } from 'lucide-react'
++import { attempt } from './toast'
++import { runGcode, usePrinter } from '../state/printer'
+ 
+ const STEPS = [0.1, 1, 10, 50]
+ const EXTRUDE = [5, 10, 50]
+-// Fluidd's default speeds, in mm/s, as on the Control screen.
+-const XY_SPEED = 130
+-const Z_SPEED = 10
+-const E_SPEED = 5
++const XY_FEED = 6000
++const Z_FEED = 600
++const E_FEED = 300
+ 
+-/** Home's toolhead card: jogging, homing, motors off, and extruding. The Control screen has the rest. */
++// Jogs run relative inside a saved G-code state, so they never leave the printer in G91 or M83 for macros
++// that expect absolute coordinates.
++const jog = (axis: 'X' | 'Y' | 'Z', mm: number) =>
++  `SAVE_GCODE_STATE NAME=vo_jog\nG91\nG1 ${axis}${mm} F${axis === 'Z' ? Z_FEED : XY_FEED}\nRESTORE_GCODE_STATE NAME=vo_jog`
++const extrude = (mm: number) => `SAVE_GCODE_STATE NAME=vo_jog\nM83\nG1 E${mm} F${E_FEED}\nRESTORE_GCODE_STATE NAME=vo_jog`
++
++/** Toolhead jogging, homing, motors off, and extruding. Locked while a print is running. */
+ export function Motion({ className = '' }: { className?: string }) {
+   const homed = usePrinter((s) => (s.status.toolhead?.homed_axes as string | undefined) ?? '')
+   const pos = usePrinter((s) => (s.status.toolhead?.position as number[] | undefined) ?? null)
+   const printing = usePrinter((s) => s.status.print_stats?.state === 'printing')
+   const canExtrude = usePrinter((s) => s.status.extruder?.can_extrude === true)
+   const nozzle = usePrinter((s) => (s.status.extruder?.temperature as number | undefined) ?? null)
+-  const clientMacro = usePrinter((s) => (s.objects.includes('gcode_macro _CLIENT_LINEAR_MOVE') ? '_CLIENT_LINEAR_MOVE' : null))
+   const [step, setStep] = useState(10)
+   const [eLen, setELen] = useState(10)
+-  const can = (axis: string) => !printing && homed.includes(axis)
+-  // A long Z jog with the bed under the nozzle is the easiest crash to make, so Z steps stop at 25 mm.
+-  const jog = (axis: 'X' | 'Y' | 'Z', dir: 1 | -1) => jogAxis(axis, dir * (axis === 'Z' ? Math.min(step, 25) : step), axis === 'Z' ? Z_SPEED : XY_SPEED, clientMacro)
+-  const missing = 'XYZ'.split('').filter((a) => !homed.includes(a.toLowerCase()))
++  const [busy, setBusy] = useState(false)
++  const locked = printing
++
++  const run = async (g: string) => {
++    setBusy(true)
++    await attempt(() => runGcode(g))
++    setBusy(false)
++  }
++  const can = (axis: string) => !locked && homed.includes(axis.toLowerCase())
+ 
+   return (
+     <section className={`card ${className}`}>
+@@ -35,94 +41,118 @@
+         <span className="aside num">{pos ? `X ${pos[0].toFixed(1)}  Y ${pos[1].toFixed(1)}  Z ${pos[2].toFixed(2)}` : ''}</span>
+       </h3>
+       <div className="flex flex-wrap items-start gap-x-5 gap-y-3">
+-        <div className="flex gap-2">
+-          <div className="grid grid-cols-3 gap-1" role="group" aria-label="Move X and Y">
++        <div className="flex gap-2.5">
++          <div className="grid grid-cols-3 gap-1.5" role="group" aria-label="Move X and Y">
+             <span />
+-            <Pad label="Y+" disabled={!can('y')} onClick={() => jog('Y', 1)}>
++            <Pad label="Y+" disabled={!can('y')} onClick={() => run(jog('Y', step))}>
+               <ArrowUp size={16} />
+             </Pad>
+             <span />
+-            <Pad label="X−" disabled={!can('x')} onClick={() => jog('X', -1)}>
++            <Pad label="X−" disabled={!can('x')} onClick={() => run(jog('X', -step))}>
+               <ArrowLeft size={16} />
+             </Pad>
+-            <Pad label="Home X and Y" home disabled={printing} onClick={() => send('G28 X Y')}>
++            <Pad label="Home X and Y" disabled={locked} onClick={() => run('G28 X Y')} tone="home">
+               <House size={15} />
+-              <span className="ax">XY</span>
++              <span className="text-[9.5px] font-semibold">XY</span>
+             </Pad>
+-            <Pad label="X+" disabled={!can('x')} onClick={() => jog('X', 1)}>
++            <Pad label="X+" disabled={!can('x')} onClick={() => run(jog('X', step))}>
+               <ArrowRight size={16} />
+             </Pad>
+             <span />
+-            <Pad label="Y−" disabled={!can('y')} onClick={() => jog('Y', -1)}>
++            <Pad label="Y−" disabled={!can('y')} onClick={() => run(jog('Y', -step))}>
+               <ArrowDown size={16} />
+             </Pad>
+             <span />
+           </div>
+-          <div className="grid grid-rows-3 gap-1" role="group" aria-label="Move Z">
+-            <Pad label="Z+: the bed moves down" disabled={!can('z')} onClick={() => jog('Z', 1)}>
++          <div className="grid grid-rows-3 gap-1.5" role="group" aria-label="Move Z">
++            <Pad label="Z+, bed down" disabled={!can('z')} onClick={() => run(jog('Z', Math.min(step, 25)))}>
+               <ArrowUp size={16} />
+-              <span className="ax">Z+</span>
++              <span className="text-[9.5px] font-semibold">Z</span>
+             </Pad>
+-            <Pad label="Home Z" home disabled={printing} onClick={() => send('G28 Z')}>
++            <Pad label="Home Z" disabled={locked} onClick={() => run('G28 Z')} tone="home">
+               <House size={15} />
+-              <span className="ax">Z</span>
++              <span className="text-[9.5px] font-semibold">Z</span>
+             </Pad>
+-            <Pad label="Z−: the bed moves up" disabled={!can('z')} onClick={() => jog('Z', -1)}>
++            <Pad label="Z−, bed up" disabled={!can('z')} onClick={() => run(jog('Z', -Math.min(step, 25)))}>
+               <ArrowDown size={16} />
+-              <span className="ax">Z−</span>
++              <span className="text-[9.5px] font-semibold">Z</span>
+             </Pad>
+           </div>
+         </div>
+-        <div className="grid min-w-[190px] flex-1 content-start gap-2.5">
++        <div className="grid min-w-[200px] flex-1 content-start gap-2.5">
+           <div>
+-            <div className="section-label mb-1">Step (mm)</div>
+-            <Choices value={step} options={STEPS.map((v) => ({ value: v, label: String(v) }))} onChange={setStep} />
++            <div className="lbl mb-1">Step</div>
++            <Segmented values={STEPS} value={step} onChange={setStep} unit="mm" />
+           </div>
+-          <div className="flex flex-wrap items-center gap-1.5">
+-            <button className="btn btn-sm" disabled={printing} onClick={() => send('G28')}>
++          <div className="flex flex-wrap gap-1.5">
++            <button className="btn btn-sm" disabled={locked || busy} onClick={() => run('G28')}>
+               Home all
+             </button>
+-            <button className="btn btn-sm" disabled={printing} onClick={() => send('M84')}>
++            <button className="btn btn-sm" disabled={locked || busy} onClick={() => run('M84')}>
+               Motors off
+             </button>
+-            <span className={`text-[12px] font-semibold ${missing.length ? 'text-warn' : 'text-good'}`}>{missing.length === 3 ? 'Not homed' : missing.length ? `${missing.join('')} not homed` : 'Homed'}</span>
++            <span className={`self-center text-[12px] font-medium ${homed === 'xyz' ? 'text-good' : 'text-warn'}`}>
++              {homed === 'xyz' ? 'Homed' : homed ? `${'XYZ'.split('').filter((a) => !homed.includes(a.toLowerCase())).join('')} not homed` : 'Not homed'}
++            </span>
+           </div>
+           <div>
+-            <div className="section-label mb-1">Extruder (mm)</div>
+-            <div className="flex flex-wrap items-center gap-1.5">
+-              <Choices value={eLen} options={EXTRUDE.map((v) => ({ value: v, label: String(v) }))} onChange={setELen} />
+-              <button className="btn btn-sm" disabled={printing || !canExtrude} onClick={() => send(extrudeGcode(-eLen, E_SPEED, clientMacro))}>
+-                <ArrowUp size={13} /> Retract
+-              </button>
+-              <button className="btn btn-sm" disabled={printing || !canExtrude} onClick={() => send(extrudeGcode(eLen, E_SPEED, clientMacro))}>
+-                <ArrowDown size={13} /> Extrude
+-              </button>
++            <div className="lbl mb-1">Extruder</div>
++            <div className="grid gap-1.5">
++              <Segmented values={EXTRUDE} value={eLen} onChange={setELen} unit="mm" />
++              <div className="flex gap-1.5">
++                <button className="btn btn-sm" disabled={locked || busy || !canExtrude} onClick={() => run(extrude(-eLen))}>
++                  <ArrowUp size={13} /> Retract
++                </button>
++                <button className="btn btn-sm" disabled={locked || busy || !canExtrude} onClick={() => run(extrude(eLen))}>
++                  <ArrowDown size={13} /> Extrude
++                </button>
++              </div>
+             </div>
+           </div>
+         </div>
+       </div>
+-      <div className="mt-2.5 flex flex-wrap items-end gap-2">
+-        <div className="min-w-0 flex-1 text-[12.5px] text-ink-3">
+-          {printing
+-            ? 'Moving the toolhead is locked while printing. Pause to move it.'
+-            : missing.length
+-              ? 'Home an axis before moving it. Z+ moves the bed down.'
+-              : !canExtrude
+-                ? `Extruding needs the nozzle hot${nozzle != null ? `; it's ${Math.round(nozzle)} °C` : ''}.`
+-                : 'Z+ moves the bed down, away from the nozzle.'}
+-        </div>
+-        <a href={href('control', 'move')} className="inline-flex items-center gap-0.5 text-[12.5px] font-semibold text-accent-ink">
+-          More controls <ChevronRight size={13} />
+-        </a>
+-      </div>
++      {locked ? (
++        <div className="mt-2.5 text-[12.5px] text-ink-3">Moving the toolhead is locked while printing. Pause to move it.</div>
++      ) : homed !== 'xyz' ? (
++        <div className="mt-2.5 text-[12.5px] text-ink-3">Home an axis before moving it.</div>
++      ) : !canExtrude ? (
++        <div className="mt-2.5 text-[12.5px] text-ink-3">Extruding needs the nozzle hot{nozzle != null ? `; it's ${Math.round(nozzle)} °C` : ''}.</div>
++      ) : null}
+     </section>
+   )
+ }
+ 
+-function Pad({ label, disabled, onClick, children, home }: { label: string; disabled?: boolean; onClick: () => void; children: ReactNode; home?: boolean }) {
++function Pad({ label, disabled, onClick, children, tone }: { label: string; disabled?: boolean; onClick: () => void; children: ReactNode; tone?: 'home' }) {
+   return (
+-    <button type="button" title={label} aria-label={label} disabled={disabled} onClick={onClick} className={`btn jog h-11! w-11! ${home ? 'home' : ''}`}>
++    <button
++      type="button"
++      title={label}
++      aria-label={label}
++      disabled={disabled}
++      onClick={onClick}
++      className={`btn grid h-11 w-11 place-items-center gap-0 p-0! leading-none ${tone === 'home' ? 'text-accent-ink' : ''}`}
++    >
+       <span className="grid justify-items-center">{children}</span>
+     </button>
+   )
+ }
++
++function Segmented({ values, value, onChange, unit }: { values: number[]; value: number; onChange: (v: number) => void; unit: string }) {
++  return (
++    <div className="inline-flex w-fit gap-0.5 rounded-lg bg-canvas p-0.5 shadow-[inset_0_0_0_1px_var(--line)]" role="radiogroup">
++      {values.map((v) => (
++        <button
++          key={v}
++          type="button"
++          role="radio"
++          aria-checked={v === value}
++          onClick={() => onChange(v)}
++          className={`num rounded-md border-0 px-2 py-0.5 text-[12px] font-medium ${v === value ? 'bg-surface text-ink shadow-[var(--shadow-btn)]' : 'bg-transparent text-ink-3'}`}
++        >
++          {v}
++          {v === values[values.length - 1] ? ` ${unit}` : ''}
++        </button>
++      ))}
++    </div>
++  )
++}
+--- a/src/qidi/__tests__/qidi-box-q2.test.ts
++++ b/src/qidi/__tests__/qidi-box-q2.test.ts
+@@ -0,0 +1,17 @@
++import { it, expect } from 'vitest'
++import { qidiBoxSlots } from '../qidi-box'
++
++it('reads Q2 flat native slot identity, color and RFID scan state', () => {
++ const printer = { save_variables: { variables: { box_count: 1 } }, multi_color_controller: { box: {
++  box0_filament_info_1_filament_id: 'QFX11',
++  box0_filament_info_1_filament_str: 'Anycubic PETG',
++  box0_filament_info_1_filament_type: 'PETG',
++  box0_filament_info_1_vendor_str: 'Anycubic',
++  box0_filament_info_1_color_rgb_str: ['003594'],
++  box0_filament_info_1_read_rfid_state: 1
++ } } }
++ const slot = qidiBoxSlots(printer, null).find(s => s.index === 1)!
++ expect(slot.filamentId).toBe('QFX11')
++ expect(slot.name).toBe('Anycubic PETG')
++ expect(slot.reading).toBe(true)
++})
+--- a/src/qidi/qidi-box.ts
++++ b/src/qidi/qidi-box.ts
+@@ -185,7 +185,16 @@
+   const infos = printer.box_extras?.boxes?.[Math.floor(index / 4)]?.filament_info
+ 
+   if (Array.isArray(infos)) {
+-    return infos.find(info => info?.index === index % 4) ?? infos[index % 4]
++    const info = infos.find(info => info?.index === index % 4) ?? infos[index % 4]
++    if (info) return info
++  }
++  // Q2 publishes the same slot fields in a flat controller Box object.
++  const box = printer.multi_color_controller?.box
++  const prefix = `box${Math.floor(index / 4)}_filament_info_${index % 4}_`
++  if (typeof box?.[prefix + 'filament_id'] === 'string' && box[prefix + 'filament_id'] !== '') {
++    return Object.fromEntries(Object.entries(box)
++      .filter(([key]) => key.startsWith(prefix))
++      .map(([key, value]) => [key.slice(prefix.length), value]))
+   }
+ }
+ 
+@@ -231,7 +240,7 @@
+       minTemp: toNumber(info?.min_temp),
+       maxTemp: toNumber(info?.max_temp),
+       boxMaxTemp: toNumber(info?.box_max_temp),
+-      reading: stepper?.rfid_state === 1
++      reading: (stepper?.rfid_state ?? info?.read_rfid_state) === 1
+     }
+   })
+ }
+--- a/src/screens/Control.tsx
++++ b/src/screens/Control.tsx
+@@ -1,7 +1,7 @@
+ import type { ReactNode } from 'react'
+ import { PageHeader, Segmented } from '../components/ui'
+ import { href, useSubPath } from '../lib/router'
+-import { MoveTab, ToolsMenu } from '../components/control/Move'
++import { Motion } from '../components/Motion'
+ import { TempsActions, TempsTab } from '../components/control/Thermals'
+ import { OutputsTab } from '../components/control/Outputs'
+ import { MacrosActions, MacrosTab } from '../components/control/Macros'
+@@ -10,7 +10,7 @@
+ type Tab = 'move' | 'temps' | 'outputs' | 'macros' | 'limits'
+ 
+ const TABS: { value: Tab; label: string; body: () => ReactNode; actions?: () => ReactNode }[] = [
+-  { value: 'move', label: 'Move', body: () => <MoveTab />, actions: () => <ToolsMenu /> },
++  { value: 'move', label: 'Move', body: () => <Motion /> },
+   { value: 'temps', label: 'Temperatures', body: () => <TempsTab />, actions: () => <TempsActions /> },
+   { value: 'outputs', label: 'Fans and lights', body: () => <OutputsTab /> },
+   { value: 'macros', label: 'Macros', body: () => <MacrosTab />, actions: () => <MacrosActions /> },
+--- a/src/screens/Tune.tsx
++++ b/src/screens/Tune.tsx
+@@ -1,42 +1 @@
+-import { useEffect } from 'react'
+-import { PageHeader, Segmented } from '../components/ui'
+-import { href, useSubPath } from '../lib/router'
+-import { registerObjects, usePrinter } from '../state/printer'
+-import { BedMeshTab } from '../components/tune/BedMeshTab'
+-import { BedSoakTab } from '../components/tune/BedSoakTab'
+-import { CalibrateTab } from '../components/tune/CalibrateTab'
+-import { meshPreview } from '../components/tune/mesh'
+-
+-// Klipper's BED_SCREWS_ADJUST helper isn't in the app's default subscription.
+-registerObjects((name) => name === 'bed_screws')
+-
+-type Tab = 'mesh' | 'soak' | 'calibrate'
+-
+-export function TuneScreen() {
+-  const sub = useSubPath()[0]
+-  const hasMesh = usePrinter((s) => 'bed_mesh' in s.status)
+-  const hasSoak = usePrinter((s) => 'tltg_bed_soak' in s.status)
+-  const tab: Tab = sub === 'soak' && hasSoak ? 'soak' : sub === 'calibrate' || !hasMesh ? 'calibrate' : 'mesh'
+-
+-  // A bed soak mesh shown on the Bed mesh tab belongs to this screen.
+-  useEffect(() => () => meshPreview.set(null), [])
+-
+-  return (
+-    <div className="grid min-w-0 gap-3.5">
+-      <PageHeader title="Tune">
+-        <Segmented
+-          label="Tune"
+-          value={tab}
+-          options={[
+-            ...(hasMesh ? [{ value: 'mesh' as const, label: 'Bed mesh', href: href('tune') }] : []),
+-            ...(hasSoak ? [{ value: 'soak' as const, label: 'Bed soak', href: href('tune', 'soak') }] : []),
+-            { value: 'calibrate' as const, label: 'Calibrate', href: href('tune', 'calibrate') },
+-          ]}
+-        />
+-      </PageHeader>
+-      {tab === 'mesh' && <BedMeshTab />}
+-      {tab === 'soak' && <BedSoakTab />}
+-      {tab === 'calibrate' && <CalibrateTab />}
+-    </div>
+-  )
+-}
++export function TuneScreen() { return <section className="card"><h2>Tune</h2><p>Use the printer touchscreen for calibration.</p></section> }
+--- a/src/state/box-model.test.ts
++++ b/src/state/box-model.test.ts
+@@ -10,7 +10,7 @@
+ const DATABASE: Lists = { legacy: null, database: [{ id: 'QF001', name: 'PLA Rapido', type: 'PLA', vendor: 'QIDI' }], databaseError: false }
+ 
+ // Valve Oil's own Box commands, as Klipper lists them when Valve Oil is installed.
+-const VALVE_OIL_COMMANDS = ['VO_CUT_FILAMENT', 'VO_BOX_SLOT_JOG', 'VO_BOX_RFID_WRITE']
++const VALVE_OIL_COMMANDS = ['VO_CUT_FILAMENT', 'TLTG_BOX_SLOT_JOG', 'VO_BOX_RFID_WRITE']
+ 
+ // Slots are numbered from 0 across Boxes: 1A is 0, 2A is 4, 2B is 5.
+ const SLOT_2A = 4
+@@ -112,8 +112,8 @@
+   })
+ 
+   it('jogs a slot toward the toolhead with a positive distance and back with a negative one', () => {
+-    expect(boxCommands.jog(SLOT_2A, 10)).toBe('VO_BOX_SLOT_JOG SLOT=4 DISTANCE=10')
+-    expect(boxCommands.jog(SLOT_2A, -10)).toBe('VO_BOX_SLOT_JOG SLOT=4 DISTANCE=-10')
++    expect(boxCommands.jog(SLOT_2A, 10)).toBe('TLTG_BOX_SLOT_JOG SLOT=4 DISTANCE=10')
++    expect(boxCommands.jog(SLOT_2A, -10)).toBe('TLTG_BOX_SLOT_JOG SLOT=4 DISTANCE=-10')
+   })
+ 
+   it('maps a tool to a slot as the quoted slot name QIDI saves', () => {
+--- a/src/state/box-model.ts
++++ b/src/state/box-model.ts
+@@ -171,7 +171,7 @@
+     climates,
+     printState,
+     canCold: commands.includes('VO_CUT_FILAMENT'),
+-    canJog: commands.includes('VO_BOX_SLOT_JOG'),
++    canJog: commands.includes('TLTG_BOX_SLOT_JOG'),
+     canCut: commands.includes('VO_CUT_FILAMENT'),
+     canWriteTag: commands.includes('VO_BOX_RFID_WRITE') && hasController && !!lists.database?.length,
+     fromTag,
+@@ -290,7 +290,7 @@
+   rfid: (box: BoxState, slot: number) => (box.hasController ? gcode`READ_RFID SLOT=${slot}` : gcode`RFID_READ SLOT=slot${slot}`),
+   writeTag: (slot: number, filamentId: string, colors: string[]) => gcode`VO_BOX_RFID_WRITE SLOT=${slot} FILAMENT=${filamentId} COLORS=${colors.map((c) => c.replace('#', '').toUpperCase()).join(',')}`,
+   cut: () => 'VO_CUT_FILAMENT',
+-  jog: (slot: number, mm: number) => gcode`VO_BOX_SLOT_JOG SLOT=${slot} DISTANCE=${mm}`,
++  jog: (slot: number, mm: number) => gcode`TLTG_BOX_SLOT_JOG SLOT=${slot} DISTANCE=${mm}`,
+   retry: () => 'FLOW_RETRY',
+   stop: () => 'FLOW_STOP',
+   mapTool: (tool: number, slot: number) => gcode`SAVE_VARIABLE VARIABLE=value_t${tool} VALUE="'slot${slot}'"`,

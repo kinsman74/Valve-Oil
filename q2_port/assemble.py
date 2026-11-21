@@ -68,8 +68,8 @@ def assemble(a):
             }
         )
 
-    upstream = a.upstream / "installer/klipper/tltg"
-    local = w / "work/q2-nonmotion-2026-11-20/package/modules"
+    upstream = a.upstream / "installer/klipper/extras"
+    local = w / "work/q2-stable-26.11.18.2/staged/modules"
     for n in NONMOTION + CORE:
         source = local / f"tltg_{n}.py"
         if not source.exists():
@@ -140,7 +140,7 @@ def assemble(a):
             blocked.append({"feature": mod.__name__, "reason": str(e)})
     add(
         moonraker_fixes.MODULE_FILE.lstrip("/"),
-        moonraker_fixes.module_source().encode(),
+        moonraker_fixes.module_source().replace("_vo", "_tltg").encode(),
         feature="moonraker_runtime_fixes",
     )
     add(
@@ -151,10 +151,10 @@ def assemble(a):
     # Complete static web artifacts; no installer or updater entry point is enabled.
     for src, target in [
         (
-            w / "work/q2-valve-align-26.11.18.1/fluidd/dist",
+            w / "work/q2-stable-26.11.18.2/fluidd/dist",
             "home/qidi/fluidd/q2-bundle-preview",
         ),
-        (w / "work/q2-nonmotion-2026-11-20/ui/dist", "home/qidi/valve-oil-ui-q2"),
+        (w / "work/q2-stable-26.11.18.2/staged/ui/dist", "home/qidi/valve-oil-ui-q2"),
     ]:
         if not (src / "index.html").is_file():
             raise ValueError("Missing verified web build: " + str(src))
@@ -229,7 +229,7 @@ def assemble(a):
     tools = out / "source-tools"
     tools.mkdir()
     for source in Path(__file__).parent.iterdir():
-        if source.suffix in (".py", ".json", ".md"):
+        if source.suffix in (".py", ".json", ".md", ".patch", ".ts"):
             shutil.copy2(source, tools / source.name)
     shutil.copy2(Path(__file__).with_name("README.md"), out / "README.md")
     adapter = w / "work/q2-box-firmware-port"
@@ -257,12 +257,22 @@ def assemble(a):
         "moonraker_speedups",
         "zram_swap",
         "system_optimizations",
+        "boot_path",
+        "config_transaction",
+        "box_enablement",
+        "host_reboot",
     ]
     for name in recipe_names:
         f = a.upstream / "installer/runtime" / f"{name}.py"
         if not f.is_file():
             raise ValueError("Missing reviewed source reference: " + name)
         shutil.copy2(f, recipes / f.name)
+    reference_docs = out / "reference-docs"
+    reference_docs.mkdir()
+    shutil.copy2(
+        a.upstream / "docs/recovering-an-unbootable-printer.md",
+        reference_docs / "recovering-an-unbootable-printer.md",
+    )
     feature_status = {
         "host_and_web": "assembled",
         "box_firmware": "exact reproduced deployed dev1",
@@ -295,7 +305,7 @@ def assemble(a):
     manifest = {
         "schema": policy.SCHEMA,
         "name": "Q2 non-motion preview",
-        "version": "2026.11.21-audit2",
+        "version": "2026.11.21-stable2-preview1",
         "upstream_commit": UPSTREAM,
         "supported_soc": "01.01.03.02",
         "mode": "dry-run-only",
@@ -304,12 +314,26 @@ def assemble(a):
         "feature_status": feature_status,
         "excluded_modules": EXCLUDED,
         "no_live_flash": True,
+        "retained_compatibility": [
+            "TLTG module/setting/command identities",
+            "unchanged manual jogging",
+            "Q2 flat slot display",
+            "blocked updater POST actions",
+        ],
+        "deferred_stable_changes": [
+            "VO rename migration",
+            "new automatic homing and calibration UI actions",
+            "general installer recovery execution",
+            "all motion and print macro changes",
+        ],
         "activation_requirements": {
             "status": "not implemented or tested by this file planner",
             "preconditions": [
                 "idle printer",
                 "no Box tasks or RFID scans",
                 "zero heater targets",
+                "verify nonempty active config and a bootable existing include graph",
+                "require completed backup and explicit recovery journal; refuse interrupted activation",
             ],
             "host_services": [
                 "stop qidi-client before host activation",
@@ -353,8 +377,8 @@ def main():
         args.upstream,
         args.snapshot,
         args.firmware,
-        args.workspace / "work/q2-valve-align-26.11.18.1/fluidd/dist",
-        args.workspace / "work/q2-nonmotion-2026-11-20/ui/dist",
+        args.workspace / "work/q2-stable-26.11.18.2/fluidd/dist",
+        args.workspace / "work/q2-stable-26.11.18.2/staged/ui/dist",
     ]
     if any(destination.is_relative_to(root.resolve()) for root in protected):
         parser.error("Output overlaps a build input")

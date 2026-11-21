@@ -105,7 +105,10 @@ def desired(bundle, operation, before):
         if printer.get("id") not in (None, "q2"):
             raise ValueError("Existing status metadata belongs to another printer")
         data.update(schema=1)
-        data["release"] = {**data.get("release", {}), "installed": "26.11.18.1-q2"}
+        data["release"] = {
+            **data.get("release", {}),
+            "installed": "26.11.18.2-q2-selective",
+        }
         data["printer"] = {**printer, "id": "q2", "name": "QIDI Q2 selective port"}
         data.setdefault("pending", [])
         data.setdefault("boards", [])

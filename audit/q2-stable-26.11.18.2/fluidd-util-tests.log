@@ -1,0 +1,9 @@
+
+ RUN  v5.0.5 <workspace>/work/q2-stable-26.11.18.2/fluidd
+
+▎ TNB ACTIVE — `typescript` is the tsgo-backed fork
+
+ Test Files  29 passed (29)
+      Tests  577 passed (577)
+   Start at  02:54:27
+   Duration  14.24s (environment 54%, import 26%, worker 10%, transform 9%, setup 1%, tests 1%)
