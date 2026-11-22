@@ -1,5 +1,15 @@
 # Q2 selective port changelog
 
+## 2026.11.22 Q2 screw-tilt dispatch correction
+
+- Replace the invalid numeric internal command alias with the letters-only
+  _QIDI_SCREWS_TILT_CALCULATE_BASE. QIDI parsed the former alias as _Q2,
+  preventing calculation after the homing wrapper completed.
+- Add a no-hardware regression checker that renders the actual macro through
+  the installed Klipper dispatcher with inert home/calculation handlers.
+- Reproduce the old failure and verify unhomed, partly homed and homed branches
+  reach the corrected calculation handler. Preserve all calibration/settings.
+
 ## 2026.11.22 Q2 screw-tilt homing correction
 
 - Add the missing conditional G28 wrapper around SCREWS_TILT_CALCULATE.

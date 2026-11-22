@@ -1,0 +1,18 @@
+{
+  "status": "ready",
+  "root_cause": "Digit in internal alias made actual G-code dispatcher select _Q2 instead of the full registered callback",
+  "old_alias": "_Q2_SCREWS_TILT_CALCULATE_BASE",
+  "corrected_alias": "_QIDI_SCREWS_TILT_CALCULATE_BASE",
+  "old_failure_reproduced_with_installed_dispatcher": true,
+  "corrected_template_dispatch_cases": [
+    "unhomed: home then calculate",
+    "xy homed: home then calculate",
+    "xyz homed: calculate only"
+  ],
+  "handlers_used_in_test": "inert callbacks; no printer object/serial/motion",
+  "printer_cfg_unchanged": true,
+  "screw_settings_unchanged": true,
+  "input_shaper_unchanged": true,
+  "physical_home_plus_probe_tested": false,
+  "include_sha256": "e490c7ab440c40acea72027ee75ae4c7456c7ec582623bbf22315d070770cd5e"
+}

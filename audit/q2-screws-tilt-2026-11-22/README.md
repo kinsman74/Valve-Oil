@@ -49,3 +49,22 @@ settings are not edit targets for this correction. Activation uses an idle-only
 Klipper/client restart; no home or calculation is executed during verification.
 The wrapper will initiate homing when the owner explicitly runs the command
 with unhomed axes, so the bed must be clear before use.
+
+## Follow-up: command dispatch after homing
+
+The initial wrapper's internal alias _Q2_SCREWS_TILT_CALCULATE_BASE was invalid
+for the installed G-code lexer: it dispatches as _Q2, rather than reaching the
+registered calculation callback. This reproduced the owner's report that the
+wrapper homes and then produces no screw measurements. Merely rendering Jinja
+and seeing a name in HELP did not test actual dispatch; those checks missed it.
+
+Changed the internal alias to _QIDI_SCREWS_TILT_CALCULATE_BASE. Used the installed
+GCodeDispatch implementation in a separate process, with inert home/calculation
+callbacks: old alias failed as _Q2 in every homed-state case; corrected alias
+reached calculation for unhomed, partly homed and fully homed states. No printer
+object, serial link, actual G28 or probing was instantiated by that test.
+The reusable check is q2_port/check_screw_dispatch.py, invoked with the existing
+klippy-env Python, --klippy-root /home/qidi/klipper/klippy and --config pointing
+at the installed include. Backed up the broken include, changed only that file,
+reloaded while idle with heaters zero, and preserved printer.cfg and calibration.
+Physical execution of home-plus-probe remains for the owner to confirm.
