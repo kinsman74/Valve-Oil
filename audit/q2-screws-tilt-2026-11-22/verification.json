@@ -1,0 +1,32 @@
+{
+  "status": "ready",
+  "source": "qidi-community/q2-wiki/content/bed-tramming/README.md",
+  "command_available": true,
+  "published_positions": [
+    [
+      30,
+      30
+    ],
+    [
+      240,
+      30
+    ],
+    [
+      240,
+      240
+    ],
+    [
+      30,
+      240
+    ]
+  ],
+  "screw_thread": "CW-M4",
+  "speed": 50,
+  "horizontal_move_z": 10,
+  "include_sha256": "cd5239f512b6708616e153e4a129174d25339dfed93f198a0632a83b237f9d02",
+  "pending_default_mesh_saved_and_preserved": true,
+  "input_shaper_unchanged": true,
+  "save_config_blocks": 1,
+  "probe_or_motion_command_run": false,
+  "firmware_flashed": false
+}

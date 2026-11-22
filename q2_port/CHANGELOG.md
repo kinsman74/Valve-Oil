@@ -1,5 +1,14 @@
 # Q2 selective port changelog
 
+## 2026.11.22 Q2 screw-tilt enablement
+
+- Add the published community Q2 screw-tilt configuration as an optional separate
+  include, enabling SCREWS_TILT_CALCULATE and its interface control.
+- Save and preserve a pending default mesh before the idle-only activation.
+  Retain input shaper and one valid saved-calibration block.
+- Verify loaded settings, command availability and ready state without probing
+  or movement. Record private backups and rollback instructions.
+
 ## 2026.11.22-thr-preview1
 
 - Add a separate Q2-only coordinator around pinned Valve Oil toolhead methods:
