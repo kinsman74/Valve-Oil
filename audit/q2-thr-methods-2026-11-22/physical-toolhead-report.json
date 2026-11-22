@@ -1,0 +1,37 @@
+{
+  "bootloader_sha256": "31f8344db7b091df5429960bc9cd06065e2188c3b8092e43fb65eb3f2833723c",
+  "application_sha256": "1d34b4b0142f2a2047f08c2fae59d827bcee0adbd1563b4bd1de311dff8b2d62",
+  "supported_bootloader": true,
+  "bootloader_page_sha256": [
+    "bbe76c9dd309c324b4e23daea45d915598840b674b04feeea07b47e7e13d4a6f",
+    "41738e2ea5afbce545f44197f3482788d868162a4a01c800d80a39e1df11f04b",
+    "48791132095ed58615a88ca87d7bba74c26d230df8a816c93a3cecd2bd0913ef",
+    "9eab561d6e5ed806bc6facdf93600332301e3c15c516cfa05a06b7a0ff8b3f05",
+    "d0ff1b294b5288d1ae1421eadf5b2d38a8752b76d472ff30bed9028e25b1c5b8",
+    "d0ff1b294b5288d1ae1421eadf5b2d38a8752b76d472ff30bed9028e25b1c5b8",
+    "d0ff1b294b5288d1ae1421eadf5b2d38a8752b76d472ff30bed9028e25b1c5b8",
+    "d0ff1b294b5288d1ae1421eadf5b2d38a8752b76d472ff30bed9028e25b1c5b8",
+    "d0ff1b294b5288d1ae1421eadf5b2d38a8752b76d472ff30bed9028e25b1c5b8",
+    "d0ff1b294b5288d1ae1421eadf5b2d38a8752b76d472ff30bed9028e25b1c5b8",
+    "d0ff1b294b5288d1ae1421eadf5b2d38a8752b76d472ff30bed9028e25b1c5b8",
+    "d0ff1b294b5288d1ae1421eadf5b2d38a8752b76d472ff30bed9028e25b1c5b8",
+    "d0ff1b294b5288d1ae1421eadf5b2d38a8752b76d472ff30bed9028e25b1c5b8",
+    "d0ff1b294b5288d1ae1421eadf5b2d38a8752b76d472ff30bed9028e25b1c5b8",
+    "d0ff1b294b5288d1ae1421eadf5b2d38a8752b76d472ff30bed9028e25b1c5b8",
+    "d0ff1b294b5288d1ae1421eadf5b2d38a8752b76d472ff30bed9028e25b1c5b8"
+  ],
+  "version": "02.02.01.08",
+  "build_versions": "gcc: (GNU Arm Embedded Toolchain 10.3-2021.10) 10.3.1 20210824 (release) binutils: (GNU Arm Embedded Toolchain 10.3-2021.10) 2.36.1.20210621",
+  "constants": {
+    "MCU": "stm32f103xe",
+    "CLOCK_FREQ": 72000000,
+    "SERIAL_BAUD": 500000
+  },
+  "id_registers": {
+    "cpuid": "0x410fc241",
+    "dbgmcu_idcode": "0x21040414",
+    "flash_size_kib": "0x80"
+  },
+  "application_region_sha256": "1d34b4b0142f2a2047f08c2fae59d827bcee0adbd1563b4bd1de311dff8b2d62",
+  "application_region_bytes": 35056
+}

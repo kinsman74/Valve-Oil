@@ -1,0 +1,10 @@
+{
+  "upstream_commit": "aa42eaa3c48f155282f3bda43720199f7e657d99",
+  "files": {
+    "scripts/flash_thr_firmware.py": "01a55df1938deb704a7a927591bf7eb64831b39fcc28fc8f5db28c36720242f5",
+    "scripts/build_box_firmware.py": "56ba9ee144ad6a9f5ac99d2f11a3e48355dc6bb78e0acd9e0b2051890149f971",
+    "scripts/thr_bootloaders.py": "62497fb6ba454af67879e41e2d064a14ee3e3b5858fde5d61a47dbf260e7d5a0",
+    "scripts/klipper_debug_read.py": "e7876a1dcfaba2991f7da859ae8d4780844c888ee6af7e5802131d9dc9bca3be",
+    "firmware/max4-thr-valve-oil-v1.json": "776879f1c5f932ba8496e053cf0f537e1d6cd546f28a796a909986d270da9c51"
+  }
+}

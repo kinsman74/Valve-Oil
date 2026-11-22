@@ -159,3 +159,7 @@ Firmware binaries retain QIDI's rights. The full preview is private local test
 material. Source-only packaging excludes vendor binaries, web builds, machine
 snapshots, identifiers, credentials and private recovery data. Upstream license
 and notices accompany both packages.
+
+The separate [Q2 toolhead workflow](THR_DEPLOYMENT.md) implements Valve Oil's
+backup, recovery-to-stock, pending marker and readback methods. Its dry-run is
+offline; actual erase still requires verified independent recovery entry.

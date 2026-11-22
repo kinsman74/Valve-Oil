@@ -1,0 +1,57 @@
+{
+  "bootloader_sha256": "31f8344db7b091df5429960bc9cd06065e2188c3b8092e43fb65eb3f2833723c",
+  "clock_rates": {
+    "1.0": {
+      "faults": 133,
+      "outcomes": {
+        "transfer_recovering": {
+          "patched": 39,
+          "stock": 74,
+          "bricked-unavoidable": 20
+        },
+        "transfer": {
+          "patched": 30,
+          "stock": 11,
+          "bricked-avoidable": 78,
+          "bricked-unavoidable": 14
+        }
+      }
+    },
+    "0.92": {
+      "faults": 25,
+      "outcomes": {
+        "transfer_recovering": {
+          "patched": 12,
+          "stock": 13
+        }
+      }
+    },
+    "0.97": {
+      "faults": 25,
+      "outcomes": {
+        "transfer_recovering": {
+          "patched": 12,
+          "stock": 13
+        }
+      }
+    },
+    "1.03": {
+      "faults": 25,
+      "outcomes": {
+        "transfer_recovering": {
+          "patched": 12,
+          "stock": 13
+        }
+      }
+    },
+    "1.1": {
+      "faults": 25,
+      "outcomes": {
+        "transfer_recovering": {
+          "patched": 12,
+          "stock": 13
+        }
+      }
+    }
+  }
+}

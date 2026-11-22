@@ -1,0 +1,17 @@
+{
+  "coordinator_tests": 19,
+  "recovery_simulations": 233,
+  "plain_transfer_comparison_simulations": 133,
+  "recovery_clock_rates": [
+    "1.0",
+    "0.92",
+    "0.97",
+    "1.03",
+    "1.1"
+  ],
+  "recovering_avoidable_unusable_applications": 0,
+  "recovering_outage_exceeded_modeled_window": 20,
+  "physical_flash": false,
+  "staged_python39_dry_run": "passed",
+  "independent_recovery_entry_verified": false
+}

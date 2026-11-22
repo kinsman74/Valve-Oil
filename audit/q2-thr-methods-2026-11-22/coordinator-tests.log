@@ -1,0 +1,24 @@
+test_absent_update_timer_does_not_block_service_admission (__main__.Workflow.test_absent_update_timer_does_not_block_service_admission) ... ok
+test_already_current_does_not_program (__main__.Workflow.test_already_current_does_not_program) ... ok
+test_end_unconfirmed_requires_successful_full_readback (__main__.Workflow.test_end_unconfirmed_requires_successful_full_readback) ... ok
+test_existing_pending_operation_refuses (__main__.Workflow.test_existing_pending_operation_refuses) ... ok
+test_live_admission_checks_every_registered_heater (__main__.Workflow.test_live_admission_checks_every_registered_heater) ... ok
+test_missing_recovery_refuses_without_serial_or_marker (__main__.Workflow.test_missing_recovery_refuses_without_serial_or_marker) ... ok
+test_nonidle_refuses (__main__.Workflow.test_nonidle_refuses) ... ok
+test_partial_stop_restores_original_services (__main__.Workflow.test_partial_stop_restores_original_services) ... ok
+test_post_snapshot_failure_keeps_marker (__main__.Workflow.test_post_snapshot_failure_keeps_marker) ... ok
+test_readback_mismatch_keeps_marker_and_services_stopped (__main__.Workflow.test_readback_mismatch_keeps_marker_and_services_stopped) ... ok
+test_restore_failure_keeps_marker_but_attempts_other_services (__main__.Workflow.test_restore_failure_keeps_marker_but_attempts_other_services) ... ok
+test_second_operation_refuses_held_maintenance_lock (__main__.Workflow.test_second_operation_refuses_held_maintenance_lock) ... ok
+test_snapshot_failure_recovers_without_writes (__main__.Workflow.test_snapshot_failure_recovers_without_writes) ... ok
+test_symlink_evidence_is_rejected (__main__.Workflow.test_symlink_evidence_is_rejected) ... ok
+test_transfer_failure_keeps_marker_and_services_stopped (__main__.Workflow.test_transfer_failure_keeps_marker_and_services_stopped) ... ok
+test_unknown_bootloader_refuses_programming (__main__.Workflow.test_unknown_bootloader_refuses_programming) ... ok
+test_verification_record_failure_keeps_pending_and_stopped (__main__.Workflow.test_verification_record_failure_keeps_pending_and_stopped) ... ok
+test_verified_fallback_is_not_reported_as_flash (__main__.Workflow.test_verified_fallback_is_not_reported_as_flash) ... ok
+test_verified_flash_records_recalibration_and_restores (__main__.Workflow.test_verified_flash_records_recalibration_and_restores) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.531s
+
+OK

@@ -1,0 +1,16 @@
+{
+  "health_before": "ready; all six port services active; zero heater targets; no tasks; calibration repair persists; camera JPEG valid",
+  "actual_application_matches_official_Q2": true,
+  "physical_bootloader_matches_recoverable_SECOND": true,
+  "physical_backup_saved_on_mac": true,
+  "nonerasing_probe": {
+    "reply": "0102",
+    "erase_requested": false,
+    "application_and_bootloader_unchanged_verified": true
+  },
+  "captured_bootloader_emulator_exit": 0,
+  "independent_recovery_entry_verified": false,
+  "cold_start_can_jump_to_partial_application": true,
+  "firmware_erased_or_programmed": false,
+  "remaining": "Verify independent Q2 recovery entry which does not depend on working application before application erase."
+}

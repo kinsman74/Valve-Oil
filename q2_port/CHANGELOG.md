@@ -1,5 +1,16 @@
 # Q2 selective port changelog
 
+## 2026.11.22-thr-preview1
+
+- Add a separate Q2-only coordinator around pinned Valve Oil toolhead methods:
+  fresh backups, exact bootloader/application admission, recovery-to-stock,
+  durable pending state, full readback and original service restoration.
+- Bind the Q2 manifest and upstream source identities; keep protocol and image
+  bytes unchanged. Require documented independent recovery entry before erase.
+- Add transaction regression coverage and operator/recovery instructions.
+- Preserve motion/configuration files and saved calibration. Stage only; no
+  physical firmware flash is claimed. Existing preview2 archives are unchanged.
+
 ## 2026.11.21-stable2-preview2
 
 - Bundle the freshly QIDI-vetted toolhead candidate and matching original stock
