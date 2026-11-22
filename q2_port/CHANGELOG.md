@@ -1,5 +1,13 @@
 # Q2 selective port changelog
 
+## 2026.11.22 Q2 screw-tilt homing correction
+
+- Add the missing conditional G28 wrapper around SCREWS_TILT_CALCULATE.
+  Home through the existing QIDI routine only when XYZ are not already homed.
+- Preserve native command parameters, published screw settings and all saved
+  calibration. No chamber-heater changes or M4031 routine are added.
+- Validate unhomed, partly homed and homed template branches without movement.
+
 ## 2026.11.22 Q2 screw-tilt enablement
 
 - Add the published community Q2 screw-tilt configuration as an optional separate

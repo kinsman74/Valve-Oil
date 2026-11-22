@@ -32,3 +32,20 @@ while idle, then reload Klipper; preserve all later owner/calibration edits.
 An optional full-log read helper was killed during final inspection. Repeated
 service checks showed all six port services active and 269 MiB available memory;
 subsequent inspection used only the last 64 KiB. This was not a Klipper failure.
+
+## Follow-up: missing home precondition
+
+The initial enablement provided only the native command, which requires a
+previous home. The owner reported that it failed until homing manually. Added a
+SCREWS_TILT_CALCULATE wrapper that renames the native implementation to
+_Q2_SCREWS_TILT_CALCULATE_BASE, calls QIDI's unchanged G28 only when homed_axes
+is not xyz, then forwards rawparams to the native calculation. This is a local
+wrapper around the published configuration, not a claim that the wiki block
+includes automatic homing. No M4031 or chamber-heater command was added.
+
+Jinja rendering verified the empty/xy/xyz homed cases and parameter forwarding.
+The earlier include is privately backed up. Printer.cfg, calibration and screw
+settings are not edit targets for this correction. Activation uses an idle-only
+Klipper/client restart; no home or calculation is executed during verification.
+The wrapper will initiate homing when the owner explicitly runs the command
+with unhomed axes, so the bed must be clear before use.

@@ -1,0 +1,16 @@
+{
+  "status": "ready",
+  "conditional_home_wrapper_loaded": true,
+  "native_command_renamed": "_Q2_SCREWS_TILT_CALCULATE_BASE",
+  "template_cases_validated": [
+    "unhomed: G28 then calculation",
+    "xy homed: G28 then calculation",
+    "xyz homed: calculation only"
+  ],
+  "raw_parameters_forwarded": true,
+  "printer_cfg_unchanged": true,
+  "screw_positions_unchanged": true,
+  "input_shaper_unchanged": true,
+  "probe_or_motion_command_run": false,
+  "include_sha256": "c6d425907ba2d8e0a4b5b202b347d74cc62fc66c47da515fa6c4d0b6cb2b047b"
+}
