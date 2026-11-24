@@ -78,11 +78,12 @@ is a historical deployment artifact; use the committed source for future runs.
 
 - Independent cold/hardware recovery remains unverified, explicitly accepted.
 - Confirm the LCD version popup stays gone.
-- First print after these calibrations has not been tested.
+- Validate a multicolor print with actual Box tool changes on this checkpoint.
+- First post-calibration print completed successfully; see acceptance result below.
 - Tools-menu screw-tilt button issue remains unresolved; console and Retry had
   worked. No claim that this checkpoint fixes the menu action.
-- Camera loss was pre-existing; no sustained camera-reliability validation in
-  this calibration/flash session.
+- Camera loss was pre-existing. A real frame was verified after the acceptance
+  print; sustained intermittent-camera reliability remains unproven.
 - Stock/mainstream Plus5 installation was reported by the owner after its
   verified stock rollback; no new Plus5 audit or changes in this Q2 session.
 
@@ -96,5 +97,42 @@ The harness emits validation.json and a vendor-derived patched executable;
 keep that output private. It never accesses a printer. The tested streaming
 deployment builder produced the same patched SHA256.
 
-This checkpoint is a local Git commit only; no push or new printer deployment
-is part of creating it. Unrelated untracked audit directories are excluded.
+Checkpoint 20a871e was created locally. The owner subsequently requested
+committing the acceptance notes and pushing the checkpoint history to their
+origin fork on q2-port-readonly. No printer deployment is part of that push.
+Unrelated untracked audit directories and private backups remain excluded.
+
+## First post-calibration print acceptance
+
+Owner reported successful completion with blotches they attributed to plate
+cleanliness; no independent print-surface inspection was performed. History
+confirms a completed normal job (2746.65 s active print, 2860.18 s total).
+This was approximately 46 minutes of printing, not a one-layer test.
+
+Read-only review matched log events to that print window. No toolhead/MCU
+shutdown, Box/485 disconnect, probe failure or Moonraker error was found during
+the job. Broad text matches were healthy 'no link errors' messages, numerical
+coordinate-descent error values and a normal idle-timeout setting. Live THR
+still reports 02.02.01.08-valve-oil.1 with zero retransmitted and invalid bytes;
+printer ready and USB Box online.
+
+Camera snapshot HTTP 200 produced a valid JPEG with a trailing transport NUL.
+Decoded frame visually shows the actual printer interior after the completed
+print. This verifies camera availability at this check, not continuous operation
+or resolution of the historical intermittent problem.
+
+Loaded input-shaper values remain X 2hump_ei 73.4 Hz / Y mzv 45.6 Hz. The print
+created a pending bed_mesh kamp update, as expected from its startup sequence;
+no save/reload was done during this read-only review. No printer state was
+changed. Private evidence is under work/q2-postprint-2026-11-23 on the Mac and
+/home/qidi/q2-postprint-20261123 on the printer; raw metadata/identifiers and
+camera images are excluded from Git. This acceptance note is subsequent to
+checkpoint commit 20a871e.
+
+## Remaining closeout
+
+The successful first print clears basic post-flash print acceptance. Remaining
+checks are LCD confirmation, multicolor/tool-change acceptance, camera endurance
+over several jobs and the Tools-menu screw-tilt action. No additional flash or
+calibration is required by the current findings. Physical independent recovery
+remains unverified and the recorded probe variation remains a known limitation.
