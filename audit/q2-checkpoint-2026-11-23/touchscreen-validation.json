@@ -1,0 +1,276 @@
+{
+  "stock_sha256": "c222bb9c77df6fe714e974f915834841be96c291bb75d44cd6f4d371e174f423",
+  "patched_sha256": "efc4f97012ce2ce1f90d54cf7bfec616907a7f48e33fe892b51aa90712bcee76",
+  "size": 91597520,
+  "changed_byte_offsets": [
+    "0x227078",
+    "0x227220"
+  ],
+  "reference_comparisons": [
+    {
+      "q2_offset": "0x227078",
+      "plus5_offset": "0x226518",
+      "instructions": 24
+    },
+    {
+      "q2_offset": "0x227220",
+      "plus5_offset": "0x2266c0",
+      "instructions": 23
+    }
+  ],
+  "emulated_cases": 36,
+  "results": [
+    {
+      "patched": false,
+      "check": "show",
+      "manifest": "02.02.01.08",
+      "reported": "02.02.01.08",
+      "result": 0
+    },
+    {
+      "patched": false,
+      "check": "show",
+      "manifest": "02.02.01.08",
+      "reported": "02.02.01.08-valve-oil.1",
+      "result": 1
+    },
+    {
+      "patched": false,
+      "check": "show",
+      "manifest": "02.01.01.09",
+      "reported": "02.01.01.09",
+      "result": 0
+    },
+    {
+      "patched": false,
+      "check": "show",
+      "manifest": "02.01.01.09",
+      "reported": "02.01.01.10-valve-oil.1",
+      "result": 1
+    },
+    {
+      "patched": false,
+      "check": "show",
+      "manifest": "02.02.01.08",
+      "reported": "02.02",
+      "result": 1
+    },
+    {
+      "patched": false,
+      "check": "show",
+      "manifest": "02.02.01.08",
+      "reported": "03.02.01.08-valve-oil.1",
+      "result": 1
+    },
+    {
+      "patched": false,
+      "check": "show",
+      "manifest": "02.02.01.08",
+      "reported": "02.02.01.07",
+      "result": 1
+    },
+    {
+      "patched": false,
+      "check": "show",
+      "manifest": "02.02.01.08",
+      "reported": "02.02.01.08x",
+      "result": 1
+    },
+    {
+      "patched": false,
+      "check": "show",
+      "manifest": "02.02.01.08",
+      "reported": "",
+      "result": 1
+    },
+    {
+      "patched": false,
+      "check": "clear",
+      "manifest": "02.02.01.08",
+      "reported": "02.02.01.08",
+      "result": 1
+    },
+    {
+      "patched": false,
+      "check": "clear",
+      "manifest": "02.02.01.08",
+      "reported": "02.02.01.08-valve-oil.1",
+      "result": 0
+    },
+    {
+      "patched": false,
+      "check": "clear",
+      "manifest": "02.01.01.09",
+      "reported": "02.01.01.09",
+      "result": 1
+    },
+    {
+      "patched": false,
+      "check": "clear",
+      "manifest": "02.01.01.09",
+      "reported": "02.01.01.10-valve-oil.1",
+      "result": 0
+    },
+    {
+      "patched": false,
+      "check": "clear",
+      "manifest": "02.02.01.08",
+      "reported": "02.02",
+      "result": 0
+    },
+    {
+      "patched": false,
+      "check": "clear",
+      "manifest": "02.02.01.08",
+      "reported": "03.02.01.08-valve-oil.1",
+      "result": 0
+    },
+    {
+      "patched": false,
+      "check": "clear",
+      "manifest": "02.02.01.08",
+      "reported": "02.02.01.07",
+      "result": 0
+    },
+    {
+      "patched": false,
+      "check": "clear",
+      "manifest": "02.02.01.08",
+      "reported": "02.02.01.08x",
+      "result": 0
+    },
+    {
+      "patched": false,
+      "check": "clear",
+      "manifest": "02.02.01.08",
+      "reported": "",
+      "result": 0
+    },
+    {
+      "patched": true,
+      "check": "show",
+      "manifest": "02.02.01.08",
+      "reported": "02.02.01.08",
+      "result": 0
+    },
+    {
+      "patched": true,
+      "check": "show",
+      "manifest": "02.02.01.08",
+      "reported": "02.02.01.08-valve-oil.1",
+      "result": 0
+    },
+    {
+      "patched": true,
+      "check": "show",
+      "manifest": "02.01.01.09",
+      "reported": "02.01.01.09",
+      "result": 0
+    },
+    {
+      "patched": true,
+      "check": "show",
+      "manifest": "02.01.01.09",
+      "reported": "02.01.01.10-valve-oil.1",
+      "result": 1
+    },
+    {
+      "patched": true,
+      "check": "show",
+      "manifest": "02.02.01.08",
+      "reported": "02.02",
+      "result": 1
+    },
+    {
+      "patched": true,
+      "check": "show",
+      "manifest": "02.02.01.08",
+      "reported": "03.02.01.08-valve-oil.1",
+      "result": 1
+    },
+    {
+      "patched": true,
+      "check": "show",
+      "manifest": "02.02.01.08",
+      "reported": "02.02.01.07",
+      "result": 1
+    },
+    {
+      "patched": true,
+      "check": "show",
+      "manifest": "02.02.01.08",
+      "reported": "02.02.01.08x",
+      "result": 0
+    },
+    {
+      "patched": true,
+      "check": "show",
+      "manifest": "02.02.01.08",
+      "reported": "",
+      "result": 1
+    },
+    {
+      "patched": true,
+      "check": "clear",
+      "manifest": "02.02.01.08",
+      "reported": "02.02.01.08",
+      "result": 1
+    },
+    {
+      "patched": true,
+      "check": "clear",
+      "manifest": "02.02.01.08",
+      "reported": "02.02.01.08-valve-oil.1",
+      "result": 1
+    },
+    {
+      "patched": true,
+      "check": "clear",
+      "manifest": "02.01.01.09",
+      "reported": "02.01.01.09",
+      "result": 1
+    },
+    {
+      "patched": true,
+      "check": "clear",
+      "manifest": "02.01.01.09",
+      "reported": "02.01.01.10-valve-oil.1",
+      "result": 0
+    },
+    {
+      "patched": true,
+      "check": "clear",
+      "manifest": "02.02.01.08",
+      "reported": "02.02",
+      "result": 0
+    },
+    {
+      "patched": true,
+      "check": "clear",
+      "manifest": "02.02.01.08",
+      "reported": "03.02.01.08-valve-oil.1",
+      "result": 0
+    },
+    {
+      "patched": true,
+      "check": "clear",
+      "manifest": "02.02.01.08",
+      "reported": "02.02.01.07",
+      "result": 0
+    },
+    {
+      "patched": true,
+      "check": "clear",
+      "manifest": "02.02.01.08",
+      "reported": "02.02.01.08x",
+      "result": 1
+    },
+    {
+      "patched": true,
+      "check": "clear",
+      "manifest": "02.02.01.08",
+      "reported": "",
+      "result": 0
+    }
+  ]
+}

@@ -134,3 +134,28 @@ and scripts/check_thr_recovery.py with --stock-image, --patched-image and
 they do not prove electrical behavior, independent recovery entry or a real
 successful flash. Archive the logs without committing flash binaries or private
 printer configuration.
+
+## Explicit operator acceptance, November 23
+
+The owner explicitly instructed proceeding without the physical recovery check.
+The coordinator now accepts `--accept-unverified-recovery` only with a matching
+Q2/SOC/bootloader record retaining `independent_recovery_verified=false`,
+`operator_accepts_unverified_recovery=true`, and the operator instruction.
+Default admission still requires verified recovery. The original false evidence
+is never relabeled true; the transaction journal preserves this accepted risk.
+All image admission, idle checks, backups, recover-to-stock, readback, pending
+markers and service-restoration rules remain unchanged. This does not establish
+that recovery works after an interrupted write or cold boot.
+
+The November 23 Q2 operation completed successfully: fresh stock readback was
+admitted, patched application readback matched the pinned candidate exactly,
+and the bootloader stayed unchanged. THR reports `02.02.01.08-valve-oil.1`.
+Services returned ready/idle with all heater targets zero, Box online, no
+pending configuration, and unchanged saved printer configuration. Stock rollback
+and after-readback captures were retained. No physical recovery check or new
+input-shaper calibration was performed; calibration is still required before
+printing. This is evidence from this printer, not general Q2 support.
+
+The resulting Q2 touchscreen board-version popup was subsequently addressed
+with the separately reviewed [two-byte touchscreen fix](TOUCHSCREEN_POPUP.md).
+That operation restarted only qidi-client and did not reflash the THR.

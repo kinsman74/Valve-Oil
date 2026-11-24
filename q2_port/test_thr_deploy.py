@@ -126,6 +126,22 @@ class Workflow(unittest.TestCase):
         self.assertEqual(self.machine.snapshot_count, 0)
         self.assertFalse(self.marker.exists())
 
+    def test_unverified_recovery_requires_explicit_flag_and_record(self):
+        value = json.loads(self.evidence.read_text())
+        value["independent_recovery_verified"] = False
+        self.evidence.write_text(json.dumps(value))
+        with self.assertRaises(ValueError):
+            deploy.admit_recovery(self.evidence, True)
+        value.update(operator_accepts_unverified_recovery=True,
+                     operator_instruction="Proceed without physical recovery check")
+        self.evidence.write_text(json.dumps(value))
+        with self.assertRaises(ValueError):
+            self.run_flow()
+        result = deploy.deploy(self.package, self.data, self.evidence, self.machine, True)
+        self.assertEqual(result["outcome"], "flashed")
+        journal = json.loads((Path(result["backup_directory"]) / "verification.json").read_text())
+        self.assertIs(journal["recovery_evidence"]["independent_recovery_verified"], False)
+
     def test_live_admission_checks_every_registered_heater(self):
         import copy
 

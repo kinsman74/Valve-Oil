@@ -135,13 +135,20 @@ def verify_snapshot(directory, expected):
     return digest(app)
 
 
-def admit_recovery(evidence):
+def admit_recovery(evidence, accept_unverified_recovery=False):
     value = json.loads(no_links(evidence).read_text())
+    accepted = (
+        accept_unverified_recovery
+        and value.get("independent_recovery_verified") is False
+        and value.get("operator_accepts_unverified_recovery") is True
+        and isinstance(value.get("operator_instruction"), str)
+        and bool(value["operator_instruction"].strip())
+    )
     if (
         value.get("model") != "Q2"
         or value.get("soc") != policy.SOC_VERSION
         or value.get("bootloader_sha256") != BOOT
-        or value.get("independent_recovery_verified") is not True
+        or (value.get("independent_recovery_verified") is not True and not accepted)
         or not isinstance(value.get("method"), str)
         or not value["method"].strip()
         or not isinstance(value.get("verification"), str)
@@ -270,10 +277,10 @@ class Machine:
         raise RuntimeError("Printer readiness not restored")
 
 
-def deploy(package, data_root, evidence, machine):
+def deploy(package, data_root, evidence, machine, accept_unverified_recovery=False):
     package, data_root = no_links(package), no_links(data_root)
     verify_package(package)
-    recovery = admit_recovery(evidence)
+    recovery = admit_recovery(evidence, accept_unverified_recovery)
     marker = no_links(data_root / ".tltg_thr_firmware_pending.json")
     if marker.exists():
         raise ValueError("Unresolved THR operation; inspect existing recovery marker")
@@ -358,7 +365,11 @@ def transaction(package, data_root, marker, recovery, machine):
             if outcome == "flashed":
                 logs = no_links(data_root / "logs")
                 logs.mkdir(exist_ok=True)
-                write_json(logs / "tltg_input_shaper_thr_flash.json", shaper)
+                warning = logs / "tltg_input_shaper_thr_flash.json"
+                write_json(warning, shaper)
+                # Klipper runs as the log-directory owner, not the root flasher.
+                owner = logs.stat()
+                os.chown(warning, owner.st_uid, owner.st_gid)
         record.update(phase="verified", outcome=outcome)
         write_json(directory / "verification.json", record)
         verified = True
@@ -400,6 +411,7 @@ def main():
     parser.add_argument("--package", type=Path, required=True)
     parser.add_argument("--recovery-evidence", type=Path)
     parser.add_argument("--confirm-write", action="store_true")
+    parser.add_argument("--accept-unverified-recovery", action="store_true")
     args = parser.parse_args()
     if args.operation == "prepare":
         if args.upstream is None or args.candidate is None:
@@ -435,6 +447,7 @@ def main():
                     Path("/home/qidi/printer_data"),
                     args.recovery_evidence,
                     Machine(Path("/")),
+                    accept_unverified_recovery=args.accept_unverified_recovery,
                 ),
                 indent=2,
             )
